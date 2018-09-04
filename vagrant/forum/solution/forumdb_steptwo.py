@@ -22,4 +22,3 @@ def add_post(content):
   c.execute("insert into posts values (%s)", (content,))  # Better, but ...
   db.commit()
   db.close()
-

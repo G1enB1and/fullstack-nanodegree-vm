@@ -20,4 +20,3 @@ def add_post(content):
   c.execute("insert into posts values (%s)", (bleach.clean(content),))  # good
   db.commit()
   db.close()
-
