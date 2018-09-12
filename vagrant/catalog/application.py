@@ -37,6 +37,22 @@ def ShowItemsInCategory(category_id):
     return output
 
 
+#Show a given item by passing in the catalog_item_id
+@app.route('/item/<int:catalog_item_id>')
+def ShowItem(catalog_item_id):
+    item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
+    output = ''
+    output += item.name
+    output += '</br>'
+    output += item.description
+    output += '</br>'
+    output += item.price
+    output += '</br>'
+    output += str(item.category_id)
+    output += '</br>'
+    return output
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=8000)
