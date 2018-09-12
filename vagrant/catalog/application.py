@@ -12,18 +12,19 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+#Show a list of all categories
 @app.route('/')
 @app.route('/catalog')
-def HelloWorld():
-    category = session.query(Category).filter_by(id = 1).one()
-    items = session.query(CatalogItem).filter_by(category_id=category.id)
+def ShowCategories():
+    category = session.query(Category).all()
     output = ''
-    for i in items:
+    for i in category:
         output += i.name
         output += '</br>'
     return output
 
 
+#Show Items In a given category by passing in the category_id (number)
 @app.route('/category/<int:category_id>/')
 @app.route('/category/<int:category_id>/items')
 def ShowItemsInCategory(category_id):
