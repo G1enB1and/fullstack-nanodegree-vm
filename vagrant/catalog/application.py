@@ -41,6 +41,7 @@ def ShowItemsInCategory(category_id):
 @app.route('/item/<int:catalog_item_id>')
 def ShowItem(catalog_item_id):
     item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
+    category = session.query(Category).filter_by(id = item.category_id).one()
     output = ''
     output += item.name
     output += '</br>'
@@ -48,7 +49,7 @@ def ShowItem(catalog_item_id):
     output += '</br>'
     output += item.price
     output += '</br>'
-    output += str(item.category_id)
+    output += category.name
     output += '</br>'
     return output
 
