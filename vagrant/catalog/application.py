@@ -59,6 +59,49 @@ def ShowItem(catalog_item_id):
     return output
 
 
+#Add new category
+@app.route('/category/new', methods=['GET','POST'])
+def addNewCategory():
+    output = ''
+    output += 'Add a new category'
+    return output
+
+#    if request.method == 'POST':
+#        newCategory = Category(name = request.form['name'])
+#        session.add(newCategory)
+#        session.commit()
+#        output = ''
+#        output += 'Added '
+#        output += newCategory
+#        output += '.'
+#        return output
+#    else:
+#        output = ''
+#        output += 'Failed to add new category because POST method was not used.'
+#        return output
+
+#Edit a category
+@app.route('/category/<int:category_id>/edit', methods=['GET','POST'])
+def editCategory(category_id):
+    output = ''
+    output += 'Edit category '
+    output += str(category_id)
+    output += '</br>'
+    #add code to accomidate for urls to edit categories that do not exist
+    return output
+
+
+#Delete a category
+@app.route('/category/<int:category_id>/delete', methods=['GET','POST'])
+def deleteCategory(category_id):
+    output = ''
+    output += 'Delete category '
+    output += str(category_id)
+    output += '</br>'
+    #add code to accomidate for urls to delete categories that do not exist
+    return output
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=8000)
