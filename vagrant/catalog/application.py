@@ -31,6 +31,10 @@ def ShowItemsInCategory(category_id):
     category = session.query(Category).filter_by(id = category_id).one()
     items = session.query(CatalogItem).filter_by(category_id=category.id)
     output = ''
+    output = '<h3>'
+    output += category.name
+    output += ':</h3></br>'
+
     for i in items:
         output += i.name
         output += '</br>'
