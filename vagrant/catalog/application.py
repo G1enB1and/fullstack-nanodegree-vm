@@ -18,6 +18,7 @@ session = DBSession()
 def ShowCategories():
     category = session.query(Category).all()
     output = ''
+    output += '<h3>Categories:</h3></br>'
     for i in category:
         output += i.name
         output += '</br>'
