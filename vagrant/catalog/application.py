@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, CatalogItem
@@ -31,15 +31,16 @@ def ShowCategories():
 def ShowItemsInCategory(category_id):
     category = session.query(Category).filter_by(id = category_id).one()
     items = session.query(CatalogItem).filter_by(category_id=category.id)
-    output = ''
-    output = '<h3>'
-    output += category.name
-    output += ':</h3></br>'
+    return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id)
+    #output = ''
+    #output = '<h3>'
+    #output += category.name
+    #output += ':</h3></br>'
 
-    for i in items:
-        output += i.name
-        output += '</br>'
-    return output
+    #for i in items:
+    #    output += i.name
+    #    output += '</br>'
+    #return output
 
 
 #Show a given item by passing in the catalog_item_id
@@ -108,6 +109,7 @@ def addNewItem():
     output = ''
     output += 'Add a new item'
     return output
+
 
 #Edit an item
 @app.route('/item/<int:catalog_item_id>/edit', methods=['GET','POST'])
