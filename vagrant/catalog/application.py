@@ -32,32 +32,14 @@ def ShowItemsInCategory(category_id):
     category = session.query(Category).filter_by(id = category_id).one()
     items = session.query(CatalogItem).filter_by(category_id=category.id)
     return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id)
-    #output = ''
-    #output = '<h3>'
-    #output += category.name
-    #output += ':</h3></br>'
-
-    #for i in items:
-    #    output += i.name
-    #    output += '</br>'
-    #return output
 
 
 #Show a given item by passing in the catalog_item_id
 @app.route('/item/<int:catalog_item_id>')
 def ShowItem(catalog_item_id):
-    item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
-    category = session.query(Category).filter_by(id = item.category_id).one()
-    output = ''
-    output += item.name
-    output += '</br>'
-    output += item.description
-    output += '</br>'
-    output += item.price
-    output += '</br>'
-    output += category.name
-    output += '</br>'
-    return output
+	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
+	category = session.query(Category).filter_by(id = item.category_id).one()
+	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id)
 
 
 #Add new category
