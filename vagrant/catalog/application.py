@@ -45,9 +45,9 @@ def ShowItem(catalog_item_id):
 #Add new category
 @app.route('/category/new', methods=['GET','POST'])
 def addNewCategory():
-    output = ''
-    output += 'Add a new category'
-    return output
+    #output = ''
+    #output += 'Add a new category'
+    return render_template('new-category.html')
 
 #    if request.method == 'POST':
 #        newCategory = Category(name = request.form['name'])
