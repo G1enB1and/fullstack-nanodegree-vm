@@ -114,12 +114,13 @@ def editItem(catalog_item_id):
 #Delete an item
 @app.route('/item/<int:catalog_item_id>/delete', methods=['GET','POST'])
 def deleteItem(catalog_item_id):
-    output = ''
-    output += 'Delete item '
-    output += str(catalog_item_id)
-    output += '</br>'
+    #output = ''
+    #output += 'Delete item '
+    #output += str(catalog_item_id)
+    #output += '</br>'
     #add code to accomidate for urls to delete items that do not exist
-    return output
+	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
+	return render_template('delete-item.html', catalog_item_id = catalog_item_id, item = item)
 
 
 if __name__ == '__main__':
