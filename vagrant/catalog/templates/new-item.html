@@ -1,0 +1,31 @@
+<html>
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+	</head>
+<body>
+
+<h1>Add New Item</h1>
+
+<div class = 'pane'>
+<form action="{{ url_for('addNewItem')}}" method = 'post'>
+
+<dl>
+	<dt>Name:</dt>
+		<dd><input type ='text' size='30' name='name'></dd>
+</dl>
+
+
+<input type='submit' value='Create'>
+
+</form>
+</div>
+</br></br>
+<a href='{{url_for('ShowCategories')}}'>Back to Catalog Categories</a>
+</br></br>
+
+</body>
+
+
+
+
+</html>
