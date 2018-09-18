@@ -67,12 +67,14 @@ def addNewCategory():
 #Edit a category
 @app.route('/category/<int:category_id>/edit', methods=['GET','POST'])
 def editCategory(category_id):
-    output = ''
-    output += 'Edit category '
-    output += str(category_id)
-    output += '</br>'
+    #output = ''
+    #output += 'Edit category '
+    #output += str(category_id)
+    #output += '</br>'
     #add code to accomidate for urls to edit categories that do not exist
-    return output
+	#change code to not edit the id, but the name
+	category = session.query(Category).filter_by(id = category_id).one()
+	return render_template('edit-category.html', category = category, category_id = category_id)
 
 
 #Delete a category
