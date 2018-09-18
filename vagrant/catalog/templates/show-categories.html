@@ -7,10 +7,11 @@
 	<body>
 	    <div class = 'pane'>
 		    <div class = 'header'>
-		        <h1>{{ item.name }}</h1>
+		        <h1>Catalog Categories</h1>
 	        </div>
 			</br>
-	        
+	        <a href = '{{url_for('addNewCategory')}}'>Create New Category</a>
+			</br></br>
 
             <div class = 'flash'>
 		        {% with messages = get_flashed_messages() %}
@@ -27,24 +28,19 @@
             </div>
 
 
-	        <div class = 'description'>
-		        <p>{{item.description}}</p>
-				<p>{{item.price}}</p>
-				<p>Category: <a href='{{url_for('ShowItemsInCategory', category_id = category.id)}}'>{{category.name}}</a></p>
+		    {% for i in category %}
+            <div class = 'description'>
+		        <p><h2><a href='{{url_for('ShowItemsInCategory', category_id = i.id)}}' >{{i.name}}</a></h2></p>
 	        </div>
-
+		
 
 	        <div class = "editdeletepane">
 
-	            <a href='{{url_for('editItem', catalog_item_id = item.id)}}' >Edit</a> | 
-	            <a href='{{url_for('deleteItem', catalog_item_id = item.id)}}' >
-	            Delete</a>
-				
-				</br></br></br>
-				<a href='{{url_for('ShowCategories')}}'>Back to Catalog Categories</a>
+	            <a href='{{url_for('editCategory', category_id = i.id)}}' >Edit</a> | 
+	            <a href='{{url_for('deleteCategory', category_id = i.id)}}' >Delete</a>
 				</br></br>
 	        </div>
-		    
+		    {% endfor %}
 
 			</br>
             </div>

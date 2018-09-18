@@ -17,12 +17,12 @@ session = DBSession()
 @app.route('/catalog')
 def ShowCategories():
     category = session.query(Category).all()
-    output = ''
-    output += '<h3>Categories:</h3></br>'
-    for i in category:
-        output += i.name
-        output += '</br>'
-    return output
+    #output = ''
+    #output += '<h3>Categories:</h3></br>'
+    #for i in category:
+    #    output += i.name
+    #    output += '</br>'
+    return render_template('show-categories.html', category = category)
 
 
 #Show Items In a given category by passing in the category_id (number)
@@ -62,6 +62,7 @@ def addNewCategory():
 #        output = ''
 #        output += 'Failed to add new category because POST method was not used.'
 #        return output
+
 
 #Edit a category
 @app.route('/category/<int:category_id>/edit', methods=['GET','POST'])
