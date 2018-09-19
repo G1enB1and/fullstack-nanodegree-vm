@@ -45,23 +45,13 @@ def ShowItem(catalog_item_id):
 #Add new category
 @app.route('/category/new', methods=['GET','POST'])
 def addNewCategory():
-    #output = ''
-    #output += 'Add a new category'
-    return render_template('new-category.html')
-
-#    if request.method == 'POST':
-#        newCategory = Category(name = request.form['name'])
-#        session.add(newCategory)
-#        session.commit()
-#        output = ''
-#        output += 'Added '
-#        output += newCategory
-#        output += '.'
-#        return output
-#    else:
-#        output = ''
-#        output += 'Failed to add new category because POST method was not used.'
-#        return output
+	if request.method == 'POST':
+		newCategory = Category(name = request.form['name'])
+		session.add(newCategory)
+		session.commit()
+		return redirect(url_for('ShowCategories'))
+	else:
+		return render_template('new-category.html')
 
 
 #Edit a category
@@ -92,8 +82,6 @@ def deleteCategory(category_id):
 #Add new item
 @app.route('/item/new', methods=['GET','POST'])
 def addNewItem():
-    #output = ''
-    #output += 'Add a new item'
 	categories = session.query(Category).all()
 	if request.method == 'POST':
 		category_id = request.form['category_id']
