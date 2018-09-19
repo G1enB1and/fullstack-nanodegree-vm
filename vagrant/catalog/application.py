@@ -94,7 +94,15 @@ def deleteCategory(category_id):
 def addNewItem():
     #output = ''
     #output += 'Add a new item'
-    return render_template('new-item.html')
+	categories = session.query(Category).all()
+	if request.method == 'POST':
+		category_id = request.form['category_id']
+		newItem = CatalogItem(name = request.form['name'], description = request.form['description'], price = request.form['price'], category_id = category_id)
+		session.add(newItem)
+		session.commit()
+		return redirect(url_for('ShowItemsInCategory', category_id = category_id))
+	else:
+		return render_template('new-item.html', categories = categories)
 
 
 #Edit an item
