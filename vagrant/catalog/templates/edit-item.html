@@ -17,11 +17,11 @@
 		<dd><input type = 'text' size = '8' name='price' placeholder = '{{item.price}}'></dd>
 	<dt>Category:</dt>
 		<dd>
-			<select name = 'category'>
-				<option value = '{{category.name}}'>{{category.name}}</option>
+			<select name = 'category_id'>
+				<option value = '{{category.id}}'>{{category.name}}</option>
 				{% for i in categories %}
 					{% if i.name != category.name %}
-						<option value = '{{i.name}}'>{{i.name}}</option>
+						<option value = '{{i.id}}'>{{i.name}}</option>
 					{% endif %}
 				{% endfor %}
 			</select>

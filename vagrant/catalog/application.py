@@ -97,15 +97,20 @@ def addNewItem():
 #Edit an item
 @app.route('/item/<int:catalog_item_id>/edit', methods=['GET','POST'])
 def editItem(catalog_item_id):
-    #output = ''
-    #output += 'Edit item '
-    #output += str(catalog_item_id)
-    #output += '</br>'
-    #add code to accomidate for urls to edit items that do not exist
 	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
 	categories = session.query(Category).all()
 	category = session.query(Category).filter_by(id = item.category_id).one()
-	return render_template('edit-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
+	if request.method == 'POST':
+		category_id = request.form['category_id']
+		item.name = request.form['name']
+		item.description = request.form['description']
+		item.price = request.form['price']
+		item.category_id = request.form['category_id']
+		session.add(item)
+		session.commit()
+		return redirect(url_for('ShowItemsInCategory', category_id = category_id))
+	else:
+		return render_template('edit-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
 
 
 #Delete an item
