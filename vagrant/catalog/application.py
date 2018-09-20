@@ -113,6 +113,9 @@ def editItem(catalog_item_id):
 		item.category_id = request.form['category_id']
 		session.add(item)
 		session.commit()
+		confirmation = '' + 'Successfuly edited ' + str(item.name)
+		confirmation += ' in ' + str(category.name) + '.'
+		flash(confirmation)
 		return redirect(url_for('ShowItemsInCategory', category_id = category_id))
 	else:
 		return render_template('edit-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
