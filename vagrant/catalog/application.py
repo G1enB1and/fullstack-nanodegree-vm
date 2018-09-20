@@ -71,13 +71,13 @@ def editCategory(category_id):
 #Delete a category
 @app.route('/category/<int:category_id>/delete', methods=['GET','POST'])
 def deleteCategory(category_id):
-    #output = ''
-    #output += 'Delete category '
-	#output += str(category_id)
-    #output += '</br>'
-    #add code to accomidate for urls to delete categories that do not exist
 	category = session.query(Category).filter_by(id = category_id).one()
-	return render_template('delete-category.html', category = category, category_id = category_id)
+	if request.method == 'POST':
+		session.delete(category)
+		session.commit()
+		return redirect(url_for('ShowCategories'))
+	else:
+		return render_template('delete-category.html', category = category, category_id = category_id)
 
 
 #Add new item
