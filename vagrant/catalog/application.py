@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, CatalogItem
@@ -89,6 +89,11 @@ def addNewItem():
 		newItem = CatalogItem(name = request.form['name'], description = request.form['description'], price = request.form['price'], category_id = category_id)
 		session.add(newItem)
 		session.commit()
+		confirmation = '' + str(newItem.name)
+		confirmation += ' has been added as a new item in '
+		category = session.query(Category).filter_by(id = newItem.category_id).one()
+		confirmation += str(category.name) + '.'
+		flash(confirmation)
 		return redirect(url_for('ShowItemsInCategory', category_id = category_id))
 	else:
 		return render_template('new-item.html', categories = categories)
@@ -127,5 +132,6 @@ def deleteItem(catalog_item_id):
 
 
 if __name__ == '__main__':
-    app.debug = True
-    app.run(host='0.0.0.0', port=8000)
+	app.secret_key = '26thDS534wmNZ097645Q'
+	app.debug = True
+	app.run(host='0.0.0.0', port=8000)
