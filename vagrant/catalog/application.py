@@ -49,6 +49,8 @@ def addNewCategory():
 		newCategory = Category(name = request.form['name'])
 		session.add(newCategory)
 		session.commit()
+		confirmation = '' + 'Successfully added ' + str(newCategory.name) + '.'
+		flash(confirmation)
 		return redirect(url_for('ShowCategories'))
 	else:
 		return render_template('new-category.html')
@@ -58,11 +60,14 @@ def addNewCategory():
 @app.route('/category/<int:category_id>/edit', methods=['GET','POST'])
 def editCategory(category_id):
 	category = session.query(Category).filter_by(id = category_id).one()
+	oldCategory = category.name
 	if request.method =='POST':
 		if request.form['name']:
 			category.name = request.form['name']
 		session.add(category)
 		session.commit()
+		confirmation = '' + 'Successfully changed ' + str(oldCategory) + ' to ' + str(category.name) + '.'
+		flash(confirmation)
 		return redirect(url_for('ShowCategories'))
 	else:
 		return render_template('edit-category.html', category = category, category_id = category_id)
@@ -75,6 +80,8 @@ def deleteCategory(category_id):
 	if request.method == 'POST':
 		session.delete(category)
 		session.commit()
+		confirmation = '' + 'Successfully deleted ' + str(category.name) + '.'
+		flash(confirmation)
 		return redirect(url_for('ShowCategories'))
 	else:
 		return render_template('delete-category.html', category = category, category_id = category_id)
