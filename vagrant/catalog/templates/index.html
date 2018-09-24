@@ -5,13 +5,13 @@
   <head>
 
       <title>Glen Bland Portfolio Site</title>
-      <meta name="description" content="Catalog project for Udacity Full Stack Web Developer">
-      <meta name="keywords" content="Glen, Bland, catalog, Udacity, Web">
+      <meta name="description" content="Portfolio for Udacity Full Stack Web Developer">
+      <meta name="keywords" content="Glen, Bland, portfolio, Udacity, Web">
       <meta name="author" content="Glen Bland">
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- my style sheet -->
-      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style2.css') }}">
+      <link rel="stylesheet" href="../static/style2.css">
       <!-- google font Bungiee Inline -->
       <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC|Metrophobic" rel="stylesheet">
       <!-- for font awesome icons -->
@@ -24,20 +24,26 @@
     <div class="page__wrapper">
 
       <header>
-        <img class="header__logo" src="static/images/winking_emoji_540x540.jpg" alt="winking emoji">
-        <div class="header__text__wrapper">
-          <h1 class="header__name">TLS.com</h1>
-          <h3 class="header__title">Totally Legit Store</h3>
-        </div> <!-- end of header__text__wrapper -->
+        <div class="header__brand__wrapper">
+		  <img class="header__logo" src="../static/images/winking_emoji_540x540.jpg" alt="winking emoji">
+		  <div class="header__text__wrapper">
+            <h1 class="header__name">TLS.com</h1>
+            <h3 class="header__title">Totally Legit Store</h3>
+          </div> <!-- end of header__text__wrapper -->
+		</div> <!-- end of header__brand__wrapper -->
+		
+		<div class="header__login__wrapper">
+		  <img class="header__login" src="../static/images/login.png" alt="Login">
+		</div> <!-- end of header__login__wrapper -->
       </header>
 
-      <hr>
+     <hr>
 
       <main>
 
         <!-- Hero Image -->
         <div class="hero__image__wrapper">
-          <img class="hero__image" src="static/images/open3.jpg" alt="Image of HTML code">
+          <img class="hero__image" src="../static/images/closed.jpg" alt="Image of HTML code">
           <!-- white text over hero image: site description -->
           <h2 class="hero__text">Catalog Project</h2>
         </div> <!-- end of hero__image__wrapper -->
@@ -48,7 +54,7 @@
           </header>
 
           <article> <!-- Project One -->
-            <img class="article__image" src="static/images/aleksi-tappura-445.jpg" alt="Picture of Laptop">
+            <img class="article__image" src="../static/images/aleksi-tappura-445.jpg" alt="Picture of Laptop">
             <h3 class="article__title">Project One</h3>
             <!-- TODO: replace href="#" with a URL when I get one. -->
             <p class="article">
@@ -59,7 +65,7 @@
           </article> <!-- end of Project One -->
 
           <article> <!-- Project Two -->
-            <img class="article__image" src="static/images/michail-sapiton-234263.jpg" alt="Picture of Laptop">
+            <img class="article__image" src="../static/images/michail-sapiton-234263.jpg" alt="Picture of Laptop">
             <h3 class="article__title">Project Two</h3>
             <!-- TODO: replace href="#" with a URL when I get one. -->
             <p class="article">
@@ -70,7 +76,7 @@
           </article> <!-- end of Project Two -->
 
           <article> <!-- Project Three -->
-            <img class="article__image" src="static/images/artem-sapegin-176819.jpg" alt="Picture of Laptop">
+            <img class="article__image" src="../static/images/artem-sapegin-176819.jpg" alt="Picture of Laptop">
             <h3 class="article__title">Project Three</h3>
             <!-- TODO: replace href="#" with a URL when I get one. -->
             <p class="article">
