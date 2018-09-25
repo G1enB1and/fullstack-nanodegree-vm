@@ -76,7 +76,7 @@ header {
     justify-content: space-between;
 }
 
-.header__brand__wrapper {
+.header__left__wrapper {
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start; /* left */
@@ -159,7 +159,7 @@ section {
     margin: 0 auto;
 }
 
-section.featured__work {
+section.categories {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
