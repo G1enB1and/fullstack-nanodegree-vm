@@ -4,9 +4,9 @@
 
   <head>
 
-      <title>Glen Bland Portfolio Site</title>
-      <meta name="description" content="Portfolio for Udacity Full Stack Web Developer">
-      <meta name="keywords" content="Glen, Bland, portfolio, Udacity, Web">
+      <title>Glen Bland Catalog Project</title>
+      <meta name="description" content="Catalog Project for Udacity Full Stack Web Developer">
+      <meta name="keywords" content="Glen, Bland, Catalog, Udacity">
       <meta name="author" content="Glen Bland">
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +43,7 @@
 
         <!-- Hero Image -->
         <div class="hero__image__wrapper">
-          <img class="hero__image" src="../static/images/closed.jpg" alt="Image of HTML code">
+          <img class="hero__image" src="../static/images/closed.jpg" alt="closed">
           <!-- white text over hero image: site description -->
           <h2 class="hero__text">Catalog Project</h2>
         </div> <!-- end of hero__image__wrapper -->
@@ -52,40 +52,44 @@
           <header>
             <h2 class="section__title">Categories</h2>
           </header>
-
-          <article> <!-- Project One -->
-            <img class="article__image" src="../static/images/aleksi-tappura-445.jpg" alt="Picture of Laptop">
-            <h3 class="article__title">Project One</h3>
-            <!-- TODO: replace href="#" with a URL when I get one. -->
-            <p class="article">
-                <a href="#" target="_blank" rel="noopener noreferrer">
-                  Link to GitHub
-                </a>
-            </p>
-          </article> <!-- end of Project One -->
-
-          <article> <!-- Project Two -->
-            <img class="article__image" src="../static/images/michail-sapiton-234263.jpg" alt="Picture of Laptop">
-            <h3 class="article__title">Project Two</h3>
-            <!-- TODO: replace href="#" with a URL when I get one. -->
-            <p class="article">
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                Link to GitHub
-              </a>
-            </p>
-          </article> <!-- end of Project Two -->
-
-          <article> <!-- Project Three -->
-            <img class="article__image" src="../static/images/artem-sapegin-176819.jpg" alt="Picture of Laptop">
-            <h3 class="article__title">Project Three</h3>
-            <!-- TODO: replace href="#" with a URL when I get one. -->
-            <p class="article">
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                Link to GitHub
-              </a>
-            </p>
-          </article> <!-- end of Project Three -->
-
+		  
+		  <hr>
+          
+		  <h3 class="category">Electronics <div class="category__edit__delete"> Edit | Delete</div></h3>
+		  <h3 class="category">Kitchen <div class="category__edit__delete"> Edit | Delete</div></h3>
+		  <h3 class="category">Automotive <div class="category__edit__delete"> Edit | Delete</div></h3>
+		  <h3 class="category">Garden <div class="category__edit__delete"> Edit | Delete</div></h3>
+		  <h3 class="category">Sporting Goods <div class="category__edit__delete"> Edit | Delete</div></h3>
+		  <h3 class="add__category">Add New Category</h3>
+        </section> <!-- end of categories section -->
+		
+		<hr>
+		
+		<section class="items">
+          <header>
+            <h2 class="section__title">Items</h2>
+          </header>
+		  
+		  <hr>
+          
+		  <h3 class="add__item">Add New Item</h3>
+		  
+		  <div class="item__wrapper">
+		    <h3 class="item__name">Coffee Maker</h3>
+			<div class="item__description">Description of Coffee Maker goes here.</div>
+			<div class="item__price">$79.00</div>
+			<div class="item__category">Kitchen</div>
+			<div class="item__edit__delete">Edit | Delete</div>
+		  </div> <!-- end of item__wrapper -->
+		  
+		  <div class="item__wrapper">
+		    <h3 class="item__name">Laptop</h3>
+			<div class="item__description">Description of laptop goes here.</div>
+			<div class="item__price">$799.00</div>
+			<div class="item__category">Electronics</div>
+			<div class="item__edit__delete">Edit | Delete</div>
+		  </div> <!-- end of item__wrapper -->
+		 
         </section> <!-- end of categories section -->
 
         <footer>
