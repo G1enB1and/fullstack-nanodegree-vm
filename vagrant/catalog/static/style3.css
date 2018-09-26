@@ -1,0 +1,533 @@
+/* declaring custom color variables in root is common practice,
+but due to a known bug with linter css validation tool it will
+throw false errors, so don't use variables for classwork that
+requires css validation through linter. */
+
+/* :root { /* define custom color variables so they can be changed
+    easier in the future if needed. Use var(--variable-name). */
+/*    --primary-color: #294060; /* dark bluish grey */
+/*    --secondary-color: #7090ad; /* medium bluish grey */
+/*    --third-color: #02b3e4; /* medium light blue */
+/*    --fourth-color: #355575; /* medium dark blue */
+/* } */
+
+* { /* all elements */
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font: 12px 'Metrophobic', sans-serif;
+    /* color: var(--primary-color); */
+    color: #294060;
+    background: #355575;
+}
+
+h1,
+h2 {
+    /*font: 100% Impact, Charcoal, sans-serif; */
+    font: 10px/100% 'Bowlby One SC', sans-serif;
+    
+    margin: 0;
+}
+
+h3,
+h4,
+h5 {
+    margin: 0;
+}
+
+hr { /* horizontal rule (line) */
+    width: 100%;
+    border: none;
+    height: 3px;
+    margin: 0;
+    /* background: var(--secondary-color); */
+    /* background: #7090ad;*/
+	background: #355575;
+    /* box-shadow: none|h-offset v-offset blur spread color |inset */
+    /* box-shadow: 1px 6px 8px 3px #2d3c49; */
+}
+
+a {
+    text-decoration: none;
+    /* color: var(--third-color); */
+    color: #02b3e4;
+}
+
+.page__wrapper {
+    /* this will center the page when width is 960px or greater.
+    See code in @media section for width: 960px */
+    margin: 0 auto;
+    background: white;
+    /* box-shadow: none|h-offset v-offset blur spread color |inset */
+    box-shadow: 2px 10px 30px 5px #2d3c49;
+}
+
+/* header */
+
+header {
+    width: 100%;
+    display: flex;
+    align-items: flex-start; /* top */
+    justify-content: space-between;
+}
+
+.header__left__wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start; /* left */
+}
+
+.header__logo {
+    height: 50px;
+    margin: 0 14px 0 14px; /* top right bottom left */
+	align-self: center;
+}
+
+.header__text__wrapper {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start; /* left */
+}
+
+.header__login__wrapper {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-end; /* right */
+	align-self: center;
+}
+
+.header__login {
+    height: 35px;
+    margin: 0 16px 0 16px; /* top right bottom left */
+	align-self: center;
+}
+
+.header__name {
+    font-size: 1.7em;
+    margin: 0.8em 10px 0 0; /* top right bottom left */
+	text-align: left;
+}
+
+.header__title {
+    font-weight: 100; /* thinnest font-weight */
+    font-size: 1.3em;
+    margin: 0 10px 10px 0; /* top right bottom left */
+    text-align: left;
+}
+
+/* hero image and text */
+
+.hero__image__wrapper {
+    width: 100%;
+    margin: 0;
+    position: relative;
+	background: #355575;
+}
+
+.hero__image {
+    width: 100%;
+    margin: 0;
+}
+
+/* this text is positioned over the hero image at the top left */
+.hero__text {
+    position: absolute;
+    top: 10px;
+    left: 16px;
+    font-size: 1.9em;
+    color: white;
+    /* text-shadow: h-shadow v-shadow blur-radius color */
+    text-shadow: 1px 4px 8px #2d3c49;
+}
+
+/* sections */
+
+.section__wrapper {
+	display: flex;
+	flex-flow: column nowrap; /* flex-direction flex-wrap */
+	align-items: center; /* cross axis - horizontal*/
+	align-content: center; /* cross axis - horizontal - extra space */
+	justify-content: center; /* main axis - vertical*/
+	width: 100%;
+	background: #355575;
+	padding: 0 5px 0 5px; /* top right bottom left */
+}
+
+.categories {
+	background: #559955;
+	margin: 2px 5px 5px 5px; /* top right bottom left */
+	padding: 5px;
+	flex: 1 1 auto; /* flex-grow flex-shrink flex-basis */
+	width: 100%;
+}
+
+.items {
+	background: #555599;
+	margin: 0 5px 5px 5px; /* top right bottom left */
+	padding: 5px;
+	flex: 1 1 auto; /* flex-grow flex-shrink flex-basis */
+	width: 100%;
+}
+
+.section__title {
+    font-size: 2em;
+    margin: 0 0 12px; /* top left-and-right bottom */
+    display: flex;
+    flex-flow: row wrap;
+    width: 50%;
+    justify-content: center;
+    padding-top: 12px;
+    /* color: var(--secondary-color); */
+    color: #7090ad;
+}
+
+section {
+    margin: 0 auto;
+}
+
+.category {
+	font-size: 2em;
+	margin: 0;
+	padding-bottom: 3px;
+	border: 1px;
+	border-color: #7090ad;
+	border-style: solid;
+}
+
+.category__edit__delete {
+	font-size: .7em;
+	color: #7090ad;
+}
+
+.add__category {
+	font-size: 2em;
+	margin: 0;
+	padding: 3px 0 6px;
+	border: 1px;
+	border-color: #7090ad;
+	border-style: solid;
+	align-items: space-around;
+	color: #7090ad;
+}
+
+.item__wrapper {
+	margin: 0;
+	padding: 5px;
+	border: 1px;
+	border-color: #7090ad;
+	border-style: solid;
+}
+
+.item__name {
+	font-size: 2em;
+	padding-bottom: 3px;
+}
+
+.item__description {
+	font-size: 1.6em;
+}
+
+.item__price {
+	font-size: 1.6em;
+}
+
+.item__category {
+	font-size: 1.6em;
+}
+
+.item__edit__delete {
+	font-size: 1.6em;
+	color: #7090ad;
+}
+
+.add__item {
+	font-size: 2em;
+	margin: 0;
+	padding: 5px;
+	border: 1px;
+	border-color: #7090ad;
+	border-style: solid;
+	align-items: space-around;
+	color: #7090ad;
+}
+
+/* article */
+
+article {
+    flex: 1;
+    width: 100%;
+    min-width: 240px;
+    text-align: center;
+    /* font-weight: 100; /* thinnest font-weight */
+    font-size: 0.9em;
+    margin: 0 auto; /* center */
+    margin: 0 15px 10px; /* top left-and-right bottom */
+}
+
+.article__title {
+    text-align: center;
+    font-size: 2em;
+    font-weight: 100; /* thinnest */
+}
+
+.article__image {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* footer */
+
+footer {
+    width: 100%;
+    padding: 16px;
+    text-align: center;
+    /* background: var(--primary-color); */
+    background: #2d3c49;
+    /* color: var(--secondary-color); */
+    color: #ffffff;
+}
+
+footer h4 {
+    /* color: var(--secondary-color); */
+    color: #ffffff;
+}
+
+/* font awesome icons */
+i.fa {
+/* the i in i.fa is needed in this case despite the
+    style guides preference to avoid element names in 
+    conjunction with selectors. */
+    font-size: 30px;
+    padding: 5px 5px 0; /* top right-and-left bottom */
+	color: #ffffff;
+}
+
+/* @media screen queries */
+
+@media screen and (min-width: 760px) and (max-width: 839px) {
+    .header__name {
+        font-size: 2.25em;
+        margin: 0.55em 0 0 10px; /* top right bottom left */
+    }
+
+    .header__title {
+        font-size: 1.75em;
+        margin-left: 10px;
+    }
+
+    .header__logo {
+        height: 60px;
+        margin: 0 0 0 14px; /* top right bottom left */
+    }
+	
+	.header__login {
+    height: 35px;
+    margin: 0 20px 0 16px; /* top right bottom left */
+	}
+    
+    .hero__text {
+        top: 20px;
+        left: 20px;
+        font-size: 2.4em;
+    }
+	
+	.section__wrapper {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: flex-start; /* top */
+		align-content: flex-start; /* top*/
+		justify-content: space-evenly;
+		width: 100%;
+		background: #355575;
+		padding: 0;
+	}
+
+	.categories {
+		background: #559955;
+		margin: 2px 0 5px 5px; /* top right bottom left */
+		padding: 5px;
+		width: auto;
+		flex: 2 0 auto; /* flex-grow flex-shrink flex-basis*/
+	}
+
+	.items {
+		background: #555599;
+		margin: 2px 5px 5px 5px; /* top right bottom left */
+		padding: 5px;
+		width: auto;
+		flex: 4 0 auto; /* flex-grow flex-shrink flex-basis*/
+	}
+
+    .section__title {
+        font-size: 2em;
+        margin: 0 0 14px 0; /* top right bottom left */
+    }
+
+    hr {
+        height: 4px;
+    }
+
+} /* end of @media screen and (min-width: 760px) and (max-width: 839px) */
+
+@media screen and (min-width: 840px) and (max-width: 959px) {
+    .header__name {
+        font-size: 2.4em;
+        margin: 0.55em 0 0 10px; /* top right bottom left */
+    }
+
+    .header__title {
+        font-size: 2em;
+        margin-left: 10px;
+    }
+
+    .header__logo {
+        height: 65px;
+        margin: 0 0 0 20px; /* top right bottom left */
+    }
+
+    hr {
+        height: 5px;
+    }
+	
+	.header__login {
+    height: 35px;
+    margin: 0 24px 0 16px; /* top right bottom left */
+	}
+    
+    .hero__text {
+        top: 25px;
+        left: 25px;
+        font-size: 2.6em;
+    }
+	
+	.section__wrapper {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: flex-start; /* top */
+		align-content: flex-start; /* top*/
+		justify-content: space-evenly;
+		width: 100%;
+		background: #355575;
+		padding: 0;
+	}
+
+	.categories {
+		background: #559955;
+		margin: 2px 0 5px 5px; /* top right bottom left */
+		padding: 5px;
+		width: auto;
+		flex: 2 0 auto; /* flex-grow flex-shrink flex-basis*/
+	}
+
+	.items {
+		background: #555599;
+		margin: 2px 5px 5px 5px; /* top right bottom left */
+		padding: 5px;
+		width: auto;
+		flex: 4 0 auto; /* flex-grow flex-shrink flex-basis*/
+	}
+
+    .section__title {
+        font-size: 2.4em;
+        margin: 0 0 14px 0; /* top right bottom left */
+    }
+
+    article {
+        max-width: 250px;
+    }
+
+} /* end of @media screen and (min-width: 840px) and (max-width: 959px) */
+
+@media screen and (min-width: 960px) {
+    .page__wrapper {
+        /* stop the main content from growing wider than 960px.
+        This will instead add margin space to the left and
+        right above 960px */
+        width: 960px;
+    }
+
+    .header__name {
+        font-size: 2.6em;
+        margin: 0.55em 0 0 15px; /* top right bottom left */
+    }
+
+    .header__title {
+        font-size: 2.34em;
+        margin-left: 15px;
+    }
+
+    .header__logo {
+        height: 70px;
+        margin: 0 0 0 20px; /* top right bottom left */
+    }
+
+    hr {
+        height: 5px;
+    }
+	
+	.header__login {
+    height: 35px;
+    margin: 0 25px 0 16px; /* top right bottom left */
+	}
+    
+    .hero__text {
+        top: 25px;
+        left: 28px;
+        font-size: 2.8em;
+    }
+
+    .section__title {
+        font-size: 2.4em;
+        margin: 0 0 14px 0; /* top right bottom left */
+    }
+	
+	.section__wrapper {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: flex-start; /* top */
+		align-content: flex-start; /* top*/
+		justify-content: space-evenly;
+		width: 100%;
+		background: #355575;
+		padding: 0;
+	}
+
+	.categories {
+		background: #559955;
+		margin: 2px 0 5px 5px; /* top right bottom left */
+		padding: 5px;
+		width: auto;
+		flex: 2 0 auto; /* flex-grow flex-shrink flex-basis*/
+	}
+
+	.items {
+		background: #555599;
+		margin: 2px 5px 5px 5px; /* top right bottom left */
+		padding: 5px;
+		width: auto;
+		flex: 4 0 auto; /* flex-grow flex-shrink flex-basis*/
+	}
+
+    article {
+        max-width: 250px;
+    }
+
+    footer {
+        font-size: 16px;
+    }
+
+    /* font awesome icons */
+    i.fa { 
+        /* the i in i.fa is needed in this case despite the
+        style guides preference to avoid element names in 
+        conjunction with selectors. */
+        font-size: 38px;
+        padding: 8px 8px 0; /* top right-and-left bottom */
+    }
+
+} /* end of @media screen and (min-width: 960px) */
