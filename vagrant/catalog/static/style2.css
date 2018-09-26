@@ -46,9 +46,10 @@ hr { /* horizontal rule (line) */
     height: 3px;
     margin: 0;
     /* background: var(--secondary-color); */
-    background: #7090ad;
+    /* background: #7090ad;*/
+	background: #355575;
     /* box-shadow: none|h-offset v-offset blur spread color |inset */
-    box-shadow: 1px 6px 8px 3px #2d3c49;
+    /* box-shadow: 1px 6px 8px 3px #2d3c49; */
 }
 
 a {
@@ -75,34 +76,52 @@ header {
     justify-content: space-between;
 }
 
+.header__left__wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start; /* left */
+}
+
 .header__logo {
-    height: 55px;
-    margin: 12px 12px 10px 14px; /* top right bottom left */
+    height: 50px;
+    margin: 10px 12px 10px 14px; /* top right bottom left */
 }
 
 .header__text__wrapper {
     display: flex;
     flex-flow: column wrap;
+    justify-content: flex-start; /* left */
+}
+
+.header__login__wrapper {
+    display: flex;
+    flex-flow: column wrap;
     justify-content: flex-end; /* right */
 }
 
+.header__login {
+    height: 35px;
+    margin: 16px 16px 14px 16px; /* top right bottom left */
+}
+
 .header__name {
-    font-size: 2.7em;
-    margin: 0.4em 20px 0 0; /* top right bottom left */
+    font-size: 1.7em;
+    margin: 0.8em 10px 0 0; /* top right bottom left */
+	text-align: left;
 }
 
 .header__title {
     font-weight: 100; /* thinnest font-weight */
     font-size: 1.3em;
-    margin: 0 24px 10px 0; /* top right bottom left */
-    text-align: right;
+    margin: 0 10px 10px 0; /* top right bottom left */
+    text-align: left;
 }
 
 /* hero image and text */
 
 .hero__image__wrapper {
     width: 100%;
-    margin: 24px 0 0; /* top left-and-right bottom */
+    margin: 0;
     position: relative;
 }
 
@@ -114,9 +133,9 @@ header {
 /* this text is positioned over the hero image at the top left */
 .hero__text {
     position: absolute;
-    top: 16px;
+    top: 10px;
     left: 16px;
-    font-size: 2.2em;
+    font-size: 1.9em;
     color: white;
     /* text-shadow: h-shadow v-shadow blur-radius color */
     text-shadow: 1px 4px 8px #2d3c49;
@@ -140,7 +159,7 @@ section {
     margin: 0 auto;
 }
 
-section.featured__work {
+section.categories {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -182,45 +201,51 @@ footer {
     /* background: var(--primary-color); */
     background: #2d3c49;
     /* color: var(--secondary-color); */
-    color: #02b3e4;
+    color: #ffffff;
 }
 
 footer h4 {
     /* color: var(--secondary-color); */
-    color: #02b3e4;
+    color: #ffffff;
 }
 
 /* font awesome icons */
 i.fa {
-/* the i in i.fa is needed in this case dispite the
-    styleguides preference to avoid element names in 
+/* the i in i.fa is needed in this case despite the
+    style guides preference to avoid element names in 
     conjunction with selectors. */
-    font-size: 40px;
+    font-size: 30px;
     padding: 5px 5px 0; /* top right-and-left bottom */
+	color: #ffffff;
 }
 
 /* @media screen queries */
 
 @media screen and (min-width: 760px) and (max-width: 839px) {
     .header__name {
-        font-size: 4em;
-        margin: 0.25em 32px 0 0; /* top right bottom left */
+        font-size: 2.25em;
+        margin: 0.55em 0 0 10px; /* top right bottom left */
     }
 
     .header__title {
         font-size: 1.75em;
-        margin-right: 37px;
+        margin-left: 10px;
     }
 
     .header__logo {
-        height: 65px;
-        margin: 12px 0 10px 14px; /* top right bottom left */
+        height: 60px;
+        margin: 12px 0 12px 14px; /* top right bottom left */
     }
+	
+	.header__login {
+    height: 35px;
+    margin: 24px 20px 16px 16px; /* top right bottom left */
+	}
     
     .hero__text {
         top: 20px;
         left: 20px;
-        font-size: 2.7em;
+        font-size: 2.4em;
     }
 
     .section__title {
@@ -236,28 +261,33 @@ i.fa {
 
 @media screen and (min-width: 840px) and (max-width: 959px) {
     .header__name {
-        font-size: 5em;
-        margin: 0.2em 32px 0 0; /* top right bottom left */
+        font-size: 2.4em;
+        margin: 0.55em 0 0 10px; /* top right bottom left */
     }
 
     .header__title {
-        font-size: 2.2em;
-        margin-right: 36px;
+        font-size: 2em;
+        margin-left: 10px;
     }
 
     .header__logo {
-        height: 78px;
-        margin: 16px 0 12px 20px; /* top right bottom left */
+        height: 65px;
+        margin: 12px 0 12px 20px; /* top right bottom left */
     }
 
     hr {
         height: 5px;
     }
+	
+	.header__login {
+    height: 35px;
+    margin: 25px 24px 16px 16px; /* top right bottom left */
+	}
     
     .hero__text {
         top: 25px;
         left: 25px;
-        font-size: 2.8em;
+        font-size: 2.6em;
     }
 
     .section__title {
@@ -280,28 +310,33 @@ i.fa {
     }
 
     .header__name {
-        font-size: 6em;
-        margin: 0.2em 32px 0 0; /* top right bottom left */
+        font-size: 2.6em;
+        margin: 0.55em 0 0 10px; /* top right bottom left */
     }
 
     .header__title {
         font-size: 2.34em;
-        margin-right: 38px;
+        margin-left: 10px;
     }
 
     .header__logo {
-        height: 90px;
-        margin: 18px 0 15px 25px; /* top right bottom left */
+        height: 70px;
+        margin: 15px 0 15px 20px; /* top right bottom left */
     }
 
     hr {
         height: 5px;
     }
+	
+	.header__login {
+    height: 35px;
+    margin: 30px 25px 16px 16px; /* top right bottom left */
+	}
     
     .hero__text {
-        top: 35px;
+        top: 25px;
         left: 28px;
-        font-size: 3.4em;
+        font-size: 2.8em;
     }
 
     .section__title {
@@ -319,10 +354,10 @@ i.fa {
 
     /* font awesome icons */
     i.fa { 
-        /* the i in i.fa is needed in this case dispite the
-        styleguides preference to avoid element names in 
+        /* the i in i.fa is needed in this case despite the
+        style guides preference to avoid element names in 
         conjunction with selectors. */
-        font-size: 50px;
+        font-size: 38px;
         padding: 8px 8px 0; /* top right-and-left bottom */
     }
 
