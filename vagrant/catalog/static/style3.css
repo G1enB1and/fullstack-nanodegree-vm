@@ -158,16 +158,16 @@ header {
 	padding: 0 5px 0 5px; /* top right bottom left */
 }
 
-.categories {
-	background: #559955;
+section.categories {
+	background: #ffffff;
 	margin: 2px 5px 5px 5px; /* top right bottom left */
 	padding: 5px;
 	flex: 1 1 auto; /* flex-grow flex-shrink flex-basis */
 	width: 100%;
 }
 
-.items {
-	background: #555599;
+section.items {
+	background: #ffffff;
 	margin: 0 5px 5px 5px; /* top right bottom left */
 	padding: 5px;
 	flex: 1 1 auto; /* flex-grow flex-shrink flex-basis */
@@ -347,16 +347,14 @@ i.fa {
 		padding: 0;
 	}
 
-	.categories {
-		background: #559955;
+	section.categories {
 		margin: 2px 0 5px 5px; /* top right bottom left */
 		padding: 5px;
 		width: auto;
 		flex: 2 0 auto; /* flex-grow flex-shrink flex-basis*/
 	}
 
-	.items {
-		background: #555599;
+	section.items {
 		margin: 2px 5px 5px 5px; /* top right bottom left */
 		padding: 5px;
 		width: auto;
@@ -416,16 +414,14 @@ i.fa {
 		padding: 0;
 	}
 
-	.categories {
-		background: #559955;
+	section.categories {
 		margin: 2px 0 5px 5px; /* top right bottom left */
 		padding: 5px;
 		width: auto;
 		flex: 2 0 auto; /* flex-grow flex-shrink flex-basis*/
 	}
 
-	.items {
-		background: #555599;
+	section.items {
 		margin: 2px 5px 5px 5px; /* top right bottom left */
 		padding: 5px;
 		width: auto;
@@ -497,16 +493,14 @@ i.fa {
 		padding: 0;
 	}
 
-	.categories {
-		background: #559955;
+	section.categories {
 		margin: 2px 0 5px 5px; /* top right bottom left */
 		padding: 5px;
 		width: auto;
 		flex: 2 0 auto; /* flex-grow flex-shrink flex-basis*/
 	}
 
-	.items {
-		background: #555599;
+	section.items {
 		margin: 2px 5px 5px 5px; /* top right bottom left */
 		padding: 5px;
 		width: auto;
