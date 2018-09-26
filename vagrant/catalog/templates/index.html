@@ -11,7 +11,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- my style sheet -->
-      <link rel="stylesheet" href="../static/style2.css">
+      <link rel="stylesheet" href="../static/style3.css">
       <!-- google font Bungiee Inline -->
       <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC|Metrophobic" rel="stylesheet">
       <!-- for font awesome icons -->
@@ -48,50 +48,55 @@
           <h2 class="hero__text">Catalog Project</h2>
         </div> <!-- end of hero__image__wrapper -->
 
-        <section class="categories">
-          <header>
-            <h2 class="section__title">Categories</h2>
-          </header>
+		<!-- sections (categories and items) -->
+		<div class="section__wrapper">
+		  <section class="categories">
+		    <header>
+              <h2 class="section__title">Categories</h2>
+            </header>
+		    <hr>
+		    <div class="category"><h3>Electronics</h3><div class="category__edit__delete"> Edit | Delete</div></div>
+		    <div class="category"><h3>Kitchen</h3><div class="category__edit__delete"> Edit | Delete</div></div>
+		    <div class="category"><h3>Automotive</h3><div class="category__edit__delete"> Edit | Delete</div></div>
+		    <div class="category"><h3>Garden</h3><div class="category__edit__delete"> Edit | Delete</div></div>
+		    <div class="category"><h3>Sporting Goods</h3><div class="category__edit__delete"> Edit | Delete</div></div>
+		    <div class="add__category">Add New Category</div>
+		  </section> <!-- end of categories section -->
 		  
-		  <hr>
-          
-		  <h3 class="category">Electronics <div class="category__edit__delete"> Edit | Delete</div></h3>
-		  <h3 class="category">Kitchen <div class="category__edit__delete"> Edit | Delete</div></h3>
-		  <h3 class="category">Automotive <div class="category__edit__delete"> Edit | Delete</div></h3>
-		  <h3 class="category">Garden <div class="category__edit__delete"> Edit | Delete</div></h3>
-		  <h3 class="category">Sporting Goods <div class="category__edit__delete"> Edit | Delete</div></h3>
-		  <h3 class="add__category">Add New Category</h3>
-        </section> <!-- end of categories section -->
+		  <section class="items">
+		    <header>
+              <h2 class="section__title">Items</h2>
+            </header>
+			<hr>
+		    <div class="add__item">Add New Item</div>
+		  
+		    <div class="item__wrapper">
+		      <h3 class="item__name">Coffee Maker</h3>
+			  <div class="item__description">Description of Coffee Maker goes here.</div>
+			  <div class="item__price">$79.00</div>
+			  <div class="item__category">Kitchen</div>
+			  <div class="item__edit__delete">Edit | Delete</div>
+		    </div> <!-- end of item__wrapper -->
+		  
+		    <div class="item__wrapper">
+		      <h3 class="item__name">Laptop</h3>
+			  <div class="item__description">Description of laptop goes here.</div>
+			  <div class="item__price">$799.00</div>
+			  <div class="item__category">Electronics</div>
+			  <div class="item__edit__delete">Edit | Delete</div>
+		    </div> <!-- end of item__wrapper -->
+			
+			<div class="item__wrapper">
+		      <h3 class="item__name">Headlight Fluid</h3>
+			  <div class="item__description">Description of headlight fluid goes here.</div>
+			  <div class="item__price">$9.99</div>
+			  <div class="item__category">Automotive</div>
+			  <div class="item__edit__delete">Edit | Delete</div>
+		    </div> <!-- end of item__wrapper -->
+			
+		  </section> <!-- end of items section -->
+		</div> <!-- end of section__wrapper -->
 		
-		<hr>
-		
-		<section class="items">
-          <header>
-            <h2 class="section__title">Items</h2>
-          </header>
-		  
-		  <hr>
-          
-		  <h3 class="add__item">Add New Item</h3>
-		  
-		  <div class="item__wrapper">
-		    <h3 class="item__name">Coffee Maker</h3>
-			<div class="item__description">Description of Coffee Maker goes here.</div>
-			<div class="item__price">$79.00</div>
-			<div class="item__category">Kitchen</div>
-			<div class="item__edit__delete">Edit | Delete</div>
-		  </div> <!-- end of item__wrapper -->
-		  
-		  <div class="item__wrapper">
-		    <h3 class="item__name">Laptop</h3>
-			<div class="item__description">Description of laptop goes here.</div>
-			<div class="item__price">$799.00</div>
-			<div class="item__category">Electronics</div>
-			<div class="item__edit__delete">Edit | Delete</div>
-		  </div> <!-- end of item__wrapper -->
-		 
-        </section> <!-- end of items section -->
-
         <footer>
           <h4>Follow Glen Bland on social media</h4>
           <!-- font awesome social media icons -->
