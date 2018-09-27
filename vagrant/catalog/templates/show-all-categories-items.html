@@ -25,7 +25,7 @@
 
       <header>
         <div class="header__left__wrapper">
-		  <img class="header__logo" src="../static/images/winking_emoji_540x540.jpg" alt="winking emoji">
+		  <img class="header__logo" src="{{ url_for('static', filename='winking_emoji_540x540.jpg') }}" alt="winking emoji">
 		  <div class="header__text__wrapper">
             <h1 class="header__name">TLS.com</h1>
             <h3 class="header__title">Totally Legit Store</h3>
@@ -33,7 +33,7 @@
 		</div> <!-- end of header__brand__wrapper -->
 		
 		<div class="header__login__wrapper">
-		  <img class="header__login" src="../static/images/login.png" alt="Login">
+		  <img class="header__login" src="{{ url_for('static', filename='login.png') }}" alt="Login">
 		</div> <!-- end of header__login__wrapper -->
       </header>
 
@@ -43,7 +43,7 @@
 
         <!-- Hero Image -->
         <div class="hero__image__wrapper">
-          <img class="hero__image" src="../static/images/closed.jpg" alt="closed">
+          <img class="hero__image" src="{{ url_for('static', filename='closed.jpg') }}" alt="closed">
           <!-- white text over hero image: site description -->
           <h2 class="hero__text">Catalog Project</h2>
         </div> <!-- end of hero__image__wrapper -->
@@ -86,7 +86,7 @@
               <h2 class="section__title">Items</h2>
             </header>
 			<hr>
-		    <div class="add__item"><a href = '{{url_for('addNewItem')}}'>Add New Item</a></div>
+		    <div class="section__items__link"><a href = '{{url_for('addNewItem')}}'>Add New Item</a></div>
 		    
 			{% for i in items %}
 						

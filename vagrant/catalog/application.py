@@ -51,13 +51,22 @@ def ShowAllCategoriesItems():
 	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID)
 
 
+#Show a list of categories
+@app.route('/')
+@app.route('/catalog')
+def ShowCategories():
+	category = session.query(Category).all()
+	return render_template('show-all-categories-items.html', category = category)
+
+
 #Show Items In a given category by passing in the category_id (number)
 @app.route('/category/<int:category_id>/')
 @app.route('/category/<int:category_id>/items')
 def ShowItemsInCategory(category_id):
-    category = session.query(Category).filter_by(id = category_id).one()
-    items = session.query(CatalogItem).filter_by(category_id=category.id)
-    return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id)
+	categories = session.query(Category).all()
+	category = session.query(Category).filter_by(id = category_id).one()
+	items = session.query(CatalogItem).filter_by(category_id=category.id)
+	return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories)
 
 
 #Show a given item by passing in the catalog_item_id

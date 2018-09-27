@@ -211,12 +211,16 @@ section.items {
     color: #7090ad;
 }
 
+.section__title a {
+	color: #7090ad;
+}
+
 section {
     margin: 0 auto;
 }
 
 .category {
-	font-size: 1.9em;
+	font-size: 1.7em;
 	margin: 0;
 	padding: 0 30px 5px 10px; /* top right bottom left */
 	border: 1px;
@@ -282,7 +286,7 @@ section {
 }
 
 .item__edit__delete {
-	font-size: 1.6em;
+	font-size: 1.5em;
 	color: #7090ad;
 }
 
@@ -290,7 +294,7 @@ section {
 	color: #7090ad;
 }
 
-.add__item {
+.section__items__link {
 	font-size: 2em;
 	margin: 0;
 	padding: 5px 10px 5px 10px; /* top right bottom left */
@@ -301,7 +305,7 @@ section {
 	color: #7090ad;
 }
 
-.add__item a {
+.section__items__link a {
 	color: #7090ad;
 }
 

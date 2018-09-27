@@ -1,0 +1,58 @@
+<html>
+    <head>
+	       <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+	</head>
+
+
+	<body>
+	    <div class = 'pane'>
+		    <div class = 'header'>
+		        <h1>{{ category.name }}</h1>
+	        </div>
+			</br>
+
+            <div class = 'flash'>
+		        {% with messages = get_flashed_messages() %}
+                {% if messages %}
+
+                <ul>
+                    {% for message in messages %}
+                    <li> <strong> {{ message }} </strong> </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+
+            </div>
+			</br>
+			
+			<a href = '{{url_for('addNewItem')}}'>Create New Item</a></br></br>
+			
+		    {% for i in items %}
+				<div class = 'nameAndPrice'>
+					<span class = 'name'><p><h2><a href='{{url_for('ShowItem', catalog_item_id = i.id)}}' >{{i.name}}</a></h2></p></span>
+
+					<span class = 'price'>
+						<p>{{i.price}} </p>
+					</span>
+				</div>
+
+				<div class = 'description'>
+					<p>{{i.description}}</p>
+				</div>
+
+
+				<div class = "editdeletepane">
+					<a href='{{url_for('editItem', catalog_item_id = i.id)}}'>Edit</a> |  
+					<a href='{{url_for('deleteItem', catalog_item_id = i.id)}}'>Delete</a></br>
+					</br>
+				</div>
+		    {% endfor %}
+
+			</br></br>
+			<a href='{{url_for('ShowCategories')}}'>Back to Catalog Categories</a>
+			</br></br>
+            </div>
+        </div>
+	</body>
+</html>
