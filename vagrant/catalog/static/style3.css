@@ -144,6 +144,22 @@ header {
     /* text-shadow: h-shadow v-shadow blur-radius color */
     text-shadow: 1px 4px 8px #2d3c49;
 }
+/* flash messages */
+.flash__wrapper {
+	display: flex;
+	flex-flow: column nowrap; /* flex-direction flex-wrap */
+	align-items: center; /* cross axis - horizontal*/
+	align-content: center; /* cross axis - horizontal - extra space */
+	justify-content: center; /* main axis - vertical*/
+	width: 100%;
+	background: #355575;
+	padding: 0 5px 0 5px; /* top right bottom left */
+}
+
+.flash__message {
+	font-size: 2em;
+	color: #ffffff;
+}
 
 /* sections */
 
@@ -206,7 +222,11 @@ section {
 	border-style: solid;
 }
 
-.category__edit__delete {
+.category a {
+	color: #294060;
+}
+
+.category__edit__delete a {
 	font-size: .8em;
 	color: #7090ad;
 }
@@ -219,6 +239,10 @@ section {
 	border-color: #7090ad;
 	border-style: solid;
 	align-items: space-around;
+	color: #7090ad;
+}
+
+.add__category a {
 	color: #7090ad;
 }
 
