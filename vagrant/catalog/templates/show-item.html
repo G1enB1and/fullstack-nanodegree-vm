@@ -1,53 +1,138 @@
-<html>
-    <head>
-	       <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
-	</head>
+<!doctype html>
 
+<html lang="en">
 
-	<body>
-	    <div class = 'pane'>
-		    <div class = 'header'>
-		        <h1>{{ item.name }}</h1>
-	        </div>
-			</br>
-	        
+  <head>
 
-            <div class = 'flash'>
-		        {% with messages = get_flashed_messages() %}
-                {% if messages %}
+      <title>Glen Bland Catalog Project</title>
+      <meta name="description" content="Catalog Project for Udacity Full Stack Web Developer">
+      <meta name="keywords" content="Glen, Bland, Catalog, Udacity">
+      <meta name="author" content="Glen Bland">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- my style sheet -->
+      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style3.css') }}">
+      <!-- google font Bungiee Inline -->
+      <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC|Metrophobic" rel="stylesheet">
+      <!-- for font awesome icons -->
+      <script src="https://use.fontawesome.com/1ff14c05b8.js"></script>
 
-                <ul>
-                    {% for message in messages %}
-                    <li> <strong> {{ message }} </strong> </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-                {% endwith %}
+  </head>
 
-            </div>
+  <body>
+    <!-- This is used to center the page when wider than 960px -->
+    <div class="page__wrapper">
 
+      <header>
+        <div class="header__left__wrapper">
+		  <img class="header__logo" src="{{ url_for('static', filename='winking_emoji_540x540.jpg') }}" alt="winking emoji">
+		  <div class="header__text__wrapper">
+            <h1 class="header__name">TLS.com</h1>
+            <h3 class="header__title">Totally Legit Store</h3>
+          </div> <!-- end of header__text__wrapper -->
+		</div> <!-- end of header__brand__wrapper -->
+		
+		<div class="header__login__wrapper">
+		  <img class="header__login" src="{{ url_for('static', filename='login.png') }}" alt="Login">
+		</div> <!-- end of header__login__wrapper -->
+      </header>
 
-	        <div class = 'description'>
-		        <p>{{item.description}}</p>
-				<p>{{item.price}}</p>
-				<p>Category: <a href='{{url_for('ShowItemsInCategory', category_id = category.id)}}'>{{category.name}}</a></p>
-	        </div>
+     <hr>
 
+      <main>
 
-	        <div class = "editdeletepane">
+        <!-- Hero Image -->
+        <div class="hero__image__wrapper">
+          <img class="hero__image" src="{{ url_for('static', filename='closed.jpg') }}" alt="closed">
+          <!-- white text over hero image: site description -->
+          <h2 class="hero__text">Catalog Project</h2>
+        </div> <!-- end of hero__image__wrapper -->
 
-	            <a href='{{url_for('editItem', catalog_item_id = item.id)}}' >Edit</a> | 
-	            <a href='{{url_for('deleteItem', catalog_item_id = item.id)}}' >
-	            Delete</a>
-				
-				</br></br></br>
-				<a href='{{url_for('ShowCategories')}}'>Back to Catalog Categories</a>
-				</br></br>
-	        </div>
+		<div class="flash__wrapper">
+		    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+            <ul>
+              {% for message in messages %}
+                <li class="flash__message"><strong> {{ message }} </strong></li>
+              {% endfor %}
+            </ul>
+			
+            {% endif %}
+            {% endwith %}
+			
+        </div> <!-- end flash -->
+		
+		<!-- sections (categories and items) -->
+		<div class="section__wrapper">
+		
+		  <!-- categories section -->
+		  <section class="categories">
+		    <header>
+              <h2 class="section__title"><a href='{{url_for('ShowAllCategoriesItems')}}' >Categories</a></h2>
+            </header>
+		    <hr>
+			{% for i in categories %}
+		    <div class="category"><h3><a href='{{url_for('ShowItemsInCategory', category_id = i.id)}}' >{{i.name}}</a></h3>
+			  <div class="category__edit__delete">
+			    <a href='{{url_for('editCategory', category_id = i.id)}}' >Edit</a> | 
+	            <a href='{{url_for('deleteCategory', category_id = i.id)}}' >Delete</a>
+			  </div>
+			</div>
+		    {% endfor %}
+		    <div class="add__category"><a href = '{{url_for('addNewCategory')}}'>Add New Category</a></div>
+		  </section> <!-- end of categories section -->
+		  
+		  <section class="items">
+		    <header>
+              <h2 class="section__title">{{item.name}}</h2>
+            </header>
+			<hr>
 		    
+		    <div class="item__wrapper">
+			  <div class="item__description">{{item.description}}</div>
+			  <div class="item__price">{{item.price}}</div>
+			  <div class="item__category">Category: <a href='{{url_for('ShowItemsInCategory', category_id = category.id)}}'>{{category.name}}</a></div>
+			  <div class="item__edit__delete">
+			    <a href='{{url_for('editItem', catalog_item_id = item.id)}}'>Edit</a> |  
+				<a href='{{url_for('deleteItem', catalog_item_id = item.id)}}'>Delete</a>
+			  </div> <!-- end of item__edit__delete -->
+		    </div> <!-- end of item__wrapper -->
+		  
+		  <div class="section__items__link"><a href='{{url_for('ShowAllCategoriesItems')}}' >Show Items From All Categories</a></div>
+		  
+		  </section> <!-- end of items section -->
+		</div> <!-- end of section__wrapper -->
+		
+        <footer>
+          <h4>Follow Glen Bland on social media</h4>
+          <!-- font awesome social media icons -->
+          <!-- google+ icon -->
+          <a href="https://plus.google.com/u/0/+GlenBland" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-google-plus-square" aria-hidden="true"></i>
+          </a>
+          <!-- facebook icon -->
+          <a href="https://www.facebook.com/glenbland81" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-facebook-square" aria-hidden="true"></i>
+          </a>
+          <!-- twitter icon -->
+          <a href="https://twitter.com/Glen_All_In" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-twitter-square" aria-hidden="true"></i>
+          </a>
+          <!-- linkedin icon -->
+          <a href="https://www.linkedin.com/in/glenbland/" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+          </a>
+          <!-- youtube icon -->
+          <a href="https://www.youtube.com/channel/UCd3jvhDY6dXdn3ifT5tQYmQ?view_as=subscriber" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-youtube-square" aria-hidden="true"></i>
+          </a>
+        </footer>
 
-			</br>
-            </div>
-        </div>
-	</body>
+      </main>
+
+    </div> <!-- end of page__wrapper -->
+
+  </body>
+
 </html>

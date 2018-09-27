@@ -72,9 +72,10 @@ def ShowItemsInCategory(category_id):
 #Show a given item by passing in the catalog_item_id
 @app.route('/item/<int:catalog_item_id>')
 def ShowItem(catalog_item_id):
+	categories = session.query(Category).all()
 	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
 	category = session.query(Category).filter_by(id = item.category_id).one()
-	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id)
+	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
 
 
 #Add new category
