@@ -11,7 +11,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- my style sheet -->
-      <link rel="stylesheet" href="../static/style3.css">
+      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style3.css') }}">
       <!-- google font Bungiee Inline -->
       <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC|Metrophobic" rel="stylesheet">
       <!-- for font awesome icons -->
@@ -48,6 +48,21 @@
           <h2 class="hero__text">Catalog Project</h2>
         </div> <!-- end of hero__image__wrapper -->
 
+		<div class="flash__wrapper">
+		    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+            <ul>
+              {% for message in messages %}
+                <li class="flash__message"><strong> {{ message }} </strong></li>
+              {% endfor %}
+            </ul>
+			
+            {% endif %}
+            {% endwith %}
+			
+        </div> <!-- end flash -->
+		
 		<!-- sections (categories and items) -->
 		<div class="section__wrapper">
 		  <section class="categories">
@@ -55,12 +70,15 @@
               <h2 class="section__title">Categories</h2>
             </header>
 		    <hr>
-		    <div class="category"><h3>Electronics</h3><div class="category__edit__delete"> Edit | Delete</div></div>
-		    <div class="category"><h3>Kitchen</h3><div class="category__edit__delete"> Edit | Delete</div></div>
-		    <div class="category"><h3>Automotive</h3><div class="category__edit__delete"> Edit | Delete</div></div>
-		    <div class="category"><h3>Garden</h3><div class="category__edit__delete"> Edit | Delete</div></div>
-		    <div class="category"><h3>Sporting Goods</h3><div class="category__edit__delete"> Edit | Delete</div></div>
-		    <div class="add__category">Add New Category</div>
+			{% for i in categories %}
+		    <div class="category"><h3><a href='{{url_for('ShowItemsInCategory', category_id = i.id)}}' >{{i.name}}</a></h3>
+			  <div class="category__edit__delete">
+			    <a href='{{url_for('editCategory', category_id = i.id)}}' >Edit</a> | 
+	            <a href='{{url_for('deleteCategory', category_id = i.id)}}' >Delete</a>
+			  </div>
+			</div>
+		    {% endfor %}
+		    <div class="add__category"><a href = '{{url_for('addNewCategory')}}'>Add New Category</a></div>
 		  </section> <!-- end of categories section -->
 		  
 		  <section class="items">
@@ -68,32 +86,22 @@
               <h2 class="section__title">Items</h2>
             </header>
 			<hr>
-		    <div class="add__item">Add New Item</div>
-		  
+		    <div class="add__item"><a href = '{{url_for('addNewItem')}}'>Add New Item</a></div>
+		    
+			{% for i in items %}
+						
 		    <div class="item__wrapper">
-		      <h3 class="item__name">Coffee Maker</h3>
-			  <div class="item__description">Description of Coffee Maker goes here. and now we need to make this really really long, so I am just going to type a bit more here. grammar doesn't matter.</div>
-			  <div class="item__price">$79.00</div>
-			  <div class="item__category">Kitchen</div>
-			  <div class="item__edit__delete">Edit | Delete</div>
+		      <h3 class="item__name"><a href='{{url_for('ShowItem', catalog_item_id = i.id)}}' >{{i.name}}</a></h3>
+			  <div class="item__description">{{i.description}}</div>
+			  <div class="item__price">{{i.price}}</div>
+			  <div class="item__category">{{GetCategoryNameFromID(i.category_id)}}</div>
+			  <div class="item__edit__delete">
+			    <a href='{{url_for('editItem', catalog_item_id = i.id)}}'>Edit</a> |  
+				<a href='{{url_for('deleteItem', catalog_item_id = i.id)}}'>Delete</a>
+			  </div> <!-- end of item__edit__delete -->
 		    </div> <!-- end of item__wrapper -->
 		  
-		    <div class="item__wrapper">
-		      <h3 class="item__name">Laptop</h3>
-			  <div class="item__description">Description of laptop goes here.</div>
-			  <div class="item__price">$799.00</div>
-			  <div class="item__category">Electronics</div>
-			  <div class="item__edit__delete">Edit | Delete</div>
-		    </div> <!-- end of item__wrapper -->
-			
-			<div class="item__wrapper">
-		      <h3 class="item__name">Headlight Fluid</h3>
-			  <div class="item__description">Description of headlight fluid goes here.</div>
-			  <div class="item__price">$9.99</div>
-			  <div class="item__category">Automotive</div>
-			  <div class="item__edit__delete">Edit | Delete</div>
-		    </div> <!-- end of item__wrapper -->
-			
+			{% endfor %}
 		  </section> <!-- end of items section -->
 		</div> <!-- end of section__wrapper -->
 		

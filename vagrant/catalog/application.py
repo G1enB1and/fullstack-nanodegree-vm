@@ -12,6 +12,12 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# Get Category Name from ID
+def GetCategoryNameFromID(category_id):
+	category = session.query(Category).filter_by(id = category_id).one()
+	return category.name
+
+	
 # Provide an API Endpoint (GET Request) to show all items in all categories
 @app.route('/JSON')
 @app.route('/catalog/JSON')
@@ -36,12 +42,13 @@ def ShowItemsInCategoryJSON(category_id):
 	return jsonify(ItemsInCategory=[i.serialize for i in items])
 
 
-#Show a list of all categories
+#Show a list of all categories and items
 @app.route('/')
 @app.route('/catalog')
-def ShowCategories():
-    category = session.query(Category).all()
-    return render_template('show-categories.html', category = category)
+def ShowAllCategoriesItems():
+	categories = session.query(Category).all()
+	items = session.query(CatalogItem).all()
+	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID)
 
 
 #Show Items In a given category by passing in the category_id (number)
