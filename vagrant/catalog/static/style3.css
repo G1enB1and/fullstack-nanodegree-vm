@@ -216,7 +216,7 @@ section {
 }
 
 .category {
-	font-size: 2em;
+	font-size: 1.9em;
 	margin: 0;
 	padding: 0 30px 5px 10px; /* top right bottom left */
 	border: 1px;
@@ -228,8 +228,12 @@ section {
 	color: #294060;
 }
 
-.category__edit__delete a {
+.category__edit__delete {
 	font-size: .8em;
+	color: #7090ad;
+}
+
+.category__edit__delete a {
 	color: #7090ad;
 }
 
