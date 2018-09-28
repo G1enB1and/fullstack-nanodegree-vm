@@ -311,6 +311,117 @@ section {
 	color: #7090ad;
 }
 
+/* form */
+
+.form__style {
+	margin: 10px auto;
+	max-width: 400px;
+	padding: 20px 12px 10px 20px;
+	font: 15px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.form__style li {
+	padding: 0;
+	display: block;
+	list-style: none;
+	margin: 10px 000;
+}
+
+.form__style label {
+	margin: 0 0 3px 0;
+	padding: 0;
+	display: block;
+	font-weight: bold;
+}
+
+.form__style input[type=text],
+textarea,
+select {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border:1px solid #BEBEBE;
+    padding: 7px;
+    margin:0px;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;  
+}
+
+.form__style input[type=text]:focus,
+.form__style textarea:focus, 
+.form__style select:focus{
+    -moz-box-shadow: 0 0 8px #355575;
+    -webkit-box-shadow: 0 0 8px #355575;
+    box-shadow: 0 0 8px #355575;
+    border: 1px solid #355575;
+}
+
+.form__style select option:hover {
+	outline:none;
+	color: #000; 
+	box-shadow: inset 20px 20px #355575;
+}
+
+.form__style select::selection {
+	color: #355575;
+}
+
+.form__style .field__long {
+	width: 100%;
+}
+
+.form__style .field__select {
+	width: 100%;
+}
+
+.form__style .field__textarea {
+	height: 100%;
+}
+
+.form__style input[type=submit],
+.form__style input[type=button] {
+	margin: 10px 10px 0 0; /* top right bottom left */
+	font: 15px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    background: #355575;
+    padding: 8px 15px 8px; /* top left-and-right bottom */
+    border: none;
+    color: #fff;
+}
+.form__style input[type=submit]:hover,
+.form__style input[type=button]:hover {
+    background: #02b3e4;
+    box-shadow:none;
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+}
+.form__style .required{
+    color:red;
+}
+
+.button {
+	font: 15px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	background: #355575;
+    padding: 8px 15px 8px; /* top left-and-right bottom */
+    border: none;
+    color: #fff;
+}
+
+a.button {
+	background: #355575;
+    color: #fff;
+}
+
+.button:hover {
+	background: #02b3e4;
+}
+
+a.button:hover {
+	background: #02b3e4;
+}
+
 /* article */
 
 article {

@@ -1,0 +1,43 @@
+<html>
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+	</head>
+<body>
+
+<h1>Add New Item</h1>
+
+<div class = 'pane'>
+<form action="{{ url_for('addNewItem', categories = categories)}}" method = 'POST'>
+
+<dl>
+	<dt>Name:</dt>
+		<dd><input type ='text' size='30' name='name'></dd>
+	<dt>Description:</dt>
+		<dd><textarea name = 'description' rows='5' cols='40'></textarea></dd>
+	<dt>Price:</dt>
+		<dd><input type = 'text' size = '8' name='price'></dd>
+	<dt>Category:</dt>
+		<dd>
+			<select name = 'category_id'>
+				{% for i in categories %}
+					<option value = '{{i.id}}'>{{i.name}}</option>
+				{% endfor %}
+			</select>
+		</dd>
+</dl>
+
+
+<input type='submit' value='Create'>
+
+</form>
+</div>
+</br></br>
+<a href='{{url_for('ShowAllCategoriesItems')}}'>Back to Catalog Categories</a>
+</br></br>
+
+</body>
+
+
+
+
+</html>
