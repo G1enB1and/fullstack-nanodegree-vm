@@ -65,6 +65,8 @@
 		
 		<!-- sections (categories and items) -->
 		<div class="section__wrapper">
+		  
+		  <!-- categories section -->
 		  <section class="categories">
 		    <header>
               <h2 class="section__title"><a href='{{url_for('ShowAllCategoriesItems')}}' >Categories</a></h2>
@@ -81,12 +83,12 @@
 		    <div class="add__category"><a href = '{{url_for('addNewCategory')}}'>Add New Category</a></div>
 		  </section> <!-- end of categories section -->
 		  
+		  <!-- items section -->
 		  <section class="items">
 		    <header>
               <h2 class="section__title">Items In {{category.name}}</h2>
             </header>
 			<hr>
-		    <div class="section__items__link"><a href = '{{url_for('addNewItem')}}'>Add New Item</a></div>
 		    
 			{% for i in items %}
 						
@@ -102,6 +104,7 @@
 		  
 			{% endfor %}
 			
+			<div class="section__items__link"><a href = '{{url_for('addNewItem')}}'>Add New Item</a></div>
 			<div class="section__items__link"><a href='{{url_for('ShowAllCategoriesItems')}}' >Show Items From All Categories</a></div>
 			
 		  </section> <!-- end of items section -->

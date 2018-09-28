@@ -87,7 +87,7 @@ def addNewCategory():
 		session.commit()
 		confirmation = '' + 'Successfully added ' + str(newCategory.name) + '.'
 		flash(confirmation)
-		return redirect(url_for('ShowCategories'))
+		return redirect(url_for('ShowAllCategoriesItems'))
 	else:
 		return render_template('new-category.html')
 
@@ -104,7 +104,7 @@ def editCategory(category_id):
 		session.commit()
 		confirmation = '' + 'Successfully changed ' + str(oldCategory) + ' to ' + str(category.name) + '.'
 		flash(confirmation)
-		return redirect(url_for('ShowCategories'))
+		return redirect(url_for('ShowAllCategoriesItems'))
 	else:
 		return render_template('edit-category.html', category = category, category_id = category_id)
 
@@ -118,7 +118,7 @@ def deleteCategory(category_id):
 		session.commit()
 		confirmation = '' + 'Successfully deleted ' + str(category.name) + '.'
 		flash(confirmation)
-		return redirect(url_for('ShowCategories'))
+		return redirect(url_for('ShowAllCategoriesItems'))
 	else:
 		return render_template('delete-category.html', category = category, category_id = category_id)
 
