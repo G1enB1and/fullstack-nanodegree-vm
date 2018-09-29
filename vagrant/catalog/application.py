@@ -57,7 +57,7 @@ def ShowAllCategoriesItems():
 def ShowCategoriesAfterCancelNewCategory():
 	categories = session.query(Category).all()
 	items = session.query(CatalogItem).all()
-	flashMessage = '' + ' No new category was made due to cancel.'
+	flashMessage = '' + ' No new category was made. Probably would have been a failure anyway.'
 	flash(flashMessage)
 	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID)
 
@@ -68,7 +68,7 @@ def ShowCategoriesAfterCancelNewCategory():
 def ShowCategoriesAfterCancelNewItem():
 	categories = session.query(Category).all()
 	items = session.query(CatalogItem).all()
-	flashMessage = '' + ' No new item was made due to cancel.'
+	flashMessage = '' + ' No new item was made. Why don\'t you just cancel my hopes and dreams while you\'re at it?'
 	flash(flashMessage)
 	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID)
 
@@ -98,7 +98,7 @@ def ShowCategoryAfterCancelEdit(category_id):
 	categories = session.query(Category).all()
 	category = session.query(Category).filter_by(id = category_id).one()
 	items = session.query(CatalogItem).filter_by(category_id=category.id)
-	flashMessage = '' + category.name + ' has NOT been edited due to cancel.'
+	flashMessage = '' + 'Cancel? Fine. Don\'t worry, your precious ' + category.name + ' wasn\'t edited.'
 	flash(flashMessage)
 	return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories)
 
@@ -118,7 +118,7 @@ def ShowItemAfterCancelEdit(catalog_item_id):
 	categories = session.query(Category).all()
 	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
 	category = session.query(Category).filter_by(id = item.category_id).one()
-	flashMessage = '' + item.name + ' has NOT been edited due to cancel.'
+	flashMessage = '' + 'Phew! That was close! You almost altered reality itself. Not to fear, ' + item.name + ' remains unchanged.'
 	flash(flashMessage)
 	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
 
@@ -163,7 +163,8 @@ def deleteCategory(category_id):
 	if request.method == 'POST':
 		session.delete(category)
 		session.commit()
-		confirmation = '' + 'Successfully deleted ' + str(category.name) + ' from categories.'
+		confirmation = '' + 'Successfully deleted ' + str(category.name) + ' from categories. We will remember you '
+		confirmation += str(category.name)[:3] + '...something...'
 		flash(confirmation)
 		return redirect(url_for('ShowAllCategoriesItems'))
 	else:
@@ -180,9 +181,9 @@ def addNewItem():
 		session.add(newItem)
 		session.commit()
 		confirmation = '' + str(newItem.name)
-		confirmation += ' has been added as a new item in '
+		confirmation += ' has been added to '
 		category = session.query(Category).filter_by(id = newItem.category_id).one()
-		confirmation += str(category.name) + '.'
+		confirmation += str(category.name) + '. I have a good feeling about this one!'
 		flash(confirmation)
 		return redirect(url_for('ShowItem', catalog_item_id = newItem.id))
 	else:
@@ -203,8 +204,8 @@ def editItem(catalog_item_id):
 		item.category_id = request.form['category_id']
 		session.add(item)
 		session.commit()
-		confirmation = '' + 'Successfuly edited ' + str(item.name)
-		confirmation += ' in ' + str(category.name) + '.'
+		confirmation = '' + 'Behold! The new and improved ' + str(item.name)
+		confirmation += ' in ' + str(category.name) + ' has been edited!'
 		flash(confirmation)
 		return redirect(url_for('ShowItem', catalog_item_id = item.id))
 	else:
@@ -219,10 +220,10 @@ def deleteItem(catalog_item_id):
 	if request.method == 'POST':
 		session.delete(item)
 		session.commit()
-		confirmation = '' + str(item.name)
+		confirmation = '' + 'Poof! ' + str(item.name)
 		confirmation += ' has been deleted from '
 		category = session.query(Category).filter_by(id = item.category_id).one()
-		confirmation += str(category.name) + '.'
+		confirmation += str(category.name) + '. I never liked that one anyway.'
 		flash(confirmation)
 		return redirect(url_for('ShowItemsInCategory', category_id = category_id))
 	else:
