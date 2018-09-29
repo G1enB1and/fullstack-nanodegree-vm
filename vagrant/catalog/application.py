@@ -69,6 +69,18 @@ def ShowItemsInCategory(category_id):
 	return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories)
 
 
+#Show Items In a given category by passing in the category_id (number) after canceling an edit
+@app.route('/category/<int:category_id>/cancel-edit/')
+@app.route('/category/<int:category_id>/items/cancel-edit/')
+def ShowCategoryAfterCancelEdit(category_id):
+	categories = session.query(Category).all()
+	category = session.query(Category).filter_by(id = category_id).one()
+	items = session.query(CatalogItem).filter_by(category_id=category.id)
+	flashMessage = '' + category.name + ' has NOT been edited due to cancel.'
+	flash(flashMessage)
+	return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories)
+
+
 #Show a given item by passing in the catalog_item_id
 @app.route('/item/<int:catalog_item_id>')
 def ShowItem(catalog_item_id):
@@ -78,8 +90,8 @@ def ShowItem(catalog_item_id):
 	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
 
 
-#Show a given item by passing in the catalog_item_id
-@app.route('/item/<int:catalog_item_id>/cancel-edit')
+#Show a given item by passing in the catalog_item_id after canceling an edit
+@app.route('/item/<int:catalog_item_id>/cancel-edit/')
 def ShowItemAfterCancelEdit(catalog_item_id):
 	categories = session.query(Category).all()
 	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
@@ -107,6 +119,7 @@ def addNewCategory():
 #Edit a category
 @app.route('/category/<int:category_id>/edit', methods=['GET','POST'])
 def editCategory(category_id):
+	categories = session.query(Category).all()
 	category = session.query(Category).filter_by(id = category_id).one()
 	oldCategory = category.name
 	if request.method =='POST':
@@ -116,9 +129,9 @@ def editCategory(category_id):
 		session.commit()
 		confirmation = '' + 'Successfully changed ' + str(oldCategory) + ' to ' + str(category.name) + '.'
 		flash(confirmation)
-		return redirect(url_for('ShowAllCategoriesItems'))
+		return redirect(url_for('ShowItemsInCategory', category_id = category.id))
 	else:
-		return render_template('edit-category.html', category = category, category_id = category_id)
+		return render_template('edit-category.html', category = category, category_id = category_id, categories = categories)
 
 
 #Delete a category
