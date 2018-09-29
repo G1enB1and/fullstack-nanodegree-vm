@@ -155,12 +155,16 @@ header {
 	justify-content: center; /* main axis - vertical*/
 	width: 100%;
 	background: #355575;
-	padding: 0 5px 0 5px; /* top right bottom left */
+	padding: 0 15px 0 5px; /* top right bottom left */
 }
 
 .flash__message {
 	font-size: 1.8em;
 	color: #ffffff;
+}
+
+ul {
+	list-style: none; /* remove the bullet point leading lists */
 }
 
 /* sections */
