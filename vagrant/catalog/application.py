@@ -81,6 +81,7 @@ def ShowItem(catalog_item_id):
 #Add new category
 @app.route('/category/new', methods=['GET','POST'])
 def addNewCategory():
+	categories = session.query(Category).all()
 	if request.method == 'POST':
 		newCategory = Category(name = request.form['name'])
 		session.add(newCategory)
@@ -89,7 +90,7 @@ def addNewCategory():
 		flash(confirmation)
 		return redirect(url_for('ShowAllCategoriesItems'))
 	else:
-		return render_template('new-category.html')
+		return render_template('new-category.html', categories = categories)
 
 
 #Edit a category
