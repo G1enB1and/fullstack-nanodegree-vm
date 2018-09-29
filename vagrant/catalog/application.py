@@ -184,7 +184,7 @@ def addNewItem():
 		category = session.query(Category).filter_by(id = newItem.category_id).one()
 		confirmation += str(category.name) + '.'
 		flash(confirmation)
-		return redirect(url_for('ShowItemsInCategory', category_id = category_id))
+		return redirect(url_for('ShowItem', catalog_item_id = newItem.id))
 	else:
 		return render_template('new-item.html', categories = categories)
 
@@ -206,7 +206,7 @@ def editItem(catalog_item_id):
 		confirmation = '' + 'Successfuly edited ' + str(item.name)
 		confirmation += ' in ' + str(category.name) + '.'
 		flash(confirmation)
-		return redirect(url_for('ShowItemsInCategory', category_id = category_id))
+		return redirect(url_for('ShowItem', catalog_item_id = item.id))
 	else:
 		return render_template('edit-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
 
