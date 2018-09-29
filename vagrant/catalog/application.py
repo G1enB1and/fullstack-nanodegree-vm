@@ -51,6 +51,17 @@ def ShowAllCategoriesItems():
 	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID)
 
 
+#Show a list of all categories and items after canceling new category
+@app.route('/cancel-new')
+@app.route('/catalog/cancel-new')
+def ShowAllCategoriesAfterCancelNew():
+	categories = session.query(Category).all()
+	items = session.query(CatalogItem).all()
+	flashMessage = '' + ' No new category was made due to cancel.'
+	flash(flashMessage)
+	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID)
+
+
 #Show a list of categories
 @app.route('/')
 @app.route('/catalog')
@@ -109,7 +120,7 @@ def addNewCategory():
 		newCategory = Category(name = request.form['name'])
 		session.add(newCategory)
 		session.commit()
-		confirmation = '' + 'Successfully added ' + str(newCategory.name) + '.'
+		confirmation = '' + 'Successfully added ' + str(newCategory.name) + ' to categories.'
 		flash(confirmation)
 		return redirect(url_for('ShowAllCategoriesItems'))
 	else:
@@ -141,7 +152,7 @@ def deleteCategory(category_id):
 	if request.method == 'POST':
 		session.delete(category)
 		session.commit()
-		confirmation = '' + 'Successfully deleted ' + str(category.name) + '.'
+		confirmation = '' + 'Successfully deleted ' + str(category.name) + ' from categories.'
 		flash(confirmation)
 		return redirect(url_for('ShowAllCategoriesItems'))
 	else:
