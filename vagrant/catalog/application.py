@@ -52,12 +52,23 @@ def ShowAllCategoriesItems():
 
 
 #Show a list of all categories and items after canceling new category
-@app.route('/cancel-new')
-@app.route('/catalog/cancel-new')
-def ShowAllCategoriesAfterCancelNew():
+@app.route('/cancel-new-category')
+@app.route('/catalog/cancel-new-category')
+def ShowCategoriesAfterCancelNewCategory():
 	categories = session.query(Category).all()
 	items = session.query(CatalogItem).all()
 	flashMessage = '' + ' No new category was made due to cancel.'
+	flash(flashMessage)
+	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID)
+
+
+#Show a list of all categories and items after canceling new item
+@app.route('/cancel-new-item')
+@app.route('/catalog/cancel-new-item')
+def ShowCategoriesAfterCancelNewItem():
+	categories = session.query(Category).all()
+	items = session.query(CatalogItem).all()
+	flashMessage = '' + ' No new item was made due to cancel.'
 	flash(flashMessage)
 	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID)
 
