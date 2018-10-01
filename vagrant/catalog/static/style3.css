@@ -101,10 +101,28 @@ header {
 	align-self: center;
 }
 
-.header__login {
+.header__login__button {
     height: 35px;
     margin: 0 16px 0 16px; /* top right bottom left */
 	align-self: center;
+	font: 15px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	background: #355575;
+    padding: 8px 15px 8px; /* top left-and-right bottom */
+    border: none;
+    color: #fff;
+}
+
+a.header__login__button {
+	background: #355575;
+    color: #fff;
+}
+
+.header__login__button:hover {
+	background: #02b3e4;
+}
+
+a.header__login__button:hover {
+	background: #02b3e4;
 }
 
 .header__name {

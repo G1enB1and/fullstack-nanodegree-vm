@@ -43,6 +43,13 @@ def ShowItemsInCategoryJSON(category_id):
 	return jsonify(ItemsInCategory=[i.serialize for i in items])
 
 
+# Login
+@app.route('/login')
+def Login():
+	categories = session.query(Category).all()
+	return render_template('login.html', categories = categories)
+
+
 #Show a list of all categories and items
 @app.route('/')
 @app.route('/catalog')

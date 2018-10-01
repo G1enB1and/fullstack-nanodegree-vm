@@ -62,9 +62,9 @@
 			
         </div> <!-- end flash -->
 		
-		<!-- sections (categories and items) -->
+		<!-- sections (categories and login) -->
 		<div class="section__wrapper">
-		
+		  
 		  <!-- categories section -->
 		  <section class="categories">
 		    <header>
@@ -82,24 +82,14 @@
 		    <div class="add__category"><a href = '{{url_for('addNewCategory')}}'>Add New Category</a></div>
 		  </section> <!-- end of categories section -->
 		  
+		  <!-- login section -->
 		  <section class="items">
 		    <header>
-              <h2 class="section__title">{{item.name}}</h2>
+              <h2 class="section__title">Login</h2>
             </header>
 			<hr>
 		    
-		    <div class="item__wrapper">
-			  <div class="item__description">{{item.description}}</div>
-			  <div class="item__price">{{item.price}}</div>
-			  <div class="item__category">Category: <a href='{{url_for('ShowItemsInCategory', category_id = category.id)}}'>{{category.name}}</a></div>
-			  <div class="item__edit__delete">
-			    <a href='{{url_for('editItem', catalog_item_id = item.id)}}'>Edit</a> |  
-				<a href='{{url_for('deleteItem', catalog_item_id = item.id)}}'>Delete</a>
-			  </div> <!-- end of item__edit__delete -->
-		    </div> <!-- end of item__wrapper -->
-		  
-		  <div class="section__items__link"><a href='{{url_for('ShowAllCategoriesItems')}}' >Show Items From All Categories</a></div>
-		  
+			
 		  </section> <!-- end of items section -->
 		</div> <!-- end of section__wrapper -->
 		
