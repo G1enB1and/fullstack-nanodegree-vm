@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from sqlalchemy import create_engine
+from sqlalchemy.pool import SingletonThreadPool
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, CatalogItem
 app = Flask(__name__)
 
 
-engine = create_engine('sqlite:///catalog.db')
+engine = create_engine('sqlite:///catalog.db', connect_args={'check_same_thread':False}, poolclass=SingletonThreadPool)
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
