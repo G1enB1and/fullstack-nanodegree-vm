@@ -123,6 +123,17 @@ def ShowItemAfterCancelEdit(catalog_item_id):
 	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
 
 
+#Show a given item by passing in the catalog_item_id after canceling a delete
+@app.route('/item/<int:catalog_item_id>/cancel-delete/')
+def ShowItemAfterCancelDelete(catalog_item_id):
+	categories = session.query(Category).all()
+	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
+	category = session.query(Category).filter_by(id = item.category_id).one()
+	flashMessage = '' + 'Phew! That was close! You almost altered reality itself. Not to fear, ' + item.name + ' remains unchanged.'
+	flash(flashMessage)
+	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
+
+
 #Add new category
 @app.route('/category/new', methods=['GET','POST'])
 def addNewCategory():
