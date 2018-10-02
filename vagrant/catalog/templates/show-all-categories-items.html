@@ -30,7 +30,11 @@
 		</div> <!-- end of header__brand__wrapper -->
 		
 		<div class="header__login__wrapper">
-		  <a href='{{url_for('showLogin')}}' class = "header__login__button">Login</a>
+		  {% if loggedIn != "True": %}
+		    <a href='{{url_for('showLogin')}}' class = "header__login__button">Login</a>
+		  {% else: %}
+		    <a href='{{url_for('gdisconnect')}}' class = "header__login__button">Logout</a>
+		  {% endif %}
 		</div> <!-- end of header__login__wrapper -->
       </header>
 
@@ -80,6 +84,7 @@
 		    <div class="add__category"><a href = '{{url_for('addNewCategory')}}'>Add New Category</a></div>
 		  </section> <!-- end of categories section -->
 		  
+		  <!-- Items section -->
 		  <section class="items" style="order:2">
 		    <header>
               <h2 class="section__title">Items</h2>

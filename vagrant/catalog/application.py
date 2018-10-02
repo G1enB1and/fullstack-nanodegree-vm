@@ -104,7 +104,7 @@ def gconnect():
     output += '<img src="'
     output += login_session['picture']
     output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    flash("you are now logged in as %s" % login_session['username'])
+    flash("You are now logged in as %s." % login_session['username'])
     print "done!"
     return output
 
@@ -129,18 +129,21 @@ def gdisconnect():
     print 'result is '
     print result
     if result['status'] == '200':
-        del login_session['access_token']
-        del login_session['gplus_id']
-        del login_session['username']
-        del login_session['email']
-        del login_session['picture']
-        response = make_response(json.dumps('Successfully disconnected.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
+		del login_session['access_token']
+		del login_session['gplus_id']
+		del login_session['username']
+		del login_session['email']
+		del login_session['picture']
+		response = make_response(json.dumps('Successfully disconnected.'), 200)
+		response.headers['Content-Type'] = 'application/json'
+		return response
     else:
-        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
-        response.headers['Content-Type'] = 'application/json'
-        return response
+		response = make_response(json.dumps('Failed to revoke token for given user.', 400))
+		response.headers['Content-Type'] = 'application/json'
+		return response
+	
+	#flash(jsonify(UserStatus=[i.serialize for i in response])
+	#return redirect(url_for('ShowAllCategoriesItems'))
 
 
 # Get Category Name from ID
@@ -189,7 +192,12 @@ def showLogin():
 def ShowAllCategoriesItems():
 	categories = session.query(Category).all()
 	items = session.query(CatalogItem).all()
-	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID)
+	# Check if user is logged in
+	if 'username' not in login_session:
+		loggedIn = "False"
+	else:
+		loggedIn = "True"
+	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn)
 
 
 #Show a list of all categories and items after canceling new category
