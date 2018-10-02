@@ -279,6 +279,9 @@ def ShowItemAfterCancelDelete(catalog_item_id):
 @app.route('/category/new', methods=['GET','POST'])
 def addNewCategory():
 	categories = session.query(Category).all()
+	#Redirect user to login if they are not logged in
+	if 'username' not in login_session:
+		return redirect('/login')
 	if request.method == 'POST':
 		newCategory = Category(name = request.form['name'])
 		session.add(newCategory)
@@ -296,6 +299,9 @@ def editCategory(category_id):
 	categories = session.query(Category).all()
 	category = session.query(Category).filter_by(id = category_id).one()
 	oldCategory = category.name
+	#Redirect user to login if they are not logged in
+	if 'username' not in login_session:
+		return redirect('/login')
 	if request.method =='POST':
 		if request.form['name']:
 			category.name = request.form['name']
@@ -313,6 +319,9 @@ def editCategory(category_id):
 def deleteCategory(category_id):
 	categories = session.query(Category).all()
 	category = session.query(Category).filter_by(id = category_id).one()
+	#Redirect user to login if they are not logged in
+	if 'username' not in login_session:
+		return redirect('/login')
 	if request.method == 'POST':
 		session.delete(category)
 		session.commit()
@@ -328,6 +337,9 @@ def deleteCategory(category_id):
 @app.route('/item/new', methods=['GET','POST'])
 def addNewItem():
 	categories = session.query(Category).all()
+	#Redirect user to login if they are not logged in
+	if 'username' not in login_session:
+		return redirect('/login')
 	if request.method == 'POST':
 		category_id = request.form['category_id']
 		newItem = CatalogItem(name = request.form['name'], description = request.form['description'], price = request.form['price'], category_id = category_id)
@@ -349,6 +361,9 @@ def editItem(catalog_item_id):
 	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
 	categories = session.query(Category).all()
 	category = session.query(Category).filter_by(id = item.category_id).one()
+	#Redirect user to login if they are not logged in
+	if 'username' not in login_session:
+		return redirect('/login')
 	if request.method == 'POST':
 		category_id = request.form['category_id']
 		item.name = request.form['name']
@@ -370,6 +385,9 @@ def editItem(catalog_item_id):
 def deleteItem(catalog_item_id):
 	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
 	category_id = item.category_id
+	#Redirect user to login if they are not logged in
+	if 'username' not in login_session:
+		return redirect('/login')
 	if request.method == 'POST':
 		session.delete(item)
 		session.commit()
