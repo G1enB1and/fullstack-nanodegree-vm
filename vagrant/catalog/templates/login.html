@@ -15,6 +15,11 @@
       <!-- google font Bungiee Inline -->
       <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC|Metrophobic" rel="stylesheet">
 
+	  <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+	  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	  <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+	  <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+
   </head>
 
   <body>
@@ -60,9 +65,9 @@
 			
         </div> <!-- end flash -->
 		
-		<!-- sections (categories and items) -->
+		<!-- sections (categories and login) -->
 		<div class="section__wrapper">
-		
+		  
 		  <!-- categories section -->
 		  <section class="categories">
 		    <header>
@@ -80,47 +85,64 @@
 		    <div class="add__category"><a href = '{{url_for('addNewCategory')}}'>Add New Category</a></div>
 		  </section> <!-- end of categories section -->
 		  
+		  <!-- login section -->
 		  <section class="items">
 		    <header>
-              <h2 class="section__title">Edit Item</h2>
+              <h2 class="section__title">Login</h2>
             </header>
-			<hr>
-		    
-		    <div class="item__wrapper">
-			  <!-- form -->
-			  <form action="{{ url_for('editItem', catalog_item_id = catalog_item_id, item = item, category = category, categories = categories)}}" method = 'POST'>
-				<ul class="form__style">
-				  <li><label for="name">Name<span class="required">*</span></label>
-				    <input type ='text' name='name' class="field__long" value="{{item.name }}">
-				  </li>
-				  <li>
-				    <label for="description">Description<span class="required">*</span></label>
-				    <textarea name = 'description' class="field__long field__textarea" rows='5'>{{item.description }}</textarea>
-				  </li>
-				  <li>
-				    <label for="price">Price<span class="required">*</span></label>
-				    <input type = 'text' name='price' size='8' value="{{item.price}}">
-				  </li>
-				  <li>
-				    <label for="category">Category<span class="required">*</span></label>
-				    <select name = 'category_id' class="field__select">
-					  <option value = '{{category.id}}'>{{category.name}}</option>
-					  {% for i in categories %}
-					    {% if i.name != category.name %}
-						  <option value = '{{i.id}}'>{{i.name}}</option>
-					    {% endif %}
-					  {% endfor %}
-				    </select>
-				  </li>
-			      <li>
-				    <input type='submit' value='Edit'>
-				    <a href='{{url_for('ShowItemAfterCancelEdit', catalog_item_id = item.id)}}' class="button">Cancel</a>
-				  </li>
-				</ul>
-			  </form> <!-- end of form -->
-			  
-		    </div> <!-- end of item__wrapper -->
-		  
+			<hr></br>
+		    <!-- GOOGLE PLUS SIGN IN BUTTON-->
+			  <div id="signinButton">
+			    <span class="g-signin"
+                data-scope="openid email"
+                data-clientid="595888207696-saiiv3l4m0obuhj79al9liojp2r5eea9.apps.googleusercontent.com"
+                data-redirecturi="postmessage"
+                data-accesstype="offline"
+                data-cookiepolicy="single_host_origin"
+                data-callback="signInCallback"
+                data-approvalprompt="force">
+                </span> <!-- end g-signin span -->
+			  </div> <!-- end singinButton div -->
+			  <!--END GOOGLE PLUS SIGN IN BUTTON -->
+			
+			<div id="result"></div>
+			
+			<!-- GOOGLE SIGN IN SCRIPT -->
+			<script>
+			  function signInCallback(authResult) {
+				if (authResult['code']) {
+				
+				  // Hide the sign-in button now that the user is authorized
+				  $('#signinButton').attr('style', 'display: none');
+				  
+				  // Send the one-time-use code to the server, if the server responds, 
+				  // write a 'login successful' message to the web page and then redirect 
+				  // back to the main restaurants page.
+				  $.ajax({
+					type: 'POST',
+					url: '/gconnect?state={{STATE}}',
+					processData: false,
+					data: authResult['code'],
+					contentType: 'application/octet-stream; charset=utf-8',
+					success: function(result) {
+					  // Handle or verify the server response if necessary.
+					  if (result) {
+						$('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+						setTimeout(function() {
+						  window.location.href = "/catalog";
+						}, 4000);
+          
+					  } else if (authResult['error']) {
+					    console.log('There was an error: ' + authResult['error']);
+					  } else {
+					    $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+					  }
+				    }
+				  });
+			    }
+			  }
+			</script> <!-- END OF GOOGLE SIGN IN SCRIPT -->
+
 		  </section> <!-- end of items section -->
 		</div> <!-- end of section__wrapper -->
 		

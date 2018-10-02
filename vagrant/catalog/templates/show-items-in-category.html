@@ -14,8 +14,6 @@
       <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style3.css') }}">
       <!-- google font Bungiee Inline -->
       <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC|Metrophobic" rel="stylesheet">
-      <!-- for font awesome icons -->
-      <script src="https://use.fontawesome.com/1ff14c05b8.js"></script>
 
   </head>
 
@@ -27,13 +25,12 @@
         <div class="header__left__wrapper">
 		  <img class="header__logo" src="{{ url_for('static', filename='winking_emoji_540x540.jpg') }}" alt="winking emoji">
 		  <div class="header__text__wrapper">
-            <h1 class="header__name">TLS.com</h1>
             <h3 class="header__title">Totally Legit Store</h3>
           </div> <!-- end of header__text__wrapper -->
 		</div> <!-- end of header__brand__wrapper -->
 		
 		<div class="header__login__wrapper">
-		  <img class="header__login" src="{{ url_for('static', filename='login.png') }}" alt="Login">
+		  <a href='{{url_for('showLogin')}}' class = "header__login__button">Login</a>
 		</div> <!-- end of header__login__wrapper -->
       </header>
 
@@ -111,28 +108,7 @@
 		</div> <!-- end of section__wrapper -->
 		
         <footer>
-          <h4>Follow Glen Bland on social media</h4>
-          <!-- font awesome social media icons -->
-          <!-- google+ icon -->
-          <a href="https://plus.google.com/u/0/+GlenBland" target="_blank" rel="noopener noreferrer">
-            <i class="fa fa-google-plus-square" aria-hidden="true"></i>
-          </a>
-          <!-- facebook icon -->
-          <a href="https://www.facebook.com/glenbland81" target="_blank" rel="noopener noreferrer">
-            <i class="fa fa-facebook-square" aria-hidden="true"></i>
-          </a>
-          <!-- twitter icon -->
-          <a href="https://twitter.com/Glen_All_In" target="_blank" rel="noopener noreferrer">
-            <i class="fa fa-twitter-square" aria-hidden="true"></i>
-          </a>
-          <!-- linkedin icon -->
-          <a href="https://www.linkedin.com/in/glenbland/" target="_blank" rel="noopener noreferrer">
-            <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-          </a>
-          <!-- youtube icon -->
-          <a href="https://www.youtube.com/channel/UCd3jvhDY6dXdn3ifT5tQYmQ?view_as=subscriber" target="_blank" rel="noopener noreferrer">
-            <i class="fa fa-youtube-square" aria-hidden="true"></i>
-          </a>
+          <h4>Created by Glen Bland 2018</h4>
         </footer>
 
       </main>

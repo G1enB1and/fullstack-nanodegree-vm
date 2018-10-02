@@ -1,18 +1,115 @@
-<html>
-    <head>
-	    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
-	</head>
+<!doctype html>
 
-    <body>
-        <h1> Are you sure you want to delete this item: {{item.name}}? </h1>
+<html lang="en">
 
-        <form action="{{ url_for('deleteItem', catalog_item_id = catalog_item_id, item = item)}}" method = 'post'>
+  <head>
 
-            <input type='submit', value = 'Delete'>
+      <title>Glen Bland Catalog Project</title>
+      <meta name="description" content="Catalog Project for Udacity Full Stack Web Developer">
+      <meta name="keywords" content="Glen, Bland, Catalog, Udacity">
+      <meta name="author" content="Glen Bland">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- my style sheet -->
+      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style3.css') }}">
+      <!-- google font Bungiee Inline -->
+      <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC|Metrophobic" rel="stylesheet">
 
-        </form>
+  </head>
 
-        <a href = '{{url_for('ShowAllCategoriesItems')}}'> Cancel </a>
+  <body>
+    <!-- This is used to center the page when wider than 960px -->
+    <div class="page__wrapper">
 
-    </body>
+      <header>
+        <div class="header__left__wrapper">
+		  <img class="header__logo" src="{{ url_for('static', filename='winking_emoji_540x540.jpg') }}" alt="winking emoji">
+		  <div class="header__text__wrapper">
+            <h3 class="header__title">Totally Legit Store</h3>
+          </div> <!-- end of header__text__wrapper -->
+		</div> <!-- end of header__brand__wrapper -->
+		
+		<div class="header__login__wrapper">
+		  <a href='{{url_for('showLogin')}}' class = "header__login__button">Login</a>
+		</div> <!-- end of header__login__wrapper -->
+      </header>
+
+     <hr>
+
+      <main>
+
+        <!-- Hero Image -->
+        <div class="hero__image__wrapper">
+          <img class="hero__image" src="{{ url_for('static', filename='closed.jpg') }}" alt="closed">
+          <!-- white text over hero image: site description -->
+          <h2 class="hero__text">Catalog Project</h2>
+        </div> <!-- end of hero__image__wrapper -->
+
+		<div class="flash__wrapper">
+		    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+            <ul>
+              {% for message in messages %}
+                <li class="flash__message"><strong> {{ message }} </strong></li>
+              {% endfor %}
+            </ul>
+			
+            {% endif %}
+            {% endwith %}
+			
+        </div> <!-- end flash -->
+		
+		<!-- sections (categories and items) -->
+		<div class="section__wrapper">
+		
+		  <!-- categories section -->
+		  <section class="categories">
+		    <header>
+              <h2 class="section__title"><a href='{{url_for('ShowAllCategoriesItems')}}' >Categories</a></h2>
+            </header>
+		    <hr>
+			{% for i in categories %}
+		    <div class="category"><h3><a href='{{url_for('ShowItemsInCategory', category_id = i.id)}}' >{{i.name}}</a></h3>
+			  <div class="category__edit__delete">
+			    <a href='{{url_for('editCategory', category_id = i.id)}}' >Edit</a> | 
+	            <a href='{{url_for('deleteCategory', category_id = i.id)}}' >Delete</a>
+			  </div>
+			</div>
+		    {% endfor %}
+		    <div class="add__category"><a href = '{{url_for('addNewCategory')}}'>Add New Category</a></div>
+		  </section> <!-- end of categories section -->
+		  
+		  <section class="items">
+		    <header>
+              <h2 class="section__title">Delete {{item.name}}?</h2>
+            </header>
+			<hr>
+		    
+		    <div class="item__wrapper">
+			  <!-- form -->
+			  <form action="{{ url_for('deleteItem', catalog_item_id = catalog_item_id, item = item)}}" method = 'POST'>
+				<ul class="form__style">
+				  <li><label for="delete">Are you sure you want to delete this item: {{item.name}}?</label>
+				    <input type='submit' value='Delete'>
+					<a href='{{url_for('ShowItemAfterCancelDelete', catalog_item_id = catalog_item_id)}}' class="button">Cancel</a>
+				  </li>
+				</ul>
+			  </form> <!-- end of form -->
+			  
+		    </div> <!-- end of item__wrapper -->
+		  
+		  </section> <!-- end of items section -->
+		</div> <!-- end of section__wrapper -->
+		
+        <footer>
+          <h4>Created by Glen Bland 2018</h4>
+        </footer>
+
+      </main>
+
+    </div> <!-- end of page__wrapper -->
+
+  </body>
+
 </html>

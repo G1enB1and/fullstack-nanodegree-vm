@@ -84,14 +84,14 @@ header {
 
 .header__logo {
     height: 50px;
-    margin: 0 14px 0 14px; /* top right bottom left */
+    margin: 4px 0px 5px 12px; /* top right bottom left */
 	align-self: center;
 }
 
 .header__text__wrapper {
     display: flex;
     flex-flow: column wrap;
-    justify-content: flex-start; /* left */
+    justify-content: center; /* center vertically, still left */
 }
 
 .header__login__wrapper {
@@ -101,10 +101,28 @@ header {
 	align-self: center;
 }
 
-.header__login {
+.header__login__button {
     height: 35px;
     margin: 0 16px 0 16px; /* top right bottom left */
 	align-self: center;
+	font: 15px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	background: #355575;
+    padding: 8px 15px 8px; /* top left-and-right bottom */
+    border: none;
+    color: #fff;
+}
+
+a.header__login__button {
+	background: #355575;
+    color: #fff;
+}
+
+.header__login__button:hover {
+	background: #02b3e4;
+}
+
+a.header__login__button:hover {
+	background: #02b3e4;
 }
 
 .header__name {
@@ -114,9 +132,9 @@ header {
 }
 
 .header__title {
-    font-weight: 100; /* thinnest font-weight */
-    font-size: 1.3em;
-    margin: 0 10px 10px 0; /* top right bottom left */
+    font-weight: bold;
+    font-size: 1.8em;
+    margin: 10px; 
     text-align: left;
 }
 
@@ -486,13 +504,13 @@ i.fa {
     }
 
     .header__title {
-        font-size: 1.75em;
+        font-size: 1.9em;
         margin-left: 10px;
     }
 
     .header__logo {
         height: 60px;
-        margin: 0 0 0 14px; /* top right bottom left */
+        margin: 5px 0 5px 14px; /* top right bottom left */
     }
 	
 	.header__login {
@@ -557,7 +575,7 @@ i.fa {
 
     .header__logo {
         height: 65px;
-        margin: 0 0 0 20px; /* top right bottom left */
+        margin: 5px 0 5px 20px; /* top right bottom left */
     }
 
     hr {
@@ -633,7 +651,7 @@ i.fa {
 
     .header__logo {
         height: 70px;
-        margin: 0 0 0 20px; /* top right bottom left */
+        margin: 5px 0 5px 20px; /* top right bottom left */
     }
 
     hr {
