@@ -127,7 +127,7 @@
 					success: function(result) {
 					  // Handle or verify the server response if necessary.
 					  if (result) {
-						$('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+						$('#result').html('<div class="item__wrapper"><h3 class="item__name">Login Successful!</h3><div class="item__description">'+ result + '</div><div class="section__items__link">Redirecting...</div></div>')
 						setTimeout(function() {
 						  window.location.href = "/catalog";
 						}, 4000);
