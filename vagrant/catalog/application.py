@@ -197,7 +197,7 @@ def ShowAllCategoriesItems():
 		loggedIn = "False"
 	else:
 		loggedIn = "True"
-	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn)
+	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn, login_session = login_session)
 
 
 #Show a list of all categories and items after canceling new category

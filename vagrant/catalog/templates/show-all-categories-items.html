@@ -32,10 +32,12 @@
 		<div class="header__login__wrapper">
 		  {% if loggedIn != "True": %}
 		    <a href='{{url_for('showLogin')}}' class = "header__login__button">Login</a>
+			<img class="header__user__pic" src="{{ url_for('static', filename='generic_user_1.png') }}" alt="generic user pic">
 		  {% else: %}
 		    <a href='{{url_for('gdisconnect')}}' class = "header__login__button">Logout</a>
+			<img class="header__user__pic" src="{{ login_session['picture'] }}" alt="user pic">
 		  {% endif %}
-		  <img class="header__user__pic" src="{{ url_for('static', filename='generic_user_1.png') }}" alt="generic user pic">
+		  
 		</div> <!-- end of header__login__wrapper -->
       </header>
 
