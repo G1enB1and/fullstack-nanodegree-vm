@@ -96,9 +96,17 @@ header {
 
 .header__login__wrapper {
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: row-reverse nowrap;
     justify-content: flex-end; /* right */
 	align-self: center;
+}
+
+.header__user__pic {
+	height: 50px;
+	width: 50px;
+	border-radius: 150px;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
 }
 
 .header__login__button {
@@ -513,6 +521,11 @@ i.fa {
         margin: 5px 0 5px 14px; /* top right bottom left */
     }
 	
+	.header__user__pic {
+		height:55px;
+		width: 55px;
+	}
+	
 	.header__login {
     height: 35px;
     margin: 0 20px 0 16px; /* top right bottom left */
@@ -577,6 +590,11 @@ i.fa {
         height: 65px;
         margin: 5px 0 5px 20px; /* top right bottom left */
     }
+	
+	.header__user__pic {
+		height: 60px;
+		width: 60px;
+	}
 
     hr {
         height: 5px;
@@ -653,6 +671,11 @@ i.fa {
         height: 70px;
         margin: 5px 0 5px 20px; /* top right bottom left */
     }
+	
+	.header__user__pic {
+		height: 65px;
+		width: 65px;
+	}
 
     hr {
         height: 5px;
