@@ -134,16 +134,15 @@ def gdisconnect():
 		del login_session['username']
 		del login_session['email']
 		del login_session['picture']
-		response = make_response(json.dumps('Successfully disconnected.'), 200)
-		response.headers['Content-Type'] = 'application/json'
+		flashMessage = '' + 'Successfully logged out.'
+		flash(flashMessage)
+		response = redirect(url_for('ShowAllCategoriesItems'))
 		return response
     else:
-		response = make_response(json.dumps('Failed to revoke token for given user.', 400))
-		response.headers['Content-Type'] = 'application/json'
+		flashMessage = '' + 'Failed to revoke token for given user.'
+		flash(flashMessage)
+		response = redirect(url_for('ShowAllCategoriesItems'))
 		return response
-	
-	#flash(jsonify(UserStatus=[i.serialize for i in response])
-	#return redirect(url_for('ShowAllCategoriesItems'))
 
 
 # Get Category Name from ID
