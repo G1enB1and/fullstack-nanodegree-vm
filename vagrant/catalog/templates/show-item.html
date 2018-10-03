@@ -77,13 +77,13 @@
 		    <hr>
 			{% for i in categories %}
 		    <div class="category"><h3><a href='{{url_for('ShowItemsInCategory', category_id = i.id)}}' >{{i.name}}</a></h3>
-			  <div class="category__edit__delete">
+			  <div class="category__edit__delete" {% if loggedIn != "True": %}style='display:none'{% endif %}>
 			    <a href='{{url_for('editCategory', category_id = i.id)}}' >Edit</a> | 
 	            <a href='{{url_for('deleteCategory', category_id = i.id)}}' >Delete</a>
 			  </div>
 			</div>
 		    {% endfor %}
-		    <div class="add__category"><a href = '{{url_for('addNewCategory')}}'>Add New Category</a></div>
+		    <div class="add__category" {% if loggedIn != "True": %}style='display:none'{% endif %}><a href = '{{url_for('addNewCategory')}}'>Add New Category</a></div>
 		  </section> <!-- end of categories section -->
 		  
 		  <section class="items">
@@ -96,7 +96,7 @@
 			  <div class="item__description">{{item.description}}</div>
 			  <div class="item__price">{{item.price}}</div>
 			  <div class="item__category">Category: <a href='{{url_for('ShowItemsInCategory', category_id = category.id)}}'>{{category.name}}</a></div>
-			  <div class="item__edit__delete">
+			  <div class="item__edit__delete" {% if loggedIn != "True": %}style='display:none'{% endif %}>
 			    <a href='{{url_for('editItem', catalog_item_id = item.id)}}'>Edit</a> |  
 				<a href='{{url_for('deleteItem', catalog_item_id = item.id)}}'>Delete</a>
 			  </div> <!-- end of item__edit__delete -->
