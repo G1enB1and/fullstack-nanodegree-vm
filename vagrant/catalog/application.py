@@ -98,12 +98,12 @@ def gconnect():
     login_session['email'] = data['email']
 
     output = ''
-    output += '<h1>Welcome, '
+    output += 'Welcome, '
     output += login_session['username']
-    output += '!</h1>'
+    output += '!</br>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 150px; height: 150px; border-radius: 150px; -webkit-border-radius: 150px; -moz-border-radius: 150px;"> '
     flash("You are now logged in as %s." % login_session['username'])
     print "done!"
     return output
@@ -208,7 +208,12 @@ def ShowCategoriesAfterCancelNewCategory():
 	items = session.query(CatalogItem).all()
 	flashMessage = '' + ' No new category was made. Probably would have been a failure anyway.'
 	flash(flashMessage)
-	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID)
+	# Check if user is logged in
+	if 'username' not in login_session:
+		loggedIn = "False"
+	else:
+		loggedIn = "True"
+	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn, login_session = login_session)
 
 
 #Show a list of all categories and items after canceling new item
@@ -219,7 +224,12 @@ def ShowCategoriesAfterCancelNewItem():
 	items = session.query(CatalogItem).all()
 	flashMessage = '' + ' No new item was made. Why don\'t you just cancel my hopes and dreams while you\'re at it?'
 	flash(flashMessage)
-	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID)
+	# Check if user is logged in
+	if 'username' not in login_session:
+		loggedIn = "False"
+	else:
+		loggedIn = "True"
+	return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn, login_session = login_session)
 
 
 #Show a list of categories
@@ -237,7 +247,12 @@ def ShowItemsInCategory(category_id):
 	categories = session.query(Category).all()
 	category = session.query(Category).filter_by(id = category_id).one()
 	items = session.query(CatalogItem).filter_by(category_id=category.id)
-	return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories)
+	# Check if user is logged in
+	if 'username' not in login_session:
+		loggedIn = "False"
+	else:
+		loggedIn = "True"
+	return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 #Show Items In a given category by passing in the category_id (number) after canceling an edit
@@ -249,7 +264,12 @@ def ShowCategoryAfterCancelEdit(category_id):
 	items = session.query(CatalogItem).filter_by(category_id=category.id)
 	flashMessage = '' + 'Cancel? Fine. Don\'t worry, your precious ' + category.name + ' wasn\'t edited.'
 	flash(flashMessage)
-	return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories)
+	# Check if user is logged in
+	if 'username' not in login_session:
+		loggedIn = "False"
+	else:
+		loggedIn = "True"
+	return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 #Show a given item by passing in the catalog_item_id
@@ -258,7 +278,12 @@ def ShowItem(catalog_item_id):
 	categories = session.query(Category).all()
 	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
 	category = session.query(Category).filter_by(id = item.category_id).one()
-	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
+	# Check if user is logged in
+	if 'username' not in login_session:
+		loggedIn = "False"
+	else:
+		loggedIn = "True"
+	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 #Show a given item by passing in the catalog_item_id after canceling an edit
@@ -269,7 +294,12 @@ def ShowItemAfterCancelEdit(catalog_item_id):
 	category = session.query(Category).filter_by(id = item.category_id).one()
 	flashMessage = '' + 'Phew! That was close! You almost altered reality itself. Not to fear, ' + item.name + ' remains unchanged.'
 	flash(flashMessage)
-	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
+	# Check if user is logged in
+	if 'username' not in login_session:
+		loggedIn = "False"
+	else:
+		loggedIn = "True"
+	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 #Show a given item by passing in the catalog_item_id after canceling a delete
@@ -280,7 +310,12 @@ def ShowItemAfterCancelDelete(catalog_item_id):
 	category = session.query(Category).filter_by(id = item.category_id).one()
 	flashMessage = '' + 'Phew! That was close! You almost altered reality itself. Not to fear, ' + item.name + ' remains unchanged.'
 	flash(flashMessage)
-	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
+	# Check if user is logged in
+	if 'username' not in login_session:
+		loggedIn = "False"
+	else:
+		loggedIn = "True"
+	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 #Add new category
@@ -298,7 +333,8 @@ def addNewCategory():
 		flash(confirmation)
 		return redirect(url_for('ShowAllCategoriesItems'))
 	else:
-		return render_template('new-category.html', categories = categories)
+		loggedIn="True"
+		return render_template('new-category.html', categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 #Edit a category
@@ -319,7 +355,8 @@ def editCategory(category_id):
 		flash(confirmation)
 		return redirect(url_for('ShowItemsInCategory', category_id = category.id))
 	else:
-		return render_template('edit-category.html', category = category, category_id = category_id, categories = categories)
+		loggedIn = "True"
+		return render_template('edit-category.html', category = category, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 #Delete a category
@@ -338,7 +375,8 @@ def deleteCategory(category_id):
 		flash(confirmation)
 		return redirect(url_for('ShowAllCategoriesItems'))
 	else:
-		return render_template('delete-category.html', category = category, category_id = category_id, categories = categories)
+		loggedIn = "True"
+		return render_template('delete-category.html', category = category, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 #Add new item
@@ -360,7 +398,8 @@ def addNewItem():
 		flash(confirmation)
 		return redirect(url_for('ShowItem', catalog_item_id = newItem.id))
 	else:
-		return render_template('new-item.html', categories = categories)
+		loggedIn = "True"
+		return render_template('new-item.html', categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 #Edit an item
@@ -385,7 +424,8 @@ def editItem(catalog_item_id):
 		flash(confirmation)
 		return redirect(url_for('ShowItem', catalog_item_id = item.id))
 	else:
-		return render_template('edit-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories)
+		loggedIn = "True"
+		return render_template('edit-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 #Delete an item
@@ -406,7 +446,8 @@ def deleteItem(catalog_item_id):
 		flash(confirmation)
 		return redirect(url_for('ShowItemsInCategory', category_id = category_id))
 	else:
-		return render_template('delete-item.html', catalog_item_id = catalog_item_id, item = item)
+		loggedIn = "True"
+		return render_template('delete-item.html', catalog_item_id = catalog_item_id, item = item, loggedIn = loggedIn, login_session = login_session)
 
 
 if __name__ == '__main__':
