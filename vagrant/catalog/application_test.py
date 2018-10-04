@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask import session as login_session
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, asc
 from sqlalchemy.pool import SingletonThreadPool
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Category, CatalogItem
+from database_setup import Base, Category, CatalogItem, User
 import random, string
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
@@ -12,17 +12,30 @@ import json
 from flask import make_response
 import requests
 
-CLIENT_ID = json.loads(
-	open('client_secrets.json', 'r').read())['web']['client_id']
-
 app = Flask(__name__)
 
+CLIENT_ID = json.loads(
+	open('client_secrets.json', 'r').read())['web']['client_id']
+APPLICATION_NAME = "Catalog Project"
 
+
+# Connect to database
 engine = create_engine('sqlite:///catalog.db', connect_args={'check_same_thread':False}, poolclass=SingletonThreadPool)
 Base.metadata.bind = engine
 
+# Create Database Session
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+
+# Create anti-forgery state token
+@app.route('/login')
+def showLogin():
+	state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+					for x in xrange(32))
+	login_session['state'] = state
+	categories = session.query(Category).all()
+	return render_template('login.html', STATE=state, categories = categories)
 
 
 @app.route('/gconnect', methods=['POST'])
@@ -52,6 +65,7 @@ def gconnect():
            % access_token)
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
+
     # If there was an error in the access token info, abort.
     if result.get('error') is not None:
         response = make_response(json.dumps(result.get('error')), 500)
@@ -83,20 +97,26 @@ def gconnect():
         return response
 
     # Store the access token in the session for later use.
-    login_session['access_token'] = credentials.access_token
-    login_session['gplus_id'] = gplus_id
+	login_session['access_token'] = credentials.access_token
+	login_session['gplus_id'] = gplus_id
 
     # Get user info
-    userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
-    params = {'access_token': credentials.access_token, 'alt': 'json'}
-    answer = requests.get(userinfo_url, params=params)
+	userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+	params = {'access_token': credentials.access_token, 'alt': 'json'}
+	answer = requests.get(userinfo_url, params=params)
 
-    data = answer.json()
+	data = answer.json()
 
-    login_session['username'] = data['name']
-    login_session['picture'] = data['picture']
-    login_session['email'] = data['email']
-
+	login_session['username'] = data['name']
+	login_session['picture'] = data['picture']
+	login_session['email'] = data['email']
+	
+	# see if user exists, if it doesn't- make a new one.
+	user_id = getUserID(login_session['email'])
+	if not user_id:
+		user_id = createUser(login_session)
+	login_session['user_id'] = user_id
+	
     output = ''
     output += 'Welcome, '
     output += login_session['username']
@@ -105,8 +125,31 @@ def gconnect():
     output += login_session['picture']
     output += ' " style = "width: 150px; height: 150px; border-radius: 150px; -webkit-border-radius: 150px; -moz-border-radius: 150px;"> '
     flash("You are now logged in as %s." % login_session['username'])
-    print "done!"
     return output
+
+# User Helper Functions
+
+
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session[
+                   'email'], picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
 
 
 # DISCONNECT - Revoke a user's token and reset their login_session
@@ -122,8 +165,9 @@ def gdisconnect():
     print 'In gdisconnect access token is %s', access_token
     print 'User name is: '
     print login_session['username']
+	
 	# Execute HTTP GET request to revoke current token
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
     print 'result is '
@@ -143,12 +187,6 @@ def gdisconnect():
 		flash(flashMessage)
 		response = redirect(url_for('ShowAllCategoriesItems'))
 		return response
-
-
-# Get Category Name from ID
-def GetCategoryNameFromID(category_id):
-	category = session.query(Category).filter_by(id = category_id).one()
-	return category.name
 
 	
 # Provide an API Endpoint (GET Request) to show all items in all categories
@@ -175,14 +213,10 @@ def ShowItemsInCategoryJSON(category_id):
 	return jsonify(ItemsInCategory=[i.serialize for i in items])
 
 
-# Create anti-forgery state token
-@app.route('/login')
-def showLogin():
-	state = ''.join(random.choice(string.ascii_uppercase + string.digits)
-					for x in xrange(32))
-	login_session['state'] = state
-	categories = session.query(Category).all()
-	return render_template('login.html', STATE=state, categories = categories)
+# Get Category Name from Category ID
+def GetCategoryNameFromID(category_id):
+	category = session.query(Category).filter_by(id = category_id).one()
+	return category.name
 
 
 #Show a list of all categories and items
@@ -325,7 +359,7 @@ def addNewCategory():
 	if 'username' not in login_session:
 		return redirect('/login')
 	if request.method == 'POST':
-		newCategory = Category(name = request.form['name'])
+		newCategory = Category(name = request.form['name'], user_id=login_session['user_id'])
 		session.add(newCategory)
 		session.commit()
 		confirmation = '' + 'Successfully added ' + str(newCategory.name) + ' to categories.'
@@ -345,6 +379,8 @@ def editCategory(category_id):
 	#Redirect user to login if they are not logged in
 	if 'username' not in login_session:
 		return redirect('/login')
+	if category.user_id != login_session['user_id']:
+		return "<script>function myFunction() {alert('You are not authorized to edit this category. Please create your own category in order to edit.');}</script><body onload='myFunction()''>"
 	if request.method =='POST':
 		if request.form['name']:
 			category.name = request.form['name']
@@ -366,6 +402,8 @@ def deleteCategory(category_id):
 	#Redirect user to login if they are not logged in
 	if 'username' not in login_session:
 		return redirect('/login')
+	if category.user_id != login_session['user_id']:
+		return "<script>function myFunction() {alert('You are not authorized to edit this category. Please create your own category in order to delete.');}</script><body onload='myFunction()''>"
 	if request.method == 'POST':
 		session.delete(category)
 		session.commit()
@@ -387,7 +425,7 @@ def addNewItem():
 		return redirect('/login')
 	if request.method == 'POST':
 		category_id = request.form['category_id']
-		newItem = CatalogItem(name = request.form['name'], description = request.form['description'], price = request.form['price'], category_id = category_id)
+		newItem = CatalogItem(name = request.form['name'], description = request.form['description'], price = request.form['price'], category_id = category_id, user_id=login_session['user_id'])
 		session.add(newItem)
 		session.commit()
 		confirmation = '' + str(newItem.name)
@@ -410,12 +448,15 @@ def editItem(catalog_item_id):
 	#Redirect user to login if they are not logged in
 	if 'username' not in login_session:
 		return redirect('/login')
+	if item.user_id != login_session['user_id']:
+		return "<script>function myFunction() {alert('You are not authorized to edit this item. Please create your own item in order to edit.');}</script><body onload='myFunction()''>"
 	if request.method == 'POST':
 		category_id = request.form['category_id']
 		item.name = request.form['name']
 		item.description = request.form['description']
 		item.price = request.form['price']
 		item.category_id = request.form['category_id']
+		item.user_id = login_session['user_id']
 		session.add(item)
 		session.commit()
 		confirmation = '' + 'Behold! The new and improved ' + str(item.name)
@@ -435,6 +476,8 @@ def deleteItem(catalog_item_id):
 	#Redirect user to login if they are not logged in
 	if 'username' not in login_session:
 		return redirect('/login')
+	if item.user_id != login_session['user_id']:
+		return "<script>function myFunction() {alert('You are not authorized to delete this item. Please create your own item in order to delete.');}</script><body onload='myFunction()''>"
 	if request.method == 'POST':
 		session.delete(item)
 		session.commit()
