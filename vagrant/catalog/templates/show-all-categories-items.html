@@ -14,7 +14,7 @@
       <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style3.css') }}">
       <!-- google font Bungiee Inline -->
       <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC|Metrophobic" rel="stylesheet">
-
+	  
   </head>
 
   <body>
@@ -98,9 +98,9 @@
 						
 		    <div class="item__wrapper">
 		      <h3 class="item__name"><a href='{{url_for('ShowItem', catalog_item_id = i.id)}}' >{{i.name}}</a></h3>
-			  <div class="item__description">{{i.description}}</div>
+			  <div class="item__description">{{ i.description[:60] }}... <a href='{{url_for('ShowItem', catalog_item_id = i.id)}}' >(Read more)</a></div>
 			  <div class="item__price">{{i.price}}</div>
-			  <div class="item__category">{{GetCategoryNameFromID(i.category_id)}}</div>
+			  <div class="item__category"><a href='{{url_for('ShowItemsInCategory', category_id = i.id)}}' >{{GetCategoryNameFromID(i.category_id)}}</a></div>
 			  <div class="item__edit__delete" {% if loggedIn != "True": %}style='display:none'{% endif %}>
 			    <a href='{{url_for('editItem', catalog_item_id = i.id)}}'>Edit</a> |  
 				<a href='{{url_for('deleteItem', catalog_item_id = i.id)}}'>Delete</a>

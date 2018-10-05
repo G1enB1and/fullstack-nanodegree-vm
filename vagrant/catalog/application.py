@@ -308,7 +308,7 @@ def ShowItemAfterCancelDelete(catalog_item_id):
 	categories = session.query(Category).all()
 	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
 	category = session.query(Category).filter_by(id = item.category_id).one()
-	flashMessage = '' + 'Phew! That was close! You almost altered reality itself. Not to fear, ' + item.name + ' remains unchanged.'
+	flashMessage = '' + 'I was hoping I could test out my data blaster on that one... ' + item.name + ' lives another day.'
 	flash(flashMessage)
 	# Check if user is logged in
 	if 'username' not in login_session:
