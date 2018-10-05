@@ -343,7 +343,7 @@ def addNewCategory():
 	if 'username' not in login_session:
 		return redirect('/login')
 	if request.method == 'POST':
-		newCategory = Category(name = request.form['name'])
+		newCategory = Category(name = request.form['name'], user_id = '1')
 		session.add(newCategory)
 		session.commit()
 		confirmation = '' + 'Successfully added ' + str(newCategory.name) + ' to categories.'
