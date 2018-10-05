@@ -100,8 +100,9 @@
 			  <form action="{{ url_for('deleteCategory', category_id = category_id)}}" method = 'POST'>
 				<ul class="form__style">
 				  <li><label for="delete">Are you sure you want to delete category {{category_id}}: {{category.name}}?</label>
-				    <input type='submit' value='Delete'>
-					<a href='{{url_for('ShowCategoryAfterCancelEdit', category_id = category_id)}}' class="button">Cancel</a>
+				  <li><label for="delete">This will also delete all items within this category!</label>
+					<input type='submit' value='Delete'>
+					<a href='{{url_for('ShowCategoryAfterCancelDelete', category_id = category_id)}}' class="button">Cancel</a>
 				  </li>
 				</ul>
 			  </form> <!-- end of form -->

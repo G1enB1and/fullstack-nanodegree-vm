@@ -271,6 +271,23 @@ def ShowCategoryAfterCancelEdit(category_id):
 	return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
+#Show Items In a given category by passing in the category_id (number) after canceling a delete
+@app.route('/category/<int:category_id>/cancel-delete/')
+@app.route('/category/<int:category_id>/items/cancel-delete/')
+def ShowCategoryAfterCancelDelete(category_id):
+	categories = session.query(Category).all()
+	category = session.query(Category).filter_by(id = category_id).one()
+	items = session.query(CatalogItem).filter_by(category_id=category.id)
+	flashMessage = '' + 'You win this time ' + category.name + '. '
+	flash(flashMessage)
+	# Check if user is logged in
+	if 'username' not in login_session:
+		loggedIn = "False"
+	else:
+		loggedIn = "True"
+	return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+
+
 #Show a given item by passing in the catalog_item_id
 @app.route('/item/<int:catalog_item_id>')
 def ShowItem(catalog_item_id):
@@ -364,10 +381,14 @@ def editCategory(category_id):
 def deleteCategory(category_id):
 	categories = session.query(Category).all()
 	category = session.query(Category).filter_by(id = category_id).one()
+	items = session.query(CatalogItem).filter_by(category_id=category.id)
 	#Redirect user to login if they are not logged in
 	if 'username' not in login_session:
 		return redirect('/login')
 	if request.method == 'POST':
+		for i in items:
+			item = session.query(CatalogItem).filter_by(id = i.id).one()
+			session.delete(item)
 		session.delete(category)
 		session.commit()
 		confirmation = '' + 'Successfully deleted ' + str(category.name) + ' from categories. We will remember you '
