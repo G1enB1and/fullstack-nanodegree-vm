@@ -3,7 +3,7 @@ from flask import session as login_session
 from sqlalchemy import create_engine
 from sqlalchemy.pool import SingletonThreadPool
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Category, CatalogItem
+from database_setup import Base, Category, CatalogItem, User
 import random, string
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
@@ -277,12 +277,13 @@ def ShowItem(catalog_item_id):
 	categories = session.query(Category).all()
 	item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
 	category = session.query(Category).filter_by(id = item.category_id).one()
+	user = session.query(User).filter_by(id = item.user_id).one()
 	# Check if user is logged in
 	if 'username' not in login_session:
 		loggedIn = "False"
 	else:
 		loggedIn = "True"
-	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+	return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session, user = user)
 
 
 #Show a given item by passing in the catalog_item_id after canceling an edit

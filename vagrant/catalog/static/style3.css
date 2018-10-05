@@ -326,6 +326,22 @@ section {
 	color: #7090ad;
 }
 
+.creater__name {
+	font-size: 1.6em;
+}
+
+.creater__email {
+	font-size: 1.6em;
+}
+
+.creater__user__pic {
+	height: 50px;
+	width: 50px;
+	border-radius: 150px;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+}
+
 .section__items__link {
 	font-size: 2em;
 	margin: 0;

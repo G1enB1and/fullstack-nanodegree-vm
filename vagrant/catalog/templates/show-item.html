@@ -96,6 +96,10 @@
 			  <div class="item__description">{{item.description}}</div>
 			  <div class="item__price">{{item.price}}</div>
 			  <div class="item__category">Category: <a href='{{url_for('ShowItemsInCategory', category_id = category.id)}}'>{{category.name}}</a></div>
+			  </br>
+			  <div class="creater__name">Created By: {{user.name}}</div>
+			  <div class="creater__email">Email: {{user.email}}</div>
+			  <img class="creater__user__pic" src="{{ url_for('static', filename=user.picture) }}" alt="picture of user who created item listing">
 			  <div class="item__edit__delete" {% if loggedIn != "True": %}style='display:none'{% endif %}>
 			    <a href='{{url_for('editItem', catalog_item_id = item.id)}}'>Edit</a> |  
 				<a href='{{url_for('deleteItem', catalog_item_id = item.id)}}'>Delete</a>
