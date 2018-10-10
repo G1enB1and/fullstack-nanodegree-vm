@@ -20,7 +20,7 @@ session = DBSession()
 
 
 # Create dummy user
-User1 = User(name="Totally Legit Robot", email="Friendly_Robot@Empty_Warehouse.com", picture="robot.jpg")
+User1 = User(name="Totally Legit Robot", email="Friendly_Robot@Empty_Warehouse.com", picture="user_pic_1.jpg")
 
 session.add(User1)
 session.commit()

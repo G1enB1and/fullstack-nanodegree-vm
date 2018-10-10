@@ -11,6 +11,7 @@ import httplib2
 import json
 from flask import make_response
 import requests
+import urllib2
 
 app = Flask(__name__)
 
@@ -133,6 +134,8 @@ def gconnect():
         output += ' Your user ID is ' + str(user_id) + '.</br>'
     login_session['user_id'] = user_id
 
+    downloadUserPicture(login_session['picture'])
+
     flash("You are now logged in as %s." % login_session['username'])
     return output
 
@@ -159,6 +162,19 @@ def getUserID(email):
         return user.id
     except:
         return None
+
+
+# Download a copy of the user picture for use when that user is not logged in.
+# Such as to show other users a picture of the user who created an item.
+def downloadUserPicture(url):
+    file_name = 'static/user_pic_' + str(login_session['user_id']) + '.jpg'
+    try:
+        request = urllib2.Request(url)
+        img = urllib2.urlopen(request).read()
+        with open (file_name, 'w') as f: f.write(img)
+        print('Done! - no exception errors.')
+    except:
+        print('Exception error while downloading user picture')
 
 
 # DISCONNECT - Revoke a user's token and reset their login_session
@@ -338,12 +354,13 @@ def ShowItem(catalog_item_id):
     item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
     category = session.query(Category).filter_by(id = item.category_id).one()
     user = session.query(User).filter_by(id = item.user_id).one()
+    user_pic = 'user_pic_' + str(user.id) + '.jpg'
     # Check if user is logged in
     if 'username' not in login_session:
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session, user = user)
+    return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session, user = user, user_pic = user_pic)
 
 
 #Show a given item by passing in the catalog_item_id after canceling an edit
