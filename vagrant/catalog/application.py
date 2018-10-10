@@ -423,6 +423,10 @@ def editCategory(category_id):
     #Redirect user to login if they are not logged in
     if 'username' not in login_session:
         return redirect('/login')
+    if category.user_id != login_session['user_id']:
+        output = '' + 'You are not authorized to edit this category. Please create your own category in order to edit.'
+        flash(output)
+        return redirect(url_for('ShowItemsInCategory', category_id = category.id))
     if request.method =='POST':
         if request.form['name']:
             category.name = request.form['name']
