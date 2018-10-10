@@ -386,7 +386,7 @@ def addNewCategory():
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newCategory = Category(name = request.form['name'], user_id = '1')
+        newCategory = Category(name = request.form['name'], user_id=login_session['user_id'])
         session.add(newCategory)
         session.commit()
         confirmation = '' + 'Successfully added ' + str(newCategory.name) + ' to categories.'
@@ -452,7 +452,7 @@ def addNewItem():
         return redirect('/login')
     if request.method == 'POST':
         category_id = request.form['category_id']
-        newItem = CatalogItem(name = request.form['name'], description = request.form['description'], price = request.form['price'], category_id = category_id, user_id = '1')
+        newItem = CatalogItem(name = request.form['name'], description = request.form['description'], price = request.form['price'], category_id = category_id, user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
         confirmation = '' + str(newItem.name)
