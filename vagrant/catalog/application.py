@@ -500,6 +500,10 @@ def editItem(catalog_item_id):
     #Redirect user to login if they are not logged in
     if 'username' not in login_session:
         return redirect('/login')
+    if item.user_id != login_session['user_id']:
+        output = '' + 'You are not authorized to edit this item. Please create your own item in order to edit.'
+        flash(output)
+        return redirect(url_for('ShowItem', catalog_item_id = item.id))
     if request.method == 'POST':
         category_id = request.form['category_id']
         item.name = request.form['name']
@@ -525,6 +529,10 @@ def deleteItem(catalog_item_id):
     #Redirect user to login if they are not logged in
     if 'username' not in login_session:
         return redirect('/login')
+    if item.user_id != login_session['user_id']:
+        output = '' + 'You are not authorized to delete this item. Please create your own item in order to delete.'
+        flash(output)
+        return redirect(url_for('ShowItem', catalog_item_id = item.id))
     if request.method == 'POST':
         session.delete(item)
         session.commit()
