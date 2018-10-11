@@ -528,7 +528,7 @@ def ShowItemAfterCancelEdit(catalog_item_id):
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+    return redirect(url_for('ShowItem', catalog_item_id = item.id))
 
 
 #Show a given item by passing in the catalog_item_id after canceling a delete
@@ -544,7 +544,7 @@ def ShowItemAfterCancelDelete(catalog_item_id):
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+    return redirect(url_for('ShowItem', catalog_item_id = item.id))
 
 
 if __name__ == '__main__':
