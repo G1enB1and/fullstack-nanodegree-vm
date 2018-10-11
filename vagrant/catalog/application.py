@@ -146,6 +146,7 @@ def gconnect():
     flash("You are now logged in as %s." % login_session['username'])
     return output
 
+
 # User Helper Functions
 
 
@@ -247,6 +248,14 @@ def ShowItemsInCategoryJSON(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(CatalogItem).filter_by(category_id=category.id)
     return jsonify(ItemsInCategory=[i.serialize for i in items])
+
+
+# Provide an API Endpoint (GET Request)
+# to show one item by it's catalog_item_id.
+@app.route('/item/<int:catalog_item_id>/JSON')
+def ShowItemJSON(catalog_item_id):
+    item = session.query(CatalogItem).filter_by(id=catalog_item_id).one()
+    return jsonify(Item=[item.serialize])
 
 
 # Get Category Name from Category ID
