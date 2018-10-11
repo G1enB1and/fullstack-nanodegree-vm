@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import jsonify
 from flask import session as login_session
 from sqlalchemy import create_engine
 from sqlalchemy.pool import SingletonThreadPool
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, CatalogItem, User
-import random, string
+import random
+import string
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 import httplib2
@@ -21,7 +23,7 @@ APPLICATION_NAME = "Catalog Project"
 
 
 # Connect to database
-engine = create_engine('sqlite:///catalog.db', connect_args={'check_same_thread':False}, poolclass=SingletonThreadPool)
+engine = create_engine('sqlite:///catalog.db', connect_args={'check_same_thread': False}, poolclass=SingletonThreadPool)
 Base.metadata.bind = engine
 
 # Create Database Session
@@ -36,7 +38,7 @@ def showLogin():
                     for x in xrange(32))
     login_session['state'] = state
     categories = session.query(Category).all()
-    return render_template('login.html', STATE=state, categories = categories)
+    return render_template('login.html', STATE=state, categories=categories)
 
 
 @app.route('/gconnect', methods=['POST'])
@@ -171,7 +173,8 @@ def downloadUserPicture(url):
     try:
         request = urllib2.Request(url)
         img = urllib2.urlopen(request).read()
-        with open (file_name, 'w') as f: f.write(img)
+        with open (file_name, 'w') as f:
+            f.write(img)
         print('Done! - no exception errors.')
     except:
         print('Exception error while downloading user picture')
@@ -233,18 +236,18 @@ def ShowCategoriesJSON():
 @app.route('/category/<int:category_id>/JSON')
 @app.route('/category/<int:category_id>/items/JSON')
 def ShowItemsInCategoryJSON(category_id):
-    category = session.query(Category).filter_by(id = category_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(CatalogItem).filter_by(category_id=category.id)
     return jsonify(ItemsInCategory=[i.serialize for i in items])
 
 
 # Get Category Name from Category ID
 def GetCategoryNameFromID(category_id):
-    category = session.query(Category).filter_by(id = category_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
     return category.name
 
 
-#Show a list of all categories and items
+# Show a list of all categories and items
 @app.route('/')
 @app.route('/catalog')
 def ShowAllCategoriesItems():
@@ -255,109 +258,109 @@ def ShowAllCategoriesItems():
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn, login_session = login_session)
+    return render_template('show-all-categories-items.html', categories=categories, items=items, GetCategoryNameFromID=GetCategoryNameFromID, loggedIn=loggedIn, login_session=login_session)
 
 
-#Show a list of categories
+# Show a list of categories
 @app.route('/')
 @app.route('/catalog')
 def ShowCategories():
     category = session.query(Category).all()
-    return render_template('show-all-categories-items.html', category = category)
+    return render_template('show-all-categories-items.html', category=category)
 
 
-#Show Items In a given category by passing in the category_id (number)
+# Show Items In a given category by passing in the category_id (number)
 @app.route('/category/<int:category_id>/')
 @app.route('/category/<int:category_id>/items')
 def ShowItemsInCategory(category_id):
     categories = session.query(Category).all()
-    category = session.query(Category).filter_by(id = category_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(CatalogItem).filter_by(category_id=category.id)
     # Check if user is logged in
     if 'username' not in login_session:
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+    return render_template('show-items-in-category.html', category=category, items=items, category_id=category_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
 
 
-#Show a given item by passing in the catalog_item_id
+# Show a given item by passing in the catalog_item_id
 @app.route('/item/<int:catalog_item_id>')
 def ShowItem(catalog_item_id):
     categories = session.query(Category).all()
-    item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
-    category = session.query(Category).filter_by(id = item.category_id).one()
-    user = session.query(User).filter_by(id = item.user_id).one()
+    item = session.query(CatalogItem).filter_by(id=catalog_item_id).one()
+    category = session.query(Category).filter_by(id=item.category_id).one()
+    user = session.query(User).filter_by(id=item.user_id).one()
     user_pic = 'user_pic_' + str(user.id) + '.jpg'
     # Check if user is logged in
     if 'username' not in login_session:
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session, user = user, user_pic = user_pic)
+    return render_template('show-item.html', item=item, category=category, catalog_item_id=catalog_item_id, categories=categories, loggedIn=loggedIn, login_session=login_session, user=user, user_pic=user_pic)
 
 
-#Add new category
-@app.route('/category/new', methods=['GET','POST'])
+# Add new category
+@app.route('/category/new', methods=['GET', 'POST'])
 def addNewCategory():
     categories = session.query(Category).all()
-    #Redirect user to login if they are not logged in
+    # Redirect user to login if they are not logged in
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newCategory = Category(name = request.form['name'], user_id=login_session['user_id'])
+        newCategory = Category(name=request.form['name'], user_id=login_session['user_id'])
         session.add(newCategory)
         session.commit()
         confirmation = '' + 'Successfully added ' + str(newCategory.name) + ' to categories.'
         flash(confirmation)
         return redirect(url_for('ShowAllCategoriesItems'))
     else:
-        loggedIn="True"
-        return render_template('new-category.html', categories = categories, loggedIn = loggedIn, login_session = login_session)
+        loggedIn = "True"
+        return render_template('new-category.html', categories=categories, loggedIn=loggedIn, login_session=login_session)
 
 
-#Edit a category
-@app.route('/category/<int:category_id>/edit', methods=['GET','POST'])
+# Edit a category
+@app.route('/category/<int:category_id>/edit', methods=['GET', 'POST'])
 def editCategory(category_id):
     categories = session.query(Category).all()
-    category = session.query(Category).filter_by(id = category_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
     oldCategory = category.name
-    #Redirect user to login if they are not logged in
+    # Redirect user to login if they are not logged in
     if 'username' not in login_session:
         return redirect('/login')
     if category.user_id != login_session['user_id']:
         output = '' + 'You are not authorized to edit this category. Please create your own category in order to edit.'
         flash(output)
-        return redirect(url_for('ShowItemsInCategory', category_id = category.id))
-    if request.method =='POST':
+        return redirect(url_for('ShowItemsInCategory', category_id=category.id))
+    if request.method == 'POST':
         if request.form['name']:
             category.name = request.form['name']
         session.add(category)
         session.commit()
         confirmation = '' + 'Successfully changed ' + str(oldCategory) + ' to ' + str(category.name) + '.'
         flash(confirmation)
-        return redirect(url_for('ShowItemsInCategory', category_id = category.id))
+        return redirect(url_for('ShowItemsInCategory', category_id=category.id))
     else:
         loggedIn = "True"
-        return render_template('edit-category.html', category = category, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+        return render_template('edit-category.html', category=category, category_id=category_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
 
 
-#Delete a category
-@app.route('/category/<int:category_id>/delete', methods=['GET','POST'])
+# Delete a category
+@app.route('/category/<int:category_id>/delete', methods=['GET', 'POST'])
 def deleteCategory(category_id):
     categories = session.query(Category).all()
-    category = session.query(Category).filter_by(id = category_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(CatalogItem).filter_by(category_id=category.id)
-    #Redirect user to login if they are not logged in
+    # Redirect user to login if they are not logged in
     if 'username' not in login_session:
         return redirect('/login')
     if category.user_id != login_session['user_id']:
         output = '' + 'You are not authorized to delete this category. Please create your own category in order to delete.'
         flash(output)
-        return redirect(url_for('ShowItemsInCategory', category_id = category.id))
+        return redirect(url_for('ShowItemsInCategory', category_id=category.id))
     if request.method == 'POST':
         for i in items:
-            item = session.query(CatalogItem).filter_by(id = i.id).one()
+            item = session.query(CatalogItem).filter_by(id=i.id).one()
             session.delete(item)
         session.delete(category)
         session.commit()
@@ -367,45 +370,45 @@ def deleteCategory(category_id):
         return redirect(url_for('ShowAllCategoriesItems'))
     else:
         loggedIn = "True"
-        return render_template('delete-category.html', category = category, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+        return render_template('delete-category.html', category=category, category_id=category_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
 
 
-#Add new item
-@app.route('/item/new', methods=['GET','POST'])
+# Add new item
+@app.route('/item/new', methods=['GET', 'POST'])
 def addNewItem():
     categories = session.query(Category).all()
-    #Redirect user to login if they are not logged in
+    # Redirect user to login if they are not logged in
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
         category_id = request.form['category_id']
-        newItem = CatalogItem(name = request.form['name'], description = request.form['description'], price = request.form['price'], category_id = category_id, user_id=login_session['user_id'])
+        newItem = CatalogItem(name=request.form['name'], description=request.form['description'], price=request.form['price'], category_id=category_id, user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
         confirmation = '' + str(newItem.name)
         confirmation += ' has been added to '
-        category = session.query(Category).filter_by(id = newItem.category_id).one()
+        category = session.query(Category).filter_by(id=newItem.category_id).one()
         confirmation += str(category.name) + '. I have a good feeling about this one!'
         flash(confirmation)
-        return redirect(url_for('ShowItem', catalog_item_id = newItem.id))
+        return redirect(url_for('ShowItem', catalog_item_id=newItem.id))
     else:
         loggedIn = "True"
-        return render_template('new-item.html', categories = categories, loggedIn = loggedIn, login_session = login_session)
+        return render_template('new-item.html', categories=categories, loggedIn=loggedIn, login_session=login_session)
 
 
-#Edit an item
-@app.route('/item/<int:catalog_item_id>/edit', methods=['GET','POST'])
+# Edit an item
+@app.route('/item/<int:catalog_item_id>/edit', methods=['GET', 'POST'])
 def editItem(catalog_item_id):
-    item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
+    item = session.query(CatalogItem).filter_by(id=catalog_item_id).one()
     categories = session.query(Category).all()
-    category = session.query(Category).filter_by(id = item.category_id).one()
-    #Redirect user to login if they are not logged in
+    category = session.query(Category).filter_by(id=item.category_id).one()
+    # Redirect user to login if they are not logged in
     if 'username' not in login_session:
         return redirect('/login')
     if item.user_id != login_session['user_id']:
         output = '' + 'You are not authorized to edit this item. Please create your own item in order to edit.'
         flash(output)
-        return redirect(url_for('ShowItem', catalog_item_id = item.id))
+        return redirect(url_for('ShowItem', catalog_item_id=item.id))
     if request.method == 'POST':
         category_id = request.form['category_id']
         item.name = request.form['name']
@@ -417,39 +420,39 @@ def editItem(catalog_item_id):
         confirmation = '' + 'Behold! The new and improved ' + str(item.name)
         confirmation += ' in ' + str(category.name) + ' has been edited!'
         flash(confirmation)
-        return redirect(url_for('ShowItem', catalog_item_id = item.id))
+        return redirect(url_for('ShowItem', catalog_item_id=item.id))
     else:
         loggedIn = "True"
-        return render_template('edit-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+        return render_template('edit-item.html', item=item, category=category, catalog_item_id=catalog_item_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
 
 
-#Delete an item
-@app.route('/item/<int:catalog_item_id>/delete', methods=['GET','POST'])
+# Delete an item
+@app.route('/item/<int:catalog_item_id>/delete', methods=['GET', 'POST'])
 def deleteItem(catalog_item_id):
-    item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
+    item = session.query(CatalogItem).filter_by(id=catalog_item_id).one()
     category_id = item.category_id
-    #Redirect user to login if they are not logged in
+    # Redirect user to login if they are not logged in
     if 'username' not in login_session:
         return redirect('/login')
     if item.user_id != login_session['user_id']:
         output = '' + 'You are not authorized to delete this item. Please create your own item in order to delete.'
         flash(output)
-        return redirect(url_for('ShowItem', catalog_item_id = item.id))
+        return redirect(url_for('ShowItem', catalog_item_id=item.id))
     if request.method == 'POST':
         session.delete(item)
         session.commit()
         confirmation = '' + 'Poof! ' + str(item.name)
         confirmation += ' has been deleted from '
-        category = session.query(Category).filter_by(id = item.category_id).one()
+        category = session.query(Category).filter_by(id=item.category_id).one()
         confirmation += str(category.name) + '. I never liked that one anyway.'
         flash(confirmation)
-        return redirect(url_for('ShowItemsInCategory', category_id = category_id))
+        return redirect(url_for('ShowItemsInCategory', category_id=category_id))
     else:
         loggedIn = "True"
-        return render_template('delete-item.html', catalog_item_id = catalog_item_id, item = item, loggedIn = loggedIn, login_session = login_session)
+        return render_template('delete-item.html', catalog_item_id=catalog_item_id, item=item, loggedIn=loggedIn, login_session=login_session)
 
 
-#Show a list of all categories and items after canceling new category
+# Show a list of all categories and items after canceling new category
 @app.route('/cancel-new-category')
 @app.route('/catalog/cancel-new-category')
 def ShowCategoriesAfterCancelNewCategory():
@@ -462,15 +465,15 @@ def ShowCategoriesAfterCancelNewCategory():
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn, login_session = login_session)
+    return render_template('show-all-categories-items.html', categories=categories, items=items, GetCategoryNameFromID=GetCategoryNameFromID, loggedIn=loggedIn, login_session=login_session)
 
 
-#Show Items In a given category by passing in the category_id (number) after canceling an edit
+# Show Items In a given category by passing in the category_id (number) after canceling an edit
 @app.route('/category/<int:category_id>/cancel-edit/')
 @app.route('/category/<int:category_id>/items/cancel-edit/')
 def ShowCategoryAfterCancelEdit(category_id):
     categories = session.query(Category).all()
-    category = session.query(Category).filter_by(id = category_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(CatalogItem).filter_by(category_id=category.id)
     flashMessage = '' + 'Cancel? Fine. Don\'t worry, your precious ' + category.name + ' wasn\'t edited.'
     flash(flashMessage)
@@ -479,15 +482,15 @@ def ShowCategoryAfterCancelEdit(category_id):
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+    return render_template('show-items-in-category.html', category=category, items=items, category_id=category_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
 
 
-#Show Items In a given category by passing in the category_id (number) after canceling a delete
+# Show Items In a given category by passing in the category_id (number) after canceling a delete
 @app.route('/category/<int:category_id>/cancel-delete/')
 @app.route('/category/<int:category_id>/items/cancel-delete/')
 def ShowCategoryAfterCancelDelete(category_id):
     categories = session.query(Category).all()
-    category = session.query(Category).filter_by(id = category_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(CatalogItem).filter_by(category_id=category.id)
     flashMessage = '' + 'You win this time ' + category.name + '. '
     flash(flashMessage)
@@ -496,55 +499,58 @@ def ShowCategoryAfterCancelDelete(category_id):
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+    return render_template('show-items-in-category.html', category=category, items=items, category_id=category_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
 
 
-#Show a list of all categories and items after canceling new item
+# Show a list of all categories and items after canceling new item
 @app.route('/cancel-new-item')
 @app.route('/catalog/cancel-new-item')
 def ShowCategoriesAfterCancelNewItem():
     categories = session.query(Category).all()
     items = session.query(CatalogItem).all()
-    flashMessage = '' + ' No new item was made. Why don\'t you just cancel my hopes and dreams while you\'re at it?'
+    flashMessage = '' + ' No new item was made. Why don\'t you just cancel my'
+    flashMessage += ' hopes and dreams while you\'re at it?'
     flash(flashMessage)
     # Check if user is logged in
     if 'username' not in login_session:
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn, login_session = login_session)
+    return render_template('show-all-categories-items.html', categories=categories, items=items, GetCategoryNameFromID=GetCategoryNameFromID, loggedIn=loggedIn, login_session=login_session)
 
 
-#Show a given item by passing in the catalog_item_id after canceling an edit
+# Show a given item by passing in the catalog_item_id after canceling an edit
 @app.route('/item/<int:catalog_item_id>/cancel-edit/')
 def ShowItemAfterCancelEdit(catalog_item_id):
     categories = session.query(Category).all()
-    item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
-    category = session.query(Category).filter_by(id = item.category_id).one()
-    flashMessage = '' + 'Phew! That was close! You almost altered reality itself. Not to fear, ' + item.name + ' remains unchanged.'
+    item = session.query(CatalogItem).filter_by(id=catalog_item_id).one()
+    category = session.query(Category).filter_by(id=item.category_id).one()
+    flashMessage = '' + 'Phew! That was close! You almost altered reality '
+    flashMessage += 'itself. Not to fear, ' + item.name + ' remains unchanged.'
     flash(flashMessage)
     # Check if user is logged in
     if 'username' not in login_session:
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return redirect(url_for('ShowItem', catalog_item_id = item.id))
+    return redirect(url_for('ShowItem', catalog_item_id=item.id))
 
 
-#Show a given item by passing in the catalog_item_id after canceling a delete
+# Show a given item by passing in the catalog_item_id after canceling a delete
 @app.route('/item/<int:catalog_item_id>/cancel-delete/')
 def ShowItemAfterCancelDelete(catalog_item_id):
     categories = session.query(Category).all()
-    item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
-    category = session.query(Category).filter_by(id = item.category_id).one()
-    flashMessage = '' + 'I was hoping I could test out my data blaster on that one... ' + item.name + ' lives another day.'
+    item = session.query(CatalogItem).filter_by(id=catalog_item_id).one()
+    category = session.query(Category).filter_by(id=item.category_id).one()
+    flashMessage = '' + 'I was hoping I could test out my data blaster on '
+    flashMessage += 'that one... ' + item.name + ' lives another day.'
     flash(flashMessage)
     # Check if user is logged in
     if 'username' not in login_session:
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return redirect(url_for('ShowItem', catalog_item_id = item.id))
+    return redirect(url_for('ShowItem', catalog_item_id=item.id))
 
 
 if __name__ == '__main__':
