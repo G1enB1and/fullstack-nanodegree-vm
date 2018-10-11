@@ -23,7 +23,9 @@ APPLICATION_NAME = "Catalog Project"
 
 
 # Connect to database
-engine = create_engine('sqlite:///catalog.db', connect_args={'check_same_thread': False}, poolclass=SingletonThreadPool)
+engine = create_engine('sqlite:///catalog.db',
+                       connect_args={'check_same_thread': False},
+                       poolclass=SingletonThreadPool)
 Base.metadata.bind = engine
 
 # Create Database Session
@@ -94,7 +96,8 @@ def gconnect():
     stored_access_token = login_session.get('access_token')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_access_token is not None and gplus_id == stored_gplus_id:
-        response = make_response(json.dumps('Current user is already connected.'),
+        response = make_response(json.dumps(
+                                 'Current user is already connected.'),
                                  200)
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -120,7 +123,9 @@ def gconnect():
     output += '!</br>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 150px; height: 150px; border-radius: 150px; -webkit-border-radius: 150px; -moz-border-radius: 150px;"> '
+    output += ' " style = "width: 150px; height: 150px; '
+    output += 'border-radius: 150px; -webkit-border-radius: 150px; '
+    output += '-moz-border-radius: 150px;"> '
     output += '</br> email: ' + login_session['email'] + '</br>'
 
     # see if user exists, if it doesn't- make a new one.
@@ -173,7 +178,7 @@ def downloadUserPicture(url):
     try:
         request = urllib2.Request(url)
         img = urllib2.urlopen(request).read()
-        with open (file_name, 'w') as f:
+        with open(file_name, 'w') as f:
             f.write(img)
         print('Done! - no exception errors.')
     except:
@@ -187,7 +192,8 @@ def gdisconnect():
     access_token = login_session.get('access_token')
     if access_token is None:
         print 'Access Token is None'
-        response = make_response(json.dumps('Current user not connected.'), 401)
+        response = make_response(json.dumps('Current user not connected.'),
+                                 401)
         response.headers['Content-Type'] = 'application/json'
         return response
     print 'In gdisconnect access token is %s', access_token
@@ -217,7 +223,8 @@ def gdisconnect():
         return response
 
 
-# Provide an API Endpoint (GET Request) to show all items in all categories
+# Provide an API Endpoint (GET Request)
+# to show all items in all categories.
 @app.route('/JSON')
 @app.route('/catalog/JSON')
 def ShowAllItemsInAllCategoriesJSON():
@@ -232,7 +239,8 @@ def ShowCategoriesJSON():
     return jsonify(Categories=[i.serialize for i in category])
 
 
-# Provide an API Endpoint (GET Request) to show all items in a given category
+# Provide an API Endpoint (GET Request)
+# to show all items in a given category.
 @app.route('/category/<int:category_id>/JSON')
 @app.route('/category/<int:category_id>/items/JSON')
 def ShowItemsInCategoryJSON(category_id):
@@ -258,7 +266,11 @@ def ShowAllCategoriesItems():
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-all-categories-items.html', categories=categories, items=items, GetCategoryNameFromID=GetCategoryNameFromID, loggedIn=loggedIn, login_session=login_session)
+    return render_template('show-all-categories-items.html',
+                           categories=categories, items=items,
+                           GetCategoryNameFromID=GetCategoryNameFromID,
+                           loggedIn=loggedIn,
+                           login_session=login_session)
 
 
 # Show a list of categories
@@ -281,7 +293,10 @@ def ShowItemsInCategory(category_id):
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-items-in-category.html', category=category, items=items, category_id=category_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
+    return render_template('show-items-in-category.html', category=category,
+                           items=items, category_id=category_id,
+                           categories=categories, loggedIn=loggedIn,
+                           login_session=login_session)
 
 
 # Show a given item by passing in the catalog_item_id
@@ -297,7 +312,11 @@ def ShowItem(catalog_item_id):
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-item.html', item=item, category=category, catalog_item_id=catalog_item_id, categories=categories, loggedIn=loggedIn, login_session=login_session, user=user, user_pic=user_pic)
+    return render_template('show-item.html', item=item, category=category,
+                           catalog_item_id=catalog_item_id,
+                           categories=categories, loggedIn=loggedIn,
+                           login_session=login_session, user=user,
+                           user_pic=user_pic)
 
 
 # Add new category
@@ -308,15 +327,18 @@ def addNewCategory():
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newCategory = Category(name=request.form['name'], user_id=login_session['user_id'])
+        newCategory = Category(name=request.form['name'],
+                               user_id=login_session['user_id'])
         session.add(newCategory)
         session.commit()
-        confirmation = '' + 'Successfully added ' + str(newCategory.name) + ' to categories.'
+        confirmation = '' + 'Successfully added ' + str(newCategory.name)
+        confirmation += ' to categories.'
         flash(confirmation)
         return redirect(url_for('ShowAllCategoriesItems'))
     else:
         loggedIn = "True"
-        return render_template('new-category.html', categories=categories, loggedIn=loggedIn, login_session=login_session)
+        return render_template('new-category.html', categories=categories,
+                               loggedIn=loggedIn, login_session=login_session)
 
 
 # Edit a category
@@ -329,20 +351,26 @@ def editCategory(category_id):
     if 'username' not in login_session:
         return redirect('/login')
     if category.user_id != login_session['user_id']:
-        output = '' + 'You are not authorized to edit this category. Please create your own category in order to edit.'
+        output = '' + 'You are not authorized to edit this category. '
+        output += 'Please create your own category in order to edit.'
         flash(output)
-        return redirect(url_for('ShowItemsInCategory', category_id=category.id))
+        return redirect(url_for('ShowItemsInCategory',
+                                category_id=category.id))
     if request.method == 'POST':
         if request.form['name']:
             category.name = request.form['name']
         session.add(category)
         session.commit()
-        confirmation = '' + 'Successfully changed ' + str(oldCategory) + ' to ' + str(category.name) + '.'
+        confirmation = '' + 'Successfully changed ' + str(oldCategory) + ' to '
+        confirmation += str(category.name) + '.'
         flash(confirmation)
-        return redirect(url_for('ShowItemsInCategory', category_id=category.id))
+        return redirect(url_for('ShowItemsInCategory',
+                                category_id=category.id))
     else:
         loggedIn = "True"
-        return render_template('edit-category.html', category=category, category_id=category_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
+        return render_template('edit-category.html', category=category,
+                               category_id=category_id, categories=categories,
+                               loggedIn=loggedIn, login_session=login_session)
 
 
 # Delete a category
@@ -355,22 +383,27 @@ def deleteCategory(category_id):
     if 'username' not in login_session:
         return redirect('/login')
     if category.user_id != login_session['user_id']:
-        output = '' + 'You are not authorized to delete this category. Please create your own category in order to delete.'
+        output = '' + 'You are not authorized to delete this category. '
+        output += 'Please create your own category in order to delete.'
         flash(output)
-        return redirect(url_for('ShowItemsInCategory', category_id=category.id))
+        return redirect(url_for('ShowItemsInCategory',
+                                category_id=category.id))
     if request.method == 'POST':
         for i in items:
             item = session.query(CatalogItem).filter_by(id=i.id).one()
             session.delete(item)
         session.delete(category)
         session.commit()
-        confirmation = '' + 'Successfully deleted ' + str(category.name) + ' from categories. We will remember you '
+        confirmation = '' + 'Successfully deleted ' + str(category.name)
+        confirmation += ' from categories. We will remember you '
         confirmation += str(category.name)[:3] + '...something...'
         flash(confirmation)
         return redirect(url_for('ShowAllCategoriesItems'))
     else:
         loggedIn = "True"
-        return render_template('delete-category.html', category=category, category_id=category_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
+        return render_template('delete-category.html', category=category,
+                               category_id=category_id, categories=categories,
+                               loggedIn=loggedIn, login_session=login_session)
 
 
 # Add new item
@@ -382,18 +415,25 @@ def addNewItem():
         return redirect('/login')
     if request.method == 'POST':
         category_id = request.form['category_id']
-        newItem = CatalogItem(name=request.form['name'], description=request.form['description'], price=request.form['price'], category_id=category_id, user_id=login_session['user_id'])
+        newItem = CatalogItem(name=request.form['name'],
+                              description=request.form['description'],
+                              price=request.form['price'],
+                              category_id=category_id,
+                              user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
         confirmation = '' + str(newItem.name)
         confirmation += ' has been added to '
-        category = session.query(Category).filter_by(id=newItem.category_id).one()
-        confirmation += str(category.name) + '. I have a good feeling about this one!'
+        category = (session.query(Category).
+                    filter_by(id=newItem.category_id).one())
+        confirmation += str(category.name)
+        confirmation += '. I have a good feeling about this one!'
         flash(confirmation)
         return redirect(url_for('ShowItem', catalog_item_id=newItem.id))
     else:
         loggedIn = "True"
-        return render_template('new-item.html', categories=categories, loggedIn=loggedIn, login_session=login_session)
+        return render_template('new-item.html', categories=categories,
+                               loggedIn=loggedIn, login_session=login_session)
 
 
 # Edit an item
@@ -406,7 +446,8 @@ def editItem(catalog_item_id):
     if 'username' not in login_session:
         return redirect('/login')
     if item.user_id != login_session['user_id']:
-        output = '' + 'You are not authorized to edit this item. Please create your own item in order to edit.'
+        output = '' + 'You are not authorized to edit this item. '
+        output += 'Please create your own item in order to edit.'
         flash(output)
         return redirect(url_for('ShowItem', catalog_item_id=item.id))
     if request.method == 'POST':
@@ -423,7 +464,11 @@ def editItem(catalog_item_id):
         return redirect(url_for('ShowItem', catalog_item_id=item.id))
     else:
         loggedIn = "True"
-        return render_template('edit-item.html', item=item, category=category, catalog_item_id=catalog_item_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
+        return render_template('edit-item.html', item=item,
+                               category=category,
+                               catalog_item_id=catalog_item_id,
+                               categories=categories, loggedIn=loggedIn,
+                               login_session=login_session)
 
 
 # Delete an item
@@ -435,7 +480,8 @@ def deleteItem(catalog_item_id):
     if 'username' not in login_session:
         return redirect('/login')
     if item.user_id != login_session['user_id']:
-        output = '' + 'You are not authorized to delete this item. Please create your own item in order to delete.'
+        output = '' + 'You are not authorized to delete this item. '
+        output += 'Please create your own item in order to delete.'
         flash(output)
         return redirect(url_for('ShowItem', catalog_item_id=item.id))
     if request.method == 'POST':
@@ -446,10 +492,14 @@ def deleteItem(catalog_item_id):
         category = session.query(Category).filter_by(id=item.category_id).one()
         confirmation += str(category.name) + '. I never liked that one anyway.'
         flash(confirmation)
-        return redirect(url_for('ShowItemsInCategory', category_id=category_id))
+        return redirect(url_for('ShowItemsInCategory',
+                                category_id=category_id))
     else:
         loggedIn = "True"
-        return render_template('delete-item.html', catalog_item_id=catalog_item_id, item=item, loggedIn=loggedIn, login_session=login_session)
+        return render_template('delete-item.html',
+                               catalog_item_id=catalog_item_id,
+                               item=item, loggedIn=loggedIn,
+                               login_session=login_session)
 
 
 # Show a list of all categories and items after canceling new category
@@ -458,34 +508,44 @@ def deleteItem(catalog_item_id):
 def ShowCategoriesAfterCancelNewCategory():
     categories = session.query(Category).all()
     items = session.query(CatalogItem).all()
-    flashMessage = '' + ' No new category was made. Probably would have been a failure anyway.'
+    flashMessage = '' + ' No new category was made. Probably would have '
+    flashMessage += 'been a failure anyway.'
     flash(flashMessage)
     # Check if user is logged in
     if 'username' not in login_session:
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-all-categories-items.html', categories=categories, items=items, GetCategoryNameFromID=GetCategoryNameFromID, loggedIn=loggedIn, login_session=login_session)
+    return render_template('show-all-categories-items.html',
+                           categories=categories, items=items,
+                           GetCategoryNameFromID=GetCategoryNameFromID,
+                           loggedIn=loggedIn, login_session=login_session)
 
 
-# Show Items In a given category by passing in the category_id (number) after canceling an edit
+# Show Items In a given category by passing in the category_id (number)
+# after canceling an edit.
 @app.route('/category/<int:category_id>/cancel-edit/')
 @app.route('/category/<int:category_id>/items/cancel-edit/')
 def ShowCategoryAfterCancelEdit(category_id):
     categories = session.query(Category).all()
     category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(CatalogItem).filter_by(category_id=category.id)
-    flashMessage = '' + 'Cancel? Fine. Don\'t worry, your precious ' + category.name + ' wasn\'t edited.'
+    flashMessage = '' + 'Cancel? Fine. Don\'t worry, your precious '
+    flashMessage += category.name + ' wasn\'t edited.'
     flash(flashMessage)
     # Check if user is logged in
     if 'username' not in login_session:
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-items-in-category.html', category=category, items=items, category_id=category_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
+    return render_template('show-items-in-category.html', category=category,
+                           items=items, category_id=category_id,
+                           categories=categories, loggedIn=loggedIn,
+                           login_session=login_session)
 
 
-# Show Items In a given category by passing in the category_id (number) after canceling a delete
+# Show Items In a given category by passing in the category_id (number)
+# after canceling a delete.
 @app.route('/category/<int:category_id>/cancel-delete/')
 @app.route('/category/<int:category_id>/items/cancel-delete/')
 def ShowCategoryAfterCancelDelete(category_id):
@@ -499,7 +559,10 @@ def ShowCategoryAfterCancelDelete(category_id):
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-items-in-category.html', category=category, items=items, category_id=category_id, categories=categories, loggedIn=loggedIn, login_session=login_session)
+    return render_template('show-items-in-category.html', category=category,
+                           items=items, category_id=category_id,
+                           categories=categories, loggedIn=loggedIn,
+                           login_session=login_session)
 
 
 # Show a list of all categories and items after canceling new item
@@ -516,7 +579,11 @@ def ShowCategoriesAfterCancelNewItem():
         loggedIn = "False"
     else:
         loggedIn = "True"
-    return render_template('show-all-categories-items.html', categories=categories, items=items, GetCategoryNameFromID=GetCategoryNameFromID, loggedIn=loggedIn, login_session=login_session)
+    return render_template('show-all-categories-items.html',
+                           categories=categories, items=items,
+                           GetCategoryNameFromID=GetCategoryNameFromID,
+                           loggedIn=loggedIn,
+                           login_session=login_session)
 
 
 # Show a given item by passing in the catalog_item_id after canceling an edit
