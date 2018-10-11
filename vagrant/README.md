@@ -1,8 +1,8 @@
 # Catalog Project
 This is a Flask web app that runs on a local python server within a vagrant virtual machine. 
 Once the application is running, the user opens a browser to http://localhost:8000 
-to access the web app. This is final project for Section 3 (The Backend: Databases and Applications) of the Fullstack Web 
-Developers Nanodegree at Udacity.
+to access the web app. This is the final project for Section 3 (The Backend: Databases and 
+Applications) of the Fullstack Web Developers Nanodegree at Udacity.
 
 ## Project Description
 In this project, you will be developing a web application that provides a list of items 
