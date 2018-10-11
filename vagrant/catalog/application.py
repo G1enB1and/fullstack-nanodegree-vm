@@ -258,38 +258,6 @@ def ShowAllCategoriesItems():
     return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn, login_session = login_session)
 
 
-#Show a list of all categories and items after canceling new category
-@app.route('/cancel-new-category')
-@app.route('/catalog/cancel-new-category')
-def ShowCategoriesAfterCancelNewCategory():
-    categories = session.query(Category).all()
-    items = session.query(CatalogItem).all()
-    flashMessage = '' + ' No new category was made. Probably would have been a failure anyway.'
-    flash(flashMessage)
-    # Check if user is logged in
-    if 'username' not in login_session:
-        loggedIn = "False"
-    else:
-        loggedIn = "True"
-    return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn, login_session = login_session)
-
-
-#Show a list of all categories and items after canceling new item
-@app.route('/cancel-new-item')
-@app.route('/catalog/cancel-new-item')
-def ShowCategoriesAfterCancelNewItem():
-    categories = session.query(Category).all()
-    items = session.query(CatalogItem).all()
-    flashMessage = '' + ' No new item was made. Why don\'t you just cancel my hopes and dreams while you\'re at it?'
-    flash(flashMessage)
-    # Check if user is logged in
-    if 'username' not in login_session:
-        loggedIn = "False"
-    else:
-        loggedIn = "True"
-    return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn, login_session = login_session)
-
-
 #Show a list of categories
 @app.route('/')
 @app.route('/catalog')
@@ -313,40 +281,6 @@ def ShowItemsInCategory(category_id):
     return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
-#Show Items In a given category by passing in the category_id (number) after canceling an edit
-@app.route('/category/<int:category_id>/cancel-edit/')
-@app.route('/category/<int:category_id>/items/cancel-edit/')
-def ShowCategoryAfterCancelEdit(category_id):
-    categories = session.query(Category).all()
-    category = session.query(Category).filter_by(id = category_id).one()
-    items = session.query(CatalogItem).filter_by(category_id=category.id)
-    flashMessage = '' + 'Cancel? Fine. Don\'t worry, your precious ' + category.name + ' wasn\'t edited.'
-    flash(flashMessage)
-    # Check if user is logged in
-    if 'username' not in login_session:
-        loggedIn = "False"
-    else:
-        loggedIn = "True"
-    return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
-
-
-#Show Items In a given category by passing in the category_id (number) after canceling a delete
-@app.route('/category/<int:category_id>/cancel-delete/')
-@app.route('/category/<int:category_id>/items/cancel-delete/')
-def ShowCategoryAfterCancelDelete(category_id):
-    categories = session.query(Category).all()
-    category = session.query(Category).filter_by(id = category_id).one()
-    items = session.query(CatalogItem).filter_by(category_id=category.id)
-    flashMessage = '' + 'You win this time ' + category.name + '. '
-    flash(flashMessage)
-    # Check if user is logged in
-    if 'username' not in login_session:
-        loggedIn = "False"
-    else:
-        loggedIn = "True"
-    return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
-
-
 #Show a given item by passing in the catalog_item_id
 @app.route('/item/<int:catalog_item_id>')
 def ShowItem(catalog_item_id):
@@ -361,38 +295,6 @@ def ShowItem(catalog_item_id):
     else:
         loggedIn = "True"
     return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session, user = user, user_pic = user_pic)
-
-
-#Show a given item by passing in the catalog_item_id after canceling an edit
-@app.route('/item/<int:catalog_item_id>/cancel-edit/')
-def ShowItemAfterCancelEdit(catalog_item_id):
-    categories = session.query(Category).all()
-    item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
-    category = session.query(Category).filter_by(id = item.category_id).one()
-    flashMessage = '' + 'Phew! That was close! You almost altered reality itself. Not to fear, ' + item.name + ' remains unchanged.'
-    flash(flashMessage)
-    # Check if user is logged in
-    if 'username' not in login_session:
-        loggedIn = "False"
-    else:
-        loggedIn = "True"
-    return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
-
-
-#Show a given item by passing in the catalog_item_id after canceling a delete
-@app.route('/item/<int:catalog_item_id>/cancel-delete/')
-def ShowItemAfterCancelDelete(catalog_item_id):
-    categories = session.query(Category).all()
-    item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
-    category = session.query(Category).filter_by(id = item.category_id).one()
-    flashMessage = '' + 'I was hoping I could test out my data blaster on that one... ' + item.name + ' lives another day.'
-    flash(flashMessage)
-    # Check if user is logged in
-    if 'username' not in login_session:
-        loggedIn = "False"
-    else:
-        loggedIn = "True"
-    return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 #Add new category
@@ -545,6 +447,104 @@ def deleteItem(catalog_item_id):
     else:
         loggedIn = "True"
         return render_template('delete-item.html', catalog_item_id = catalog_item_id, item = item, loggedIn = loggedIn, login_session = login_session)
+
+
+#Show a list of all categories and items after canceling new category
+@app.route('/cancel-new-category')
+@app.route('/catalog/cancel-new-category')
+def ShowCategoriesAfterCancelNewCategory():
+    categories = session.query(Category).all()
+    items = session.query(CatalogItem).all()
+    flashMessage = '' + ' No new category was made. Probably would have been a failure anyway.'
+    flash(flashMessage)
+    # Check if user is logged in
+    if 'username' not in login_session:
+        loggedIn = "False"
+    else:
+        loggedIn = "True"
+    return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn, login_session = login_session)
+
+
+#Show Items In a given category by passing in the category_id (number) after canceling an edit
+@app.route('/category/<int:category_id>/cancel-edit/')
+@app.route('/category/<int:category_id>/items/cancel-edit/')
+def ShowCategoryAfterCancelEdit(category_id):
+    categories = session.query(Category).all()
+    category = session.query(Category).filter_by(id = category_id).one()
+    items = session.query(CatalogItem).filter_by(category_id=category.id)
+    flashMessage = '' + 'Cancel? Fine. Don\'t worry, your precious ' + category.name + ' wasn\'t edited.'
+    flash(flashMessage)
+    # Check if user is logged in
+    if 'username' not in login_session:
+        loggedIn = "False"
+    else:
+        loggedIn = "True"
+    return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+
+
+#Show Items In a given category by passing in the category_id (number) after canceling a delete
+@app.route('/category/<int:category_id>/cancel-delete/')
+@app.route('/category/<int:category_id>/items/cancel-delete/')
+def ShowCategoryAfterCancelDelete(category_id):
+    categories = session.query(Category).all()
+    category = session.query(Category).filter_by(id = category_id).one()
+    items = session.query(CatalogItem).filter_by(category_id=category.id)
+    flashMessage = '' + 'You win this time ' + category.name + '. '
+    flash(flashMessage)
+    # Check if user is logged in
+    if 'username' not in login_session:
+        loggedIn = "False"
+    else:
+        loggedIn = "True"
+    return render_template('show-items-in-category.html', category = category, items = items, category_id = category_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+
+
+#Show a list of all categories and items after canceling new item
+@app.route('/cancel-new-item')
+@app.route('/catalog/cancel-new-item')
+def ShowCategoriesAfterCancelNewItem():
+    categories = session.query(Category).all()
+    items = session.query(CatalogItem).all()
+    flashMessage = '' + ' No new item was made. Why don\'t you just cancel my hopes and dreams while you\'re at it?'
+    flash(flashMessage)
+    # Check if user is logged in
+    if 'username' not in login_session:
+        loggedIn = "False"
+    else:
+        loggedIn = "True"
+    return render_template('show-all-categories-items.html', categories = categories, items = items, GetCategoryNameFromID = GetCategoryNameFromID, loggedIn = loggedIn, login_session = login_session)
+
+
+#Show a given item by passing in the catalog_item_id after canceling an edit
+@app.route('/item/<int:catalog_item_id>/cancel-edit/')
+def ShowItemAfterCancelEdit(catalog_item_id):
+    categories = session.query(Category).all()
+    item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
+    category = session.query(Category).filter_by(id = item.category_id).one()
+    flashMessage = '' + 'Phew! That was close! You almost altered reality itself. Not to fear, ' + item.name + ' remains unchanged.'
+    flash(flashMessage)
+    # Check if user is logged in
+    if 'username' not in login_session:
+        loggedIn = "False"
+    else:
+        loggedIn = "True"
+    return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
+
+
+#Show a given item by passing in the catalog_item_id after canceling a delete
+@app.route('/item/<int:catalog_item_id>/cancel-delete/')
+def ShowItemAfterCancelDelete(catalog_item_id):
+    categories = session.query(Category).all()
+    item = session.query(CatalogItem).filter_by(id = catalog_item_id).one()
+    category = session.query(Category).filter_by(id = item.category_id).one()
+    flashMessage = '' + 'I was hoping I could test out my data blaster on that one... ' + item.name + ' lives another day.'
+    flash(flashMessage)
+    # Check if user is logged in
+    if 'username' not in login_session:
+        loggedIn = "False"
+    else:
+        loggedIn = "True"
+    return render_template('show-item.html', item = item, category = category, catalog_item_id = catalog_item_id, categories = categories, loggedIn = loggedIn, login_session = login_session)
 
 
 if __name__ == '__main__':
