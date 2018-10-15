@@ -134,11 +134,11 @@ def gconnect():
         output += 'First time logging in with this email. </br>'
         output += 'Creating new user in database </br>'
         user_id = createUser(login_session)
-        output += 'Done! Your user ID is ' + str(user_id) + '.</br>'
+        output += '...Done! </br></br>'
     else:
         output += 'Welcome back! </br>'
         output += 'Your email address has been found in our database. </br>'
-        output += ' Your user ID is ' + str(user_id) + '.</br>'
+        output += '</br>'
     login_session['user_id'] = user_id
 
     downloadUserPicture(login_session['picture'])

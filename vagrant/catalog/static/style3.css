@@ -406,7 +406,7 @@ select {
 }
 
 .form__style select option:hover {
-	outline:none;
+	outline: none;
 	color: #000; 
 	box-shadow: inset 20px 20px #355575;
 }
@@ -444,7 +444,8 @@ select {
     -webkit-box-shadow:none;
 }
 .form__style .required{
-    color:red;
+    color: red;
+	text-decoration: none;
 }
 
 .button {
@@ -466,6 +467,39 @@ a.button {
 
 a.button:hover {
 	background: #02b3e4;
+}
+
+input.invalid {
+	border-color: #DD2C00;
+}
+
+#price__wrapper {
+	display: flex;
+    flex-flow: column wrap;
+	margin: 0;
+	padding: 0;
+}
+
+#price {
+	margin: 0;
+}
+
+#price.invalid {
+	border-color: #DD2C00;
+}
+
+#price__notify {
+	font-size: 14px;
+	width: 100%;
+	padding: 10px;
+	color: #fff;
+	border-color: #DD2C00;
+	background-color: #DD2C00;
+    border: 1px solid #DD2C00;
+}
+
+#notify.error {
+	background-color: #DD2C00;
 }
 
 /* article */

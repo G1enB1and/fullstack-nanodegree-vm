@@ -89,6 +89,7 @@
 		    <div class="add__category"><a href = '{{url_for('addNewCategory')}}'>Add New Category</a></div>
 		  </section> <!-- end of categories section -->
 		  
+		  <!-- Items section -->
 		  <section class="items">
 		    <header>
               <h2 class="section__title">Add New Category</h2>
@@ -99,8 +100,8 @@
 			  <!-- form -->
 			  <form action="{{ url_for('addNewCategory', categories = categories)}}" method = 'POST'>
 				<ul class="form__style">
-				  <li><label for="name">Name<span class="required">*</span></label>
-				    <input type ='text' name='name' class="field__long">
+				  <li><label for="name">Name<abbr class="required" title="This field is mandatory">*</abbr></label>
+				    <input type ='text' name='name' class="field__long" minlength="1" maxlength="25" required>
 				  </li>
 				    <input type='submit' value='Add'>
 				    <a href='{{url_for('ShowCategoriesAfterCancelNewCategory')}}' class="button">Cancel</a>

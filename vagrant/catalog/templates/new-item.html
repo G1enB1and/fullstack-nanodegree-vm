@@ -89,6 +89,7 @@
 		    <div class="add__category"><a href = '{{url_for('addNewCategory')}}'>Add New Category</a></div>
 		  </section> <!-- end of categories section -->
 		  
+		  <!-- Items section -->
 		  <section class="items">
 		    <header>
               <h2 class="section__title">Add New Item</h2>
@@ -97,25 +98,32 @@
 		    
 		    <div class="item__wrapper">
 			  <!-- form -->
-			  <form action="{{ url_for('addNewItem', categories = categories)}}" method = 'POST'>
+			  <form action="{{ url_for('addNewItem', categories = categories)}}" id = "new_item_form" method = 'POST'>
 				<ul class="form__style">
-				  <li><label for="name">Name<span class="required">*</span></label>
-				    <input type ='text' name='name' class="field__long">
+				  <li><label for="name">Name<abbr class="required" title="This field is mandatory"> *</abbr></label>
+				    <input type ='text' name='name' class="field__long" minlength="1" maxlength="25" required>
 				  </li>
 				  <li>
-				    <label for="description">Description<span class="required">*</span></label>
-				    <textarea name = 'description' class="field__long field__textarea" rows='5'></textarea>
+				    <label for="description">Description<abbr class="required" title="This field is mandatory"> *</abbr></label>
+				    <textarea name = 'description' class="field__long field__textarea" rows='5' required></textarea>
 				  </li>
+				  <!-- <div id="price__wrapper"> -->
+				    <div id='price__notify'>Price should start with a $ followed by 1-6 digits, then decimal and 2 digits. e.g. $0.99 or $9999.00</div>
+				    <li>
+				      <label for="price">Price<abbr class="required" title="This field is mandatory"> *</abbr></label>
+				      <input type = 'text' name='price'
+					    id='price' size='10' value='$'
+					    pattern="\$\d{1,6}\.\d{2}" minlength='5' maxlength='10'
+					    title="Price should start with a $ followed by 1-6 digits, then decimal and 2 digits. e.g. $0.99 or $9999.00" required>
+				    </li>
+				  <!-- </div> <!-- end of price__wrapper div -->
 				  <li>
-				    <label for="price">Price<span class="required">*</span></label>
-				    <input type = 'text' name='price' size='8'>
-				  </li>
-				  <li>
-				    <label for="category">Category<span class="required">*</span></label>
-				    <select name = 'category_id' class="field__select">
-					{% for i in categories %}
+				    <label for="category">Category<abbr class="required" title="This field is mandatory"> *</abbr></label>
+				    <select name = 'category_id' class="field__select" required>
+					  <option disabled selected value> -- select an option -- </option>
+					  {% for i in categories %}
 						<option value = '{{i.id}}'>{{i.name}}</option>
-					{% endfor %}
+					  {% endfor %}
 				    </select>
 				  </li>
 			      <li>
@@ -138,6 +146,40 @@
 
     </div> <!-- end of page__wrapper -->
 
+	<script>
+	  /* var input = document.getElementById('price');  
+	    input.oninvalid = function(event) {
+		event.target.setCustomValidity('$ followed by 1-6 digits, then decimal and 2 digits. e.g. $0.99 or $9999.00');
+	  } */
+	  
+	(function() {
+	
+	var input              = document.getElementById('price');
+	var	form               = document.getElementById('new_item_form');
+	var	elem               = document.getElementById('price__notify');
+
+			elem.style.display = 'none';
+
+	input.addEventListener('invalid', function(event){
+		event.preventDefault();
+		if ( ! event.target.validity.valid ) {
+			input.className    = 'invalid animated shake';
+			/* elem.textContent   = 'Price should start with a $ followed by 1-6 digits, then decimal and 2 digits. e.g. $0.99 or $9999.00'; */
+			elem.className     = 'error';
+			elem.style.display = 'flex';
+		}
+	});
+
+	input.addEventListener('input', function(event){
+		if ( 'flex' === elem.style.display ) {
+			input.className = '';
+			elem.style.display = 'none';
+		}
+	});
+
+})();
+	</script>
+	
   </body>
 
 </html>
