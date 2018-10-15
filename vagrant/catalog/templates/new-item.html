@@ -149,7 +149,7 @@
 	<script>
 	  /* var input = document.getElementById('price');  
 	    input.oninvalid = function(event) {
-		event.target.setCustomValidity('$ followed by 1-6 digits, then decimal and 2 digits. e.g. $0.99 or $9999.00');
+		event.target.setCustomValidity('$ followed by 1-6 digits, then a decimal and 2 digits. e.g. $0.99 or $9999.00');
 	  } */
 	  
 	(function() {
@@ -164,7 +164,7 @@
 		event.preventDefault();
 		if ( ! event.target.validity.valid ) {
 			input.className    = 'invalid animated shake';
-			/* elem.textContent   = 'Price should start with a $ followed by 1-6 digits, then decimal and 2 digits. e.g. $0.99 or $9999.00'; */
+			/* elem.textContent   = 'Price should start with a $ followed by 1-6 digits, then a decimal and 2 digits. e.g. $0.99 or $9999.00'; */
 			elem.className     = 'error';
 			elem.style.display = 'flex';
 		}
