@@ -470,7 +470,7 @@ a.button:hover {
 }
 
 input.invalid {
-	border-color: #DD2C00;
+    border: 1px solid #DD2C00;
 }
 
 #price__wrapper {
@@ -484,14 +484,59 @@ input.invalid {
 	margin: 0;
 }
 
+#name.invalid {
+    border: 1px solid #DD2C00;
+	width: 100%;
+}
+
+#description.invalid {
+    border: 1px solid #DD2C00;
+	width: 100%;
+}
+
 #price.invalid {
+    border: 1px solid #DD2C00;
+}
+
+#category.invalid {
+    border: 1px solid #DD2C00;
+	width: 100%;
+}
+
+#name__notify {
+	font-size: 14px;
+	width: 100%;
+	padding: 5px 10px 5px; /* top left-and-right bottom */
+	color: #fff;
 	border-color: #DD2C00;
+	background-color: #DD2C00;
+    border: 1px solid #DD2C00;
+}
+
+#description__notify {
+	font-size: 14px;
+	width: 100%;
+	padding: 5px 10px 5px; /* top left-and-right bottom */
+	color: #fff;
+	border-color: #DD2C00;
+	background-color: #DD2C00;
+    border: 1px solid #DD2C00;
 }
 
 #price__notify {
 	font-size: 14px;
 	width: 100%;
-	padding: 10px;
+	padding: 5px 10px 5px; /* top left-and-right bottom */
+	color: #fff;
+	border-color: #DD2C00;
+	background-color: #DD2C00;
+    border: 1px solid #DD2C00;
+}
+
+#category__notify {
+	font-size: 14px;
+	width: 100%;
+	padding: 5px 10px 5px; /* top left-and-right bottom */
 	color: #fff;
 	border-color: #DD2C00;
 	background-color: #DD2C00;

@@ -97,22 +97,29 @@
 		    
 		    <div class="item__wrapper">
 			  <!-- form -->
-			  <form action="{{ url_for('editItem', catalog_item_id = catalog_item_id, item = item, category = category, categories = categories)}}" method = 'POST'>
+			  <form action="{{ url_for('editItem', catalog_item_id = catalog_item_id, item = item, category = category, categories = categories)}}" id="edit__item__form" method = 'POST'>
 				<ul class="form__style">
-				  <li><label for="name">Name<span class="required">*</span></label>
-				    <input type ='text' name='name' class="field__long" value="{{item.name }}">
+				  <div id='name__notify'>Name can not be blank.</div>
+				  <li><label for="name">Name<abbr class="required" title="This field is mandatory"> *</abbr></label>
+				    <input type ='text' name='name' id="name" class="field__long" value="{{item.name }}"  minlength="1" maxlength="25" required>
 				  </li>
+				  <div id='description__notify'>Description can not be blank.</div>
 				  <li>
-				    <label for="description">Description<span class="required">*</span></label>
-				    <textarea name = 'description' class="field__long field__textarea" rows='5'>{{item.description }}</textarea>
+				    <label for="description">Description<abbr class="required" title="This field is mandatory"> *</abbr></label>
+				    <textarea name = 'description' id="description" class="field__long field__textarea" rows='5' required>{{item.description }}</textarea>
 				  </li>
+				  <div id='price__notify'>Price should start with a $ followed by 1-6 digits, then decimal and 2 digits. e.g. $0.99 or $9999.00</div>
 				  <li>
-				    <label for="price">Price<span class="required">*</span></label>
-				    <input type = 'text' name='price' size='8' value="{{item.price}}">
-				  </li>
+				      <label for="price">Price<abbr class="required" title="This field is mandatory"> *</abbr></label>
+				      <input type = 'text' name='price'
+					    id='price' size='10' value="{{item.price}}"
+					    pattern="\$\d{1,6}\.\d{2}" minlength='5' maxlength='10'
+					    title="Price should start with a $ followed by 1-6 digits, then decimal and 2 digits. e.g. $0.99 or $9999.00" required>
+				    </li>
+				  <div id='category__notify'>Please select a category.</div>
 				  <li>
-				    <label for="category">Category<span class="required">*</span></label>
-				    <select name = 'category_id' class="field__select">
+				    <label for="category">Category<abbr class="required" title="This field is mandatory"> *</abbr></label>
+				    <select name = 'category_id' id="category" class="field__select" required>
 					  <option value = '{{category.id}}'>{{category.name}}</option>
 					  {% for i in categories %}
 					    {% if i.name != category.name %}
@@ -141,6 +148,99 @@
 
     </div> <!-- end of page__wrapper -->
 
+	<script>
+	  /* var input = document.getElementById('price');  
+	    input.oninvalid = function(event) {
+		event.target.setCustomValidity('$ followed by 1-6 digits, then a decimal and 2 digits. e.g. $0.99 or $9999.00');
+	  } */
+	  
+	(function() {
+	
+		var	form                    = document.getElementById('edit__item__form');
+		var inputName               = document.getElementById('name');
+		var	noticeName              = document.getElementById('name__notify');
+		var inputDescription        = document.getElementById('description');
+		var	noticeDescription       = document.getElementById('description__notify');
+		var inputPrice              = document.getElementById('price');
+		var	noticePrice             = document.getElementById('price__notify');
+		var inputCategory           = document.getElementById('category');
+		var	noticeCategory          = document.getElementById('category__notify');
+		
+		noticeName.style.display  = 'none';
+		noticeDescription.style.display = 'none';
+		noticePrice.style.display = 'none';
+		noticeCategory.style.display = 'none';
+		
+		inputName.addEventListener('invalid', function(event){
+			event.preventDefault();
+			if ( ! event.target.validity.valid ) {
+				noticeName.className     = 'error';
+				inputName.className      = 'invalid';
+				noticeName.style.display = 'flex';
+			}
+		});
+
+		inputName.addEventListener('input', function(event){
+			if ( 'flex' === noticeName.style.display ) {
+				noticeName.style.display = 'none';
+				inputName.className      = 'field__long';
+			}
+		});
+		
+		inputDescription.addEventListener('invalid', function(event){
+			event.preventDefault();
+			if ( ! event.target.validity.valid ) {
+				noticeDescription.className     = 'error';
+				inputDescription.className      = 'invalid';
+				noticeDescription.style.display = 'flex';
+			}
+		});
+
+		inputDescription.addEventListener('input', function(event){
+			if ( 'flex' === noticeDescription.style.display ) {
+				noticeDescription.style.display = 'none';
+				inputDescription.className      = 'field__long';
+			}
+		});
+		
+		inputPrice.addEventListener('invalid', function(event){
+			event.preventDefault();
+			if ( ! event.target.validity.valid ) {
+				/* inputPrice.className    = 'invalid animated shake'; */
+				/* elemPrice.textContent   = 'Price should start with a $ followed by 1-6 digits, then a decimal and 2 digits. e.g. $0.99 or $9999.00'; */
+				noticePrice.className     = 'error';
+				inputPrice.className      = 'invalid';
+				noticePrice.style.display = 'flex';
+			}
+		});
+
+		inputPrice.addEventListener('input', function(event){
+			if ( 'flex' === noticePrice.style.display ) {
+				/* inputPrice.className = ''; */
+				noticePrice.style.display = 'none';
+				inputPrice.className      = '';
+			}
+		});
+		
+		inputCategory.addEventListener('invalid', function(event){
+			event.preventDefault();
+			if ( ! event.target.validity.valid ) {
+				noticeCategory.className     = 'error';
+				inputCategory.className      = 'invalid';
+				noticeCategory.style.display = 'flex';
+			}
+		});
+
+		inputCategory.addEventListener('input', function(event){
+			if ( 'flex' === noticeCategory.style.display ) {
+				noticeCategory.style.display = 'none';
+				inputCategory.className      = 'field__long';
+			}
+		});
+
+	})();
+	</script>
+	
   </body>
 
 </html>
