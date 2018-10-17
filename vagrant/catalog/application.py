@@ -1,10 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask import jsonify
+from flask import (Flask,
+                   render_template,
+                   request,
+                   redirect,
+                   url_for,
+                   flash,
+                   jsonify)
 from flask import session as login_session
 from sqlalchemy import create_engine
 from sqlalchemy.pool import SingletonThreadPool
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Category, CatalogItem, User
+from database_setup import (Base,
+                            Category,
+                            CatalogItem,
+                            User)
 import random
 import string
 from oauth2client.client import flow_from_clientsecrets
@@ -168,7 +176,11 @@ def getUserID(email):
     try:
         user = session.query(User).filter_by(email=email).one()
         return user.id
-    except:
+    except Exception:
+        print('Exception error while getting user id.')
+        return None
+    except RuntimeError:
+        print('RuntimeError while trying to download user picture')
         return None
 
 
@@ -182,8 +194,12 @@ def downloadUserPicture(url):
         with open(file_name, 'w') as f:
             f.write(img)
         print('Done! - no exception errors.')
-    except:
-        print('Exception error while downloading user picture')
+    except MemoryError:
+        print('MemoryError while trying to download user picture')
+    except Exception:
+        print('Exception error while downloading user picture.')
+    except RuntimeError:
+        print('RuntimeError while trying to download user picture')
 
 
 # DISCONNECT - Revoke a user's token and reset their login_session
