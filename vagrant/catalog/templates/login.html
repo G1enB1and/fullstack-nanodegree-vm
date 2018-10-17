@@ -101,8 +101,9 @@
             </header>
 			<hr>
 			<div class="login__wrapper" id="loginWrapper">
+
 		      <!-- GOOGLE PLUS SIGN IN BUTTON-->
-			  <div id="signinButton" class="login__button">
+			  <div id="signinButton">
 			    <span class="g-signin"
                 data-scope="openid email"
                 data-clientid="595888207696-saiiv3l4m0obuhj79al9liojp2r5eea9.apps.googleusercontent.com"
@@ -116,7 +117,7 @@
 			  <!--END GOOGLE PLUS SIGN IN BUTTON -->
 			  
 			  <a href='{{url_for('ShowCategoriesAfterCancelLogin')}}' class="login__button" id="cancelButton">Cancel</a>
-			  
+	
 			</div> <!-- end of login__wrapper -->
 			<div id="result"></div><!-- only shows after login, before redirect -->
 		  </section> <!-- end of items section -->
@@ -164,7 +165,7 @@
 					  }
 				    }
 				  });
-			    }
+			    } 
 			  }
 			</script> <!-- END OF GOOGLE SIGN IN SCRIPT -->
 
