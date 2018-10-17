@@ -99,9 +99,10 @@
 		    <header>
               <h2 class="section__title">Login</h2>
             </header>
-			<hr></br>
-		    <!-- GOOGLE PLUS SIGN IN BUTTON-->
-			  <div id="signinButton">
+			<hr>
+			<div class="login__wrapper" id="loginWrapper">
+		      <!-- GOOGLE PLUS SIGN IN BUTTON-->
+			  <div id="signinButton" class="login__button">
 			    <span class="g-signin"
                 data-scope="openid email"
                 data-clientid="595888207696-saiiv3l4m0obuhj79al9liojp2r5eea9.apps.googleusercontent.com"
@@ -113,16 +114,31 @@
                 </span> <!-- end g-signin span -->
 			  </div> <!-- end singinButton div -->
 			  <!--END GOOGLE PLUS SIGN IN BUTTON -->
-			
-			<div id="result"></div>
-			
-			<!-- GOOGLE SIGN IN SCRIPT -->
+			  
+			  <a href='{{url_for('ShowCategoriesAfterCancelLogin')}}' class="login__button" id="cancelButton">Cancel</a>
+			  
+			</div> <!-- end of login__wrapper -->
+			<div id="result"></div><!-- only shows after login, before redirect -->
+		  </section> <!-- end of items section -->
+		</div> <!-- end of section__wrapper -->
+		
+        <footer>
+          <h4>Created by Glen Bland 2018</h4>
+        </footer>
+
+      </main>
+
+    </div> <!-- end of page__wrapper -->
+	
+	<!-- GOOGLE SIGN IN SCRIPT -->
 			<script>
 			  function signInCallback(authResult) {
 				if (authResult['code']) {
 				
 				  // Hide the sign-in button now that the user is authorized
 				  $('#signinButton').attr('style', 'display: none');
+				  $('#cancelButton').attr('style', 'display: none');
+				  $('#loginWrapper').attr('style', 'display: none');
 				  
 				  // Send the one-time-use code to the server, if the server responds, 
 				  // write a 'login successful' message to the web page and then redirect 
@@ -151,17 +167,6 @@
 			    }
 			  }
 			</script> <!-- END OF GOOGLE SIGN IN SCRIPT -->
-
-		  </section> <!-- end of items section -->
-		</div> <!-- end of section__wrapper -->
-		
-        <footer>
-          <h4>Created by Glen Bland 2018</h4>
-        </footer>
-
-      </main>
-
-    </div> <!-- end of page__wrapper -->
 
   </body>
 

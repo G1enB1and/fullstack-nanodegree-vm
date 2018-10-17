@@ -513,6 +513,27 @@ def deleteItem(catalog_item_id):
                                login_session=login_session)
 
 
+# Show a list of all categories and items after canceling login
+@app.route('/cancel-login')
+@app.route('/catalog/cancel-login')
+def ShowCategoriesAfterCancelLogin():
+    # Check if user is logged in
+    if 'username' not in login_session:
+        loggedIn = "False"
+    else:
+        loggedIn = "True"
+    categories = session.query(Category).all()
+    items = session.query(CatalogItem).all()
+    flashMessage = '' + ' Not ready to login huh? I get that.'
+    flashMessage += ' It\'s a big step. Come back when you\'re ready.'
+    flash(flashMessage)
+    return render_template('show-all-categories-items.html',
+                           categories=categories, items=items,
+                           GetCategoryNameFromID=GetCategoryNameFromID,
+                           loggedIn=loggedIn,
+                           login_session=login_session)
+
+
 # Show a list of all categories and items after canceling new category
 @app.route('/cancel-new-category')
 @app.route('/catalog/cancel-new-category')
