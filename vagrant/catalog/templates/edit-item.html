@@ -99,9 +99,9 @@
 			  <!-- form -->
 			  <form action="{{ url_for('editItem', catalog_item_id = catalog_item_id, item = item, category = category, categories = categories)}}" id="edit__item__form" method = 'POST'>
 				<ul class="form__style">
-				  <div id='name__notify'>Name can not be blank.</div>
+				  <div id='name__notify'>Name can not be blank or start with a space.</div>
 				  <li><label for="name">Name<abbr class="required" title="This field is mandatory"> *</abbr></label>
-				    <input type ='text' name='name' id="name" class="field__long" value="{{item.name }}"  minlength="1" maxlength="25" required>
+				    <input type ='text' name='name' id="name" class="field__long" value="{{item.name }}"  minlength="1" maxlength="25" required pattern="[^\s][A-z0-9À-ž\s]+">
 				  </li>
 				  <div id='description__notify'>Description can not be blank.</div>
 				  <li>

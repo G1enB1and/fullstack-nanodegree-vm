@@ -99,9 +99,9 @@
 			  <!-- form -->
 			  <form action="{{url_for('editCategory', category = category, category_id = category_id, categories = categories)}}" id="edit__category__form" method = 'POST'>
 				<ul class="form__style">
-				  <div id='name__notify'>Name can not be blank.</div>
+				  <div id='name__notify'>Name can not be blank or start with a space.</div>
 				  <li><label for="name">Name<abbr class="required" title="This field is mandatory">*</abbr></label>
-				    <input type ='text' name='name' id="name" class="field__long" placeholder='{{category.name}}' minlength="1" maxlength="25" required>
+				    <input type ='text' name='name' id="name" class="field__long" placeholder='{{category.name}}' minlength="1" maxlength="25" required pattern="[^\s][A-z0-9À-ž\s]+">
 				  </li>
 				    <input type='submit' value='Edit'>
 					<a href='{{url_for('ShowCategoryAfterCancelEdit', category_id = category_id)}}' class="button">Cancel</a>
