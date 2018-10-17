@@ -581,6 +581,7 @@ footer {
     background: #2d3c49;
     /* color: var(--secondary-color); */
     color: #ffffff;
+	font-size: 14px;
 }
 
 footer h4 {
@@ -667,6 +668,10 @@ i.fa {
     hr {
         height: 4px;
     }
+	
+	footer {
+        font-size: 15px;
+    }
 
 } /* end of @media screen and (min-width: 760px) and (max-width: 839px) */
 
@@ -740,6 +745,10 @@ i.fa {
 
     article {
         max-width: 250px;
+    }
+	
+	footer {
+        font-size: 16px;
     }
 
 } /* end of @media screen and (min-width: 840px) and (max-width: 959px) */
@@ -824,7 +833,7 @@ i.fa {
     }
 
     footer {
-        font-size: 16px;
+        font-size: 17px;
     }
 
     /* font awesome icons */
