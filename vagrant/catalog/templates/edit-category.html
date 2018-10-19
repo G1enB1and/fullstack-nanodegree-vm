@@ -97,10 +97,11 @@
 		    
 		    <div class="item__wrapper">
 			  <!-- form -->
-			  <form action="{{url_for('editCategory', category = category, category_id = category_id, categories = categories)}}" method = 'POST'>
+			  <form action="{{url_for('editCategory', category = category, category_id = category_id, categories = categories)}}" id="edit__category__form" method = 'POST'>
 				<ul class="form__style">
-				  <li><label for="name">Name<span class="required">*</span></label>
-				    <input type ='text' name='name' class="field__long" placeholder='{{category.name}}'>
+				  <div id='name__notify'>Name can not be blank or start with a space.</div>
+				  <li><label for="name">Name<abbr class="required" title="This field is mandatory">*</abbr></label>
+				    <input type ='text' name='name' id="name" class="field__long" placeholder='{{category.name}}' minlength="1" maxlength="25" required pattern="[^\s][A-z0-9À-ž\s]+">
 				  </li>
 				    <input type='submit' value='Edit'>
 					<a href='{{url_for('ShowCategoryAfterCancelEdit', category_id = category_id)}}' class="button">Cancel</a>
@@ -121,6 +122,33 @@
 
     </div> <!-- end of page__wrapper -->
 
+	<script>
+	(function() {
+	
+		var	form                    = document.getElementById('edit__category__form');
+		var inputName               = document.getElementById('name');
+		var	noticeName              = document.getElementById('name__notify');
+
+		noticeName.style.display  = 'none';
+		
+		inputName.addEventListener('invalid', function(event){
+			event.preventDefault();
+			if ( ! event.target.validity.valid ) {
+				noticeName.className     = 'error';
+				inputName.className      = 'invalid';
+				noticeName.style.display = 'flex';
+			}
+		});
+
+		inputName.addEventListener('input', function(event){
+			if ( 'flex' === noticeName.style.display ) {
+				noticeName.style.display = 'none';
+				inputName.className      = 'field__long';
+			}
+		});
+	})();
+	</script>
+	
   </body>
 
 </html>

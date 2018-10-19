@@ -109,6 +109,7 @@
 			  </div> <!-- end of item__edit__delete -->
 		    </div> <!-- end of item__wrapper -->
 		  
+		  <div class="section__items__link" {% if loggedIn != "True": %}style='display:none'{% endif %}><a href = '{{url_for('addNewItem')}}'>Add New Item</a></div>
 		  <div class="section__items__link"><a href='{{url_for('ShowAllCategoriesItems')}}' >Show Items From All Categories</a></div>
 		  
 		  </section> <!-- end of items section -->
